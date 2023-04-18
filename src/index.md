@@ -25,6 +25,7 @@ pageClass: docs-home
     <ul>
       <li><a href="./database/">Database Schema</a></li>
       <li><a href="./database/models/">Database Model Basics</a></li>
+      <li><a href="./submission-lifecycle/">Submission Lifecycle</a></li>
     </ul>
   </div>
 </section>

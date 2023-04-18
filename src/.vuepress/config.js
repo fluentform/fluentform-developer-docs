@@ -5,6 +5,7 @@ const hooksSidebar = require('./sidebars/hooks');
 const helpersSidebar = require('./sidebars/helpers');
 const modulesSidebar = require('./sidebars/modules');
 const extendRestApiSidebar = require('./sidebars/extendRestApiSidebar');
+const submissionLifecycleSidebar = require('./sidebars/submissionLifecycleSidebar');
 
 const path = require('path');
 
@@ -78,7 +79,7 @@ module.exports = {
                 link: '/getting-started/',
             },
             {
-                text: 'Database',
+                text: 'Architecture',
                 items: [
                     {
                         text: 'Database Schema',
@@ -87,6 +88,10 @@ module.exports = {
                     {
                         text: 'Database Models',
                         link: '/database/models/',
+                    },
+                    {
+                        text: 'Submission Lifecycle',
+                        link: '/submission-lifecycle/',
                     }
                 ],
             },
@@ -149,6 +154,7 @@ module.exports = {
             '/helpers/': helpersSidebar,
             '/modules/': modulesSidebar,
             '/extending-rest-api/': extendRestApiSidebar,
+            '/submission-lifecycle/': submissionLifecycleSidebar,
 
         }
     },
