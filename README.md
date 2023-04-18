@@ -10,4 +10,4 @@ Resources and tutorials for Fluent Forms developers.
 
 Check out our developer resources:
 
-* [FluentCRM Developers](https://developers.fluentforms.com/)
+* [Fluent Forms Developers](https://developers.fluentforms.com/)
