@@ -8,6 +8,6 @@ Resources and tutorials for Fluent Forms developers.
 
 ## Documentation
 
-Check out our developer resources:
+Check out our developer resources: 
 
 * [Fluent Forms Developers](https://developers.fluentforms.com/)
