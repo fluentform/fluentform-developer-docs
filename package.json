@@ -9,8 +9,8 @@
     "email": "nakib@authlab.net"
   },
   "scripts": {
-    "dev": "vuepress dev src",
-    "build": "vuepress build src"
+    "dev": "vuepress dev src && cp -R src/img src/.vuepress/dist/assets/img",
+    "build": "vuepress build src && cp -R src/img src/.vuepress/dist/assets/img"
   },
   "devDependencies": {
     "@vuepress/plugin-pwa": "^1.9.7",
