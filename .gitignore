@@ -90,8 +90,11 @@ typings/
 # public
 
 # vuepress build output
-.vuepress/dist
-src/.vuepress/dist
+.vuepress/dist/*
+src/.vuepress/dist/*
+!src/.vuepress/dist/.gitkeep
+!.vuepress/dist/.gitkeep
+
 
 # Serverless directories
 .serverless/
