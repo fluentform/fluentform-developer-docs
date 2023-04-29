@@ -4,21 +4,22 @@ REST (representational state transfer) is a software architectural style that de
 RESTful Web services allow the requesting systems to access and manipulate Web resources through a standardized interface.
 In the context of a WordPress plugin, a REST API allows you to create custom endpoints that can be accessed via HTTP requests. These endpoints can be used to perform various tasks, 
 such as retrieving data from the WordPress database, creating new posts, updating user information, etc.
-For example, you might create a custom REST API endpoint that allows users to retrieve a list of posts from a specific category. To do this, you would create an endpoint URL (e.g. `/wp-json/fluent-crm/v2/posts`) 
+For example, you might create a custom REST API endpoint that allows users to retrieve a list of posts from a specific category. To do this, you would create an endpoint URL (e.g. `/wp-json/fluentform/v1/posts`) 
 and define a callback function that retrieves the posts from the database and returns them in a format 
 that can be easily consumed by other systems (e.g. JSON).
 
 ## Registering a Custom Endpoint
-FluentCRM uses WordPress REST API. So you can use any authorization method that supports WordPress. You may take a look at built-in
-[REST API Section](https://rest-api.fluentcrm.com/).
+Fluent Forms uses WordPress REST API. So you can use any authorization method that supports WordPress.
 
-FluentCRM enables you to add custom endpoints to its REST API from your plugin, by registering routes,
+[//]: # (You may take a look at built-in [REST API Section]&#40;https://rest-api.fluentform.com/&#41;.)
+
+Fluent Forms enables you to add custom endpoints to its REST API from your plugin, by registering routes,
 policies, and controllers in an easy and convenient way. 
-Let's go through some examples of how you might set up a WordPress plugin to extend the FluentCRM plugin using routers and controllers along with policies.
+Let's go through some examples of how you might set up a WordPress plugin to extend the Fluent Forms plugin using routers and controllers along with policies.
 
 ## Routing
 ```php
-add_action( 'fluentcrm_loaded', function( $app ) {
+add_action( 'fluentform/loaded', function( $app ) {
     $app->router->prefix( 'my-prefix' )->withPolicy( 'MyPlugin\Policies\MyPolicy' )->group( function( $router ) {
         $router->get( '/', 'MyPlugin\Controllers\MyController@index' );
         // more routes go here
@@ -26,14 +27,14 @@ add_action( 'fluentcrm_loaded', function( $app ) {
 });
 
 ```
-The above code registers a route that will be accessible at `https://yourdomain.com/wp-json/fluent-crm/2/my-prefix/`.
-- **API Base URL**: _`https://yourdomain.com/wp-json/fluent-crm/v2/`_
+The above code registers a route that will be accessible at `https://yourdomain.com/wp-json/fluentform/v1/my-prefix/`.
+- **API Base URL**: _`https://yourdomain.com/wp-json/fluentform/v1/`_
 
 **Note:** _Make sure to autoload your classes. Otherwise, you may get an error like this:
-`Class \MyPlugin\Policies\MyPolicy does not exist`. You need to autoload your classes before the `fluentcrm_loaded` action is fired._
+`Class \MyPlugin\Policies\MyPolicy does not exist`. You need to autoload your classes before the `fluentform/loaded` action is fired._
 
-This code uses the `add_action` function to register a callback function that will be called when the fluentcrm_loaded action is triggered.
-The callback function sets up a route using the FluentCRM router, which is passed to the function as an argument.
+This code uses the `add_action` function to register a callback function that will be called when the `fluentform/loaded` action is triggered.
+The callback function sets up a route using the Fluent Forms router, which is passed to the function as an argument.
 The route is defined using the `prefix` and `group` methods of the router. The `prefix` method sets a prefix for the route, which will be added to the beginning of the route's URL. 
 The `withPolicy` method sets a policy class that will be used to authorize the request. We will discuss policies in more detail later in this article.
 The `group` method creates a group of routes that share the same prefix and policy.
@@ -77,7 +78,7 @@ $router->any( $uri, $callback); // responds to any HTTP verb
 ```
 
 ## Controllers
-FluentCRM provides a base controller class that can be extended to create your own controllers. 
+Fluent Forms provides a base controller class that can be extended to create your own controllers. 
 The base controller class provides a number of useful methods for working with the request and response objects.
 Let's look at an example of a controller class that extends the base controller class:
 ```php
@@ -85,7 +86,7 @@ Let's look at an example of a controller class that extends the base controller 
 
 namespace MyPlugin\Controllers;
 
-use FluentCrm\Framework\Http\Controller;
+use FluentForm\Framework\Http\Controller;
 
 class MyController extends Controller
 {
@@ -144,24 +145,24 @@ Let's look at an example of a policy class:
 
 namespace MyPlugin\Policies;
 
-use FluentCrm\App\Http\Policies\BasePolicy;
-use FluentCrm\Framework\Request\Request;
+use FluentForm\Framework\Foundation\Policy;
+use FluentForm\Framework\Request\Request;
 
 /**
  * MyPolicy is a custom policy class for the MyPlugin plugin.
- * It extends the base Policy class from the FluentCRM plugin and provides
+ * It extends the base Policy class from the Fluent Forms framework foundation
  * additional functionality for handling authorization requests.
  */
-class MyPolicy extends BasePolicy
+class MyPolicy extends Policy
 {
     /**
-     * @param \FluentCrm\Framework\Request\Request $request The request object containing information about the current request.
+     * @param \FluentForm\Framework\Request\Request $request The request object containing information about the current request.
      * @return bool
      */
     public function verifyRequest(Request $request)
     {
         return true;
-        //return $this->currentUserCan('fcrm_manage_contacts');
+        //return $this->currentUserCan('fluentform_manage_contacts');
     }
 }
 
@@ -185,5 +186,5 @@ my-plugin/
 The my-plugin directory is the root directory for your plugin. It contains the following files and directories:
 
 - `my-plugin.php`: This is the entry point for your plugin. It contains the code that run your Application when the plugin is activated.
-- `Policies/`: This directory contains the `MyPolicy` class, which is a custom policy class for your plugin. It extends the base Policy class from the FluentCRM plugin and provides additional functionality for handling authorization requests.
-- `Controllers/`: This directory contains the `MyController` class, which is a custom controller class for your plugin. It extends the base Controller class from the FluentCRM plugin and provides additional functionality for handling requests.
+- `Policies/`: This directory contains the `MyPolicy` class, which is a custom policy class for your plugin. It extends the base Policy class from the Fluent Forms plugin and provides additional functionality for handling authorization requests.
+- `Controllers/`: This directory contains the `MyController` class, which is a custom controller class for your plugin. It extends the base Controller class from the Fluent Forms plugin and provides additional functionality for handling requests.

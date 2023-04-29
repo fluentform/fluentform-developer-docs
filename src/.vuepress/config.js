@@ -55,9 +55,9 @@ module.exports = {
      * Ref：https://v1.vuepress.vuejs.org/theme/default-theme-config.html
      */
     themeConfig: {
-        base: '/fluentforms-developers-docs/',
-        repo: 'fluentcrm/fluent-crm-developers-docs',
-        docsBranch: 'master',
+        base: '/fluentform-developer-docs/',
+        repo: 'fluentform/fluentform-developer-docs',
+        docsBranch: 'main',
         docsDir: 'src',
         editLinks: true,
         editLinkText: 'Edit this page on GitHub',
@@ -69,9 +69,9 @@ module.exports = {
         searchPlaceholder: 'Search...',
         searchMaxSuggestions: 10,
         algolia: {
-            apiKey: '9d00a167e089bf90059b2085cc88559c',
-            indexName: 'crawler_FluentCRM Developers Docs',
-            appId: '2PWH5XIPGO',
+            apiKey: '0f0a15db568af4787c15fdb729411954',
+            indexName: 'dev_delwar_fluentform',
+            appId: '9PO3ZHJO7X',
         },
         nav: [
             {
