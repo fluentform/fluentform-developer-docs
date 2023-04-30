@@ -2,10 +2,24 @@ module.exports = [
   {
     title: 'Fluent Forms Hooks',
     collapsable: false,
-    sidebarDepth: -1,
+    sidebarDepth: 3,
     children: [
-      ['/hooks/actions/', 'Actions'],
-      ['/hooks/filters/', 'Filters']
+      {
+        title: 'Action Hooks',
+        sidebarDepth: 2,
+        displayAllHeaders: true,
+        children: [
+          '/hooks/actions/'
+        ]
+      },
+      {
+        title: 'Filter Hooks',
+        sidebarDepth: 2,
+        displayAllHeaders: true,
+        children: [
+          '/hooks/filters/'
+        ]
+      }
     ]
   }
 ];
