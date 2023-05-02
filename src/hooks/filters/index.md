@@ -2,7 +2,7 @@
 
 <Badge type="tip" vertical="top" text="Fluent Forms Core" /> <Badge type="warning" vertical="top" text="Intermediate" />
 
-Fluent Forms has many interesting filer hooks that let developers change default settings and even extend Fluent Forms with new functionality.
+Fluent Forms has many interesting filter hooks that let developers change default settings and even extend Fluent Forms with new functionality.
 
 ## What are Filter Hooks
 

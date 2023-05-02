@@ -2,9 +2,7 @@
 
 <Badge type="tip" vertical="top" text="Fluent Forms Core" /> <Badge type="warning" vertical="top" text="Basic" />
 
-Fluent Form is a Self Hosted Email Marketing Automation Plugin for WordPress. Manage your leads and customers, email campaigns, automated email sequencing, learner and affiliate management, and monitor user activities and many more in one place; without ever having to leave your WordPress dashboard!
-
-Fluent Forms is a user-friendly drag-and-drop WordPress contact form plugin with more than 30 form fields, 3rd party integrations, built-in entry management system, etc. With Fluent Forms, you can create forms,payment form, quize in minutes.
+Fluent Forms is a user-friendly drag-and-drop WordPress contact form plugin with more than 30 form fields, 3rd party integrations, built-in entry management system, etc. With Fluent Forms, you can create forms, payment forms, and quizzes in minutes.
 ## Fluent Forms Versions
 
 Fluent Forms comes in different versions:
