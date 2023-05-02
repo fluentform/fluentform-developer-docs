@@ -69,9 +69,9 @@ module.exports = {
         searchPlaceholder: 'Search...',
         searchMaxSuggestions: 10,
         algolia: {
-            apiKey: '0f0a15db568af4787c15fdb729411954',
-            indexName: 'dev_delwar_fluentform',
-            appId: '9PO3ZHJO7X',
+            apiKey: 'f407f123e9bc5c5d76a37686297b8282',
+            indexName: 'developers-fluentforms',
+            appId: 'UDGQXUN0WR',
         },
         nav: [
             {
