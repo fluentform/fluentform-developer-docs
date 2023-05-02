@@ -40,6 +40,8 @@ module.exports = {
         ['meta', {name: 'apple-mobile-web-app-status-bar-style', content: 'black'}],
         ['meta', {name: 'msapplication-TileImage', content: '/assets/img/icon.svg'}],
         ['meta', {name: 'msapplication-TileColor', content: '#000000'}],
+        //Algolia
+        ['link', {rel: 'preconnect', href: 'https://UDGQXUN0WR-dsn.algolia.net',crossorigin: ''}], 
         // Fonts
         ['link', {rel: 'preconnect', href: 'https://fonts.googleapis.com'}],
         ['link', {rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: ''}],
