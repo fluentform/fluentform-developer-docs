@@ -70,6 +70,7 @@ module.exports = {
         search: false, // built in search disabled because of Algolia search
         searchPlaceholder: 'Search...',
         searchMaxSuggestions: 10,
+        searchHotkeys : ['s', '/',],
         algolia: {
             apiKey: 'f407f123e9bc5c5d76a37686297b8282',
             indexName: 'developers-fluentforms',
@@ -221,6 +222,9 @@ module.exports = {
             {
                 componentsDir: path.resolve(__dirname, './components'),
             },
+        ],
+        [ 'vuepress-plugin-sitemap2' ,
+            {}
         ]
     ]
 }

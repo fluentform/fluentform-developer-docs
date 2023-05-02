@@ -17,7 +17,8 @@
     "@vuepress/plugin-register-components": "^1.9.8",
     "vuepress": "^1.9.7",
     "vuepress-plugin-clean-urls": "^1.1.2",
-    "vuepress-plugin-seo": "^0.2.0"
+    "vuepress-plugin-seo": "^0.2.0",
+    "vuepress-plugin-sitemap1": "^1.31.0-beta.1"
   },
   "dependencies": {
     "@docsearch/js": "3",
