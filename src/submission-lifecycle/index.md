@@ -81,8 +81,8 @@ private function handleValidation()
 
 In this step Fluent Forms prepare the data to insert in the database. You can use the following hooks to alter/format the data as per your need.
 
-- `fluentform/insert_response_data` -> Use this [filter hook](/hooks/filters/) for modify or format the actual submitted data from client.
-- `fluentform/filter_insert_data` -> This [filter hook](/hooks/filters/) is available just before a submission inserted into the database. The full entry, you don’t need to use this for almost 99% cases.
+- `fluentform/insert_response_data` -> Use this [filter hook](/hooks/filters/#fluentform_insert_response_data) for modify or format the actual submitted data from client.
+- `fluentform/filter_insert_data` -> This [filter hook](/hooks/filters/#fluentform_filter_insert_data) is available just before a submission inserted into the database. The full entry, you don’t need to use this for almost 99% cases.
 
 Please check the corresponding filter hook doc for more information and their structure.
 
@@ -91,28 +91,28 @@ Please check the corresponding filter hook doc for more information and their st
 In this step Fluent Forms provide action hook before insert data, insert the data and as well as after submission hook.
 It’s an important hook for developers to do extended validations and post custom integrations.
 
-**Before Insert Action Hook:** `fluentform/before_insert_submission`
+**Before Insert Action Hook:** [fluentform/before_insert_submission](/hooks/actions/#fluentform_before_insert_submission)
 
-**After Insert Action Hook:** `fluentform/submission_inserted`
+**After Insert Action Hook:** [fluentform/submission_inserted](/hooks/actions/#fluentform_submission_inserted)
 
-If you want to do extended validation please use the `fluentform/before_insert_submission` hook.
+If you want to do extended validation please use the [fluentform/before_insert_submission](/hooks/actions/#fluentform_before_insert_submission) hook.
 
-Check the corresponding [hook](/hooks/actions/) documentation for more details.
+Check the corresponding `hook` documentation for more details.
 
 ## Step 5: Send response
 
-This is the final step as everything is done and all the integrations and notifications being processed. Fluent Forms finds the appropriate confirmation and send response accordingly. You can use `fluentform/submission_confirmation` [filter](/hooks/filters/) to alter the confirmation programatically.
+This is the final step as everything is done and all the integrations and notifications being processed. Fluent Forms finds the appropriate confirmation and send response accordingly. You can use  [fluentform/submission_confirmation](/hooks/filters/#fluentform_submission_confirmation) to alter the confirmation programatically.
 
 ## Server Side Hooks List for Submission
 
 The hooks are fired as bellow (Step by Step)
 
-- `fluentform/insert_response_data` [filter](/hooks/filters/)
-- `fluentform/filter_insert_data` [filter](/hooks/filters/)
-- `fluentform/before_insert_submission` [action](/hooks/actions/)
-- `fluentform/submission_inserted` [action](/hooks/actions/)
-- `fluentform/submission_confirmation` [filter](/hooks/filters/)
-- `fluentform/before_submission_confirmation` [action](/hooks/actions/)
+-  [fluentform/insert_response_data](/hooks/filters/#fluentform_insert_response_data)
+-  [fluentform/filter_insert_data](/hooks/filters/#fluentform_filter_insert_data)
+-  [fluentform/before_insert_submission](/hooks/actions/#fluentform_before_insert_submission)
+-  [fluentform/submission_inserted](/hooks/actions/#fluentform_submission_inserted)
+-  [fluentform/submission_confirmation](/hooks/filters/#fluentform_submission_confirmation)
+-  [fluentform/before_submission_confirmation](/hooks/actions/#fluentform_before_submission_confirmation)
 
 Check the **Submission Specific Hooks** documentation for more details.
 
