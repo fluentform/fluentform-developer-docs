@@ -196,7 +196,7 @@ This action is located in `fluentformpro/src/Payments/PaymentMethods/BaseProcess
 
 **Description**
 
-This action runs if the PayPal ipn verification is failed . You can hook into this and get the error data.
+This action runs when  PayPal ipn verification response. You can use to specify transaction type processing you want to perform.
 
 **Parameters**
 - `$encoded_data_array` (array) Encoded Data
@@ -211,7 +211,7 @@ add_action('fluentform/ipn_paypal_action_{$txn_type}', function($encoded_data_ar
 }, 10, 4);
 ```
 
-**Note:** `{$txn_type}` is dynamic method name. Replace `{$txn_type}` with payment txn type.
+**Note:** `{$txn_type}` is dynamic [IPN transaction types](https://developer.paypal.com/api/nvp-soap/ipn/IPNandPDTVariables/#link-ipntransactiontypes). Replace `{$txn_type}` with INP transaction type.
 
 **Reference**
 
@@ -249,6 +249,381 @@ add_action('fluentform/ipn_paypal_action_web_accept', function($encoded_data_arr
 This action is located in `fluentformpro/src/Payments/PaymentMethods/PayPal/API/IPN.php`
 
 </explain-block>
+
+------------------------------------------
+
+<explain-block title="fluentform/process_payment">
+
+**Description**
+
+This action runs when process payment
+
+**Parameters**
+- `$submissionId` (int) Form ID
+- `$submissionData` (array) Submission Data
+- `$form` (object) Form
+- `$methodSettings` (array) Selected Method Settings
+- `$subscriptionItems` (boolean) Is Subscription
+- `$totalPayable` (int) Payable amount
+- `$submissionServiceHandler` (object) Service Handler Instance
+
+**Usage:**
+```php 
+add_action('fluentform/process_payment', function($submissionId, $submissionData, $form, $methodSettings, $subscriptionItems, $totalPayable, $submissionServiceHandler) {
+   // Do your stuff here
+}, 10, 7);
+```
+
+**Reference**
+
+`do_action('fluentform/process_payment', $this->submissionId, $this->submissionData, $this->form, $this->methodSettings, !!$subscriptionItems, $totalPayable, $this->submissionServiceHandler);`
+
+This action is located in `fluentformpro/src/Payments/Classes/PaymentAction.php`
+
+</explain-block>
+
+------------------------------------------
+
+<explain-block title="fluentform/process_payment_{$method_name}">
+
+**Description**
+
+This action runs when process payment.
+
+**Parameters**
+- `$submissionId` (int) Form ID
+- `$submissionData` (array) Submission Data
+- `$form` (object) Form
+- `$methodSettings` (array) Selected Method Settings
+- `$subscriptionItems` (boolean) Is Subscription
+- `$totalPayable` (int) Payable amount
+- `$submissionServiceHandler` (object) Service Handler Instance
+
+**Usage:**
+```php 
+add_action('fluentform/process_payment_{$method_name}', function($submissionId, $submissionData, $form, $methodSettings, $subscriptionItems, $totalPayable, $submissionServiceHandler) {
+   // Do your stuff here when process payment
+}, 10, 7);
+```
+
+**Note:** `{$method_name}` is dynamic value. Replace `{$method_name}` with valid fluent form payment method name.
+
+**Reference**
+
+`do_action('fluentform/process_payment_' . $this->selectedPaymentMethod, $this->submissionId, $this->submissionData, $this->form, $this->methodSettings, !!$subscriptionItems, $totalPayable);`
+
+This action is located in `fluentformpro/src/Payments/Classes/PaymentAction.php`
+
+</explain-block>
+
+------------------------------------------
+
+<explain-block title="fluentform/form_payment_success">
+
+**Description**
+
+This action runs after PayPal subscription complete
+
+**Parameters**
+- `$submission` (object) Submission Object
+- `$transaction` (array) Transaction Data
+- `$formId` (int) Form ID
+- `$ipnVerified` (boolean) Ipn Verification
+
+**Usage:**
+```php 
+add_action('fluentform/form_payment_success', function($submission, $transaction, $formId, $ipnVerified) {
+   // Do your stuff here
+}, 10, 4);
+```
+
+**Reference**
+
+`do_action('fluentform/form_payment_success', $submission, $transaction, $formId, false);`
+
+This action is located in `fluentformpro/src/Payments/PaymentMethods/PayPal/API/IPN.php`
+
+</explain-block>
+
+------------------------------------------
+
+<explain-block title="fluentform/before_entry_payment_deleted">
+
+**Description**
+
+This action runs before payment entries delete
+
+**Parameters**
+- `$entries` (array) Deleted entries id
+- `$transactions` (array) Transaction entries to delete
+
+**Usage:**
+```php 
+add_action('fluentform/before_entry_payment_deleted', function($entries, $transactions) {
+   // Do your stuff here
+}, 10, 2);
+```
+
+**Reference**
+
+`do_action('fluentform/before_entry_payment_deleted', $entries, $transactionData);`
+
+This action is located in `fluentformpro/src/Payments/Classes/PaymentEntries.php`
+
+</explain-block>
+
+------------------------------------------
+
+<explain-block title="fluentform/after_entry_payment_deleted">
+
+**Description**
+
+This action runs after payment entries deleted
+
+**Parameters**
+- `$entries` (array) Deleted entries id
+- `$transactions` (array) Transaction entries to delete
+
+**Usage:**
+```php 
+add_action('fluentform/after_entry_payment_deleted', function($entries, $transactions) {
+   // Do your stuff here
+}, 10, 2);
+```
+
+**Reference**
+
+`do_action('fluentform/after_entry_payment_deleted', $entries, $transactionData);`
+
+This action is located in `fluentformpro/src/Payments/Classes/PaymentEntries.php`
+
+</explain-block>
+
+------------------------------------------
+
+<explain-block title="fluentform/payment_subscription_status_to_cancelled">
+
+**Description**
+
+This action runs when subscription payment status change to cancelled
+
+**Parameters**
+- `$subscription` (object) Subscription data
+- `$submission` (object) Submission data
+- `$oldStatus` (string) Subscription old status
+
+**Usage:**
+```php 
+add_action('fluentform/payment_subscription_status_to_cancelled', function($subscription, $submission, $oldStatus) {
+   // Do your stuff here
+}, 10, 3);
+```
+
+**Reference**
+
+`do_action('fluentform/payment_subscription_status_to_cancelled', $subscription, $submission, $oldStatus);`
+
+This action is located in `fluentformpro/src/Payments/Classes/PaymentManagement.php`
+
+</explain-block>
+
+
+------------------------------------------
+
+<explain-block title="fluentform/payment_subscription_status_{$payment_method}_to_{$newStatus}">
+
+**Description**
+
+This action runs when subscription payment status change to cancelled
+
+**Parameters**
+- `$subscription` (object) Subscription data
+- `$submission` (object) Submission data
+- `$oldStatus` (string) Subscription old status
+
+**Usage:**
+```php 
+add_action('fluentform/payment_subscription_status_{$payment_method}_to_{$newStatus}', function($subscription, $submission, $oldStatus) {
+   // Do your stuff here
+}, 10, 3);
+```
+
+**Note:** `{$payment_method}` and `{$newSatus}` is dynamic value. Replace `{$payment_method}` with fluentform valid payment method and `{$newSatus}` with valid subscription payment status for responsible payment method.
+
+**Reference**
+
+`do_action('fluentform/payment_subscription_status_' . $submission->payment_method . '_to_' . $newStatus, $subscription, $submission, $oldStatus);`
+
+This action is located in `fluentformpro/src/Payments/Classes/PaymentManagement.php`
+
+</explain-block>
+
+------------------------------------------
+
+<explain-block title="fluentform/payment_receipt_before_content">
+
+**Description**
+
+This action runs before rendering payment receipt
+
+**Parameters**
+- `$submission` (object) Submission data
+
+**Usage:**
+```php 
+add_action('fluentform/payment_receipt_before_content', function($submission) {
+   // Do your stuff here
+}, 10, 1);
+```
+
+**Reference**
+
+`do_action('fluentform/payment_receipt_before_content', $this->entry);`
+
+This action is located in `fluentformpro/src/Payments/Classes/PaymentReceipt.php`
+
+</explain-block>
+
+------------------------------------------------
+
+<explain-block title="fluentform/payment_receipt_after_content">
+
+**Description**
+
+This action runs after rendered payment receipt
+
+**Parameters**
+- `$submission` (object) Submission data
+
+**Usage:**
+```php 
+add_action('fluentform/payment_receipt_after_content', function($submission) {
+   // Do your stuff here
+}, 10, 1);
+```
+
+**Reference**
+
+`do_action('fluentform/payment_receipt_after_content', $this->entry);`
+
+This action is located in `fluentformpro/src/Payments/Classes/PaymentReceipt.php`
+
+</explain-block>
+
+-------------------------------------------
+
+<explain-block title="fluentform/payment_view_{$route}">
+
+**Description**
+
+This action runs before rendering the payment handler view.
+
+**Parameters**
+- `$data` - (array) Payment Data
+
+**Usage:**
+```php 
+add_action('fluentform/payment_view_{$route}', function($data) {
+   // Do your stuff here
+}, 10, 1);
+```
+
+**Note:** `{$route}` is dynamic value. Replace `{$route}` with valid payment view route.
+
+**Reference**
+
+`do_action('fluentform/payment_view_' . $route, $data);`
+
+This action is located in `fluentformpro/src/Payments/PaymentHandler.php`
+
+</explain-block>
+
+-------------------------------------------
+
+<explain-block title="fluentform/ipn_endpoint_{$paymentMethod}">
+
+**Description**
+
+This action runs when payment handler api notify.
+
+
+**Usage:**
+```php 
+add_action('fluentform/ipn_endpoint_{$paymentMethod}', function() {
+   // Do your stuff here
+}, 10, 0);
+```
+
+**Note:** `{$paymentMethod}` is dynamic value. Replace `{$paymentMethod}` with valid payment method.
+
+**Reference**
+
+`do_action('fluentform/ipn_endpoint_' . $paymentMethod);`
+
+This action is located in `fluentformpro/src/Payments/PaymentHandler.php`
+
+</explain-block>
+
+-------------------------------------------
+
+<explain-block title="fluentform/subscription_payment_canceled">
+
+**Description**
+
+This action runs when recorded subscription cancelled.
+
+**Parameters**
+- `$subscription` - (object) Subscription data
+- `$submission` - (object) Submission data
+- `$vendorData` - (array) Subscription vendor data
+
+**Usage:**
+```php 
+add_action('fluentform/subscription_payment_canceled', function($subscription, $submission, $vendorData) {
+   // Do your stuff here
+}, 10, 3);
+```
+
+
+**Reference**
+
+`do_action('fluentform/subscription_payment_canceled', $subscription, $submission, $vendorData);`
+
+This action is located in `fluentformpro/src/Payments/PaymentHelper.php`
+
+</explain-block>
+
+-------------------------------------------
+
+<explain-block title="fluentform/subscription_payment_canceled_{$payment_method}">
+
+**Description**
+
+This action runs when recorded subscription cancelled.
+
+**Parameters**
+- `$subscription` - (object) Subscription data
+- `$submission` - (object) Submission data
+- `$vendorData` - (array) Subscription vendor data
+
+**Usage:**
+```php 
+add_action('fluentform/subscription_payment_canceled_{$payment_method}', function($subscription, $submission, $vendorData) {
+   // Do your stuff here
+}, 10, 3);
+```
+
+**Note:** `{$payment_method}` is dynamic value. Replace `{$payment_method}` with valid fluentform payment method name.
+
+
+**Reference**
+
+`do_action('fluentform/subscription_payment_canceled_' . $submission->payment_method, $subscription, $submission, $vendorData);`
+
+This action is located in `fluentformpro/src/Payments/PaymentHelper.php`
+
+</explain-block>
+
 
 
 
