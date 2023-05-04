@@ -297,13 +297,12 @@ This action runs when process payment.
 - `$methodSettings` (array) Selected Method Settings
 - `$subscriptionItems` (boolean) Is Subscription
 - `$totalPayable` (int) Payable amount
-- `$submissionServiceHandler` (object) Service Handler Instance
 
 **Usage:**
 ```php 
-add_action('fluentform/process_payment_{$method_name}', function($submissionId, $submissionData, $form, $methodSettings, $subscriptionItems, $totalPayable, $submissionServiceHandler) {
+add_action('fluentform/process_payment_{$method_name}', function($submissionId, $submissionData, $form, $methodSettings, $subscriptionItems, $totalPayable) {
    // Do your stuff here when process payment
-}, 10, 7);
+}, 10, 6);
 ```
 
 **Note:** `{$method_name}` is dynamic value. Replace `{$method_name}` with valid fluent form payment method name.
