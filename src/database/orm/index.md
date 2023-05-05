@@ -11,42 +11,42 @@ _Note: Fluent ORM is compatible the PHP Laravel Framework's Eloquent ORM. If you
 
 ## Defining Models
 
-To get started, let's create a Fluent model. Models typically live in the `app/Models` directory, but you are free to place them anywhere that can be auto-loaded according to your `composer.json` file. All Fluent models extend `FluentCrm\Framework\Database\Orm\Model` class.
+To get started, let's create a Fluent model. Models typically live in the `app/Models` directory, but you are free to place them anywhere that can be auto-loaded according to your `composer.json` file. All Fluent models extend `FluentForm\Framework\Database\Orm\Model` class.
 
 
 ## Fluent Model Conventions
 
-Now, let's look at an example `Customer` model, which we will use to retrieve and store information from our `customers` database table:
+Now, let's look at an example `Form` model, which we will use to retrieve and store information from our `fluentform_forms` database table:
 ```php
 <?php
  
-namespace FluentCrm\App\Models;
+namespace FluentForm\App\Models;
  
-use FluentCrm\Framework\Database\Orm\Model;
+use FluentForm\Framework\Database\Orm\Model;
  
-class Customer extends Model
+class Form extends Model
 {
     //
 }
 ```
 
 ### Table Names
-Note that we did not tell Fluent ORM which table to use for our `Customer` model. By convention, the "snake case", plural name of the class will be used as the table name unless another name is explicitly specified. So, in this case, Fluent ORM will assume the `Customer` model stores records in the `customers` table. You may specify a custom table by defining a `table` property on your model:
+Note that we did not tell Fluent ORM which table to use for our `Form` model. By convention, the "snake case", plural name of the class will be used as the table name unless another name is explicitly specified. So, in this case, Fluent ORM will assume the `Form` model stores records in the `fluentform_forms` table. You may specify a custom table by defining a `table` property on your model:
 ```php
 <?php
  
-namespace FluentCrm\App\Models;
+namespace FluentForm\App\Models;
  
-use FluentCrm\Framework\Database\Orm\Model;
+use FluentForm\Framework\Database\Orm\Model;
  
-class Customer extends Model
+class Form extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'fc_customers';
+    protected $table = 'fluentform_forms';
 }
 ```
 
@@ -59,11 +59,11 @@ By default, Fluent ORM expects `created_at` and `updated_at` columns to exist on
 ```php
 <?php
  
-namespace FluentCrm\App\Models;
+namespace FluentForm\App\Models;
  
-use FluentCrm\Framework\Database\Orm\Model;
+use FluentForm\Framework\Database\Orm\Model;
  
-class Customer extends Model
+class Form extends Model
 {
     /**
      * Indicates if the model should be timestamped.
@@ -77,11 +77,11 @@ If you need to customize the format of your timestamps, set the `$dateFormat` pr
 ```php
 <?php
  
-namespace FluentCrm\App\Models;
+namespace FluentForm\App\Models;
  
-use FluentCrm\Framework\Database\Orm\Model;
+use FluentForm\Framework\Database\Orm\Model;
  
-class Customer extends Model
+class Form extends Model
 {
     /**
      * The storage format of the model's date columns.
@@ -95,7 +95,7 @@ If you need to customize the names of the columns used to store the timestamps, 
 ```php
 <?php
  
-class Customer extends Model
+class Form extends Model
 {
     const CREATED_AT = 'sign_date';
     const UPDATED_AT = 'last_update';
@@ -107,11 +107,11 @@ By default, all Fluent ORM models will use the default database connection confi
 ```php
 <?php
  
-namespace FluentCrm\App\Models;
+namespace FluentForm\App\Models;
  
-use FluentCrm\Framework\Database\Orm\Model;
+use FluentForm\Framework\Database\Orm\Model;
  
-class Customer extends Model
+class Form extends Model
 {
     /**
      * The connection name for the model.
@@ -127,43 +127,43 @@ Once you have created a model and its associated database table, you are ready t
 ```php
 <?php
  
-use FluentCrm\App\Models\Customer;
+use FluentForm\App\Models\Form;
  
-$customers = Customer::all();
+$forms = Form::all();
  
-foreach ($customers as $customer) {
-    echo $customer->name;
+foreach ($forms as $form) {
+    echo $form->title;
 }
 ```
 
 ### Adding Additional Constraints
 The Fluent ORM `all` method will return all the results in the model's table. Since each Fluent ORM model serves as a <a :href="$withBase('/database/query-builder')">query builder</a>, you may also add constraints to queries, and then use the `get` method to retrieve the results:
 ```php
-$customers = FluentCrm\App\Models\Customer::where('active', 1)
-               ->orderBy('name', 'desc')
+$forms = FluentForm\App\Models\Form::where('status', 'published')
+               ->orderBy('title', 'desc')
                ->take(10)
                ->get();
 ```
 
 ### Collections
-For Fluent ORM methods like `all` and get which retrieve multiple results, an instance of `FluentCrm\Framework\Database\Orm\Collection` will be returned. The `Collection` class provides a variety of helpful methods for working with your Fluent ORM results:
+For Fluent ORM methods like `all` and get which retrieve multiple results, an instance of `FluentForm\Framework\Database\Orm\Collection` will be returned. The `Collection` class provides a variety of helpful methods for working with your Fluent ORM results:
 ```php
-$customers = $customers->filter(function ($customer) {
-    return $customer->cancelled == true;
+$forms = $forms->filter(function ($form) {
+    return $form->has_payment == 1;
 });
 ```
 Of course, you may also loop over the collection like an array:
 ```php
-foreach ($customers as $customer) {
-    echo $customer->name;
+foreach ($forms as $form) {
+    echo $form->tittle;
 }
 ```
 
 ### Chunking Results
 If you need to process thousands of Fluent ORM records, use the `chunk` method. The `chunk` method will retrieve a "chunk" of Fluent ORM models, feeding them to a given `Closure` for processing. Using the chunk method will conserve memory when working with large result sets:
 ```php
-Customer::chunk(200, function ($customers) {
-    foreach ($customers as $customer) {
+Form::chunk(200, function ($forms) {
+    foreach ($forms as $form) {
         //
     }
 });
@@ -173,7 +173,7 @@ The first argument passed to the method is the number of records you wish to rec
 ### Using Cursors
 The `cursor` method allows you to iterate through your database records using a cursor, which will only execute a single query. When processing large amounts of data, the `cursor` method may be used to greatly reduce your memory usage:
 ```php
-foreach (Customer::where('foo', 'bar')->cursor() as $customer) {
+foreach (Form::where('foo', 'bar')->cursor() as $form) {
     //
 }
 ```
@@ -182,27 +182,27 @@ foreach (Customer::where('foo', 'bar')->cursor() as $customer) {
 Of course, in addition to retrieving all the records for a given table, you may also retrieve single records using `find` or `first`. Instead of returning a collection of models, these methods return a single model instance.
 ```php
 // Retrieve a model by its primary key...
-$customer = FluentCrm\App\Models\Customer::find(1);
+$form = FluentForm\App\Models\Form::find(1);
  
 // Retrieve the first model matching the query constraints...
-$customer = FluentCrm\App\Models\Customer::where('active', 1)->first();
+$form = FluentForm\App\Models\Form::where('status', 'published')->first();
 ```
 
 ### Not Found Exceptions
-Sometimes you may wish to throw an exception if a model is not found. This is particularly useful in routes or controllers. The `findOrFail` and `firstOrFail` methods will retrieve the first result of the query; however, if no result is found, a `FluentCrm\Framework\Database\Orm\ModelNotFoundException` will be thrown:
+Sometimes you may wish to throw an exception if a model is not found. This is particularly useful in routes or controllers. The `findOrFail` and `firstOrFail` methods will retrieve the first result of the query; however, if no result is found, a `FluentForm\Framework\Database\Orm\ModelNotFoundException` will be thrown:
 ```php
-$customer = FluentCrm\App\Models\Customer::findOrFail(1);
+$form = FluentForm\App\Models\Form::findOrFail(1);
  
-$customer = FluentCrm\App\Models\Customer::where('age', '>', 21)->firstOrFail();
+$form = FluentForm\App\Models\Form::where('age', '>', 21)->firstOrFail();
 ```
 
 
 ## Retrieving Aggregates
 You may also use the `count`, `sum`, `max`, and other <a :href="$withBase('/database/query-builder/#aggregates')">aggregate methods</a> provided by the <a :href="$withBase('/database/query-builder')">query builder</a>. These methods return the appropriate scalar value instead of a full model instance:
 ```php
-$count = FluentCrm\App\Models\Customer::where('active', 1)->count();
+$count = FluentForm\App\Models\Form::where('active', 1)->count();
  
-$max = FluentCrm\App\Models\Customer::where('active', 1)->max('age');
+$max = FluentForm\App\Models\Form::where('active', 1)->max('age');
 ```
 
 ## Inserting & Updating Models
@@ -212,16 +212,16 @@ To create a new record in the database, create a new model instance, set attribu
 ```php
 <?php
  
-namespace FluentCrm\App\Http\Controllers;
+namespace FluentForm\App\Http\Controllers;
  
-use FluentCrm\App\Models\Customer;
-use FluentCrm\Framework\Request\Request;
-use FluentCrm\App\Http\Controllers\Controller;
+use FluentForm\App\Models\Form;
+use FluentForm\Framework\Request\Request;
+use FluentForm\App\Http\Controllers\Controller;
  
-class CustomerController extends Controller
+class FormController extends Controller
 {
     /**
-     * Create a new flight instance.
+     * Create a new form instance.
      *
      * @param  Request  $request
      * @return Response
@@ -230,34 +230,34 @@ class CustomerController extends Controller
     {
         // Validate the request...
  
-        $customer = new Customer;
+        $form = new Form;
  
-        $customer->name = $request->name;
+        $form->title = $request->title;
  
-        $customer->save();
+        $form->save();
         
-        return $customer;
+        return $form;
     }
 }
 ```
-In this example, we assign the `name` parameter from the incoming HTTP request to the `name` attribute of the `FluentCrm\App\Models\Customer` model instance. When we call the `save` method, a record will be inserted into the database. The `created_at` and `updated_at` timestamps will automatically be set when the `save` method is called, so there is no need to set them manually.
+In this example, we assign the `title` parameter from the incoming HTTP request to the `title` attribute of the `FluentForm\App\Models\Form` model instance. When we call the `save` method, a record will be inserted into the database. The `created_at` and `updated_at` timestamps will automatically be set when the `save` method is called, so there is no need to set them manually.
 
 ### Updates
 The `save` method may also be used to update models that already exist in the database. To update a model, you should retrieve it, set any attributes you wish to update, and then call the `save` method. Again, the `updated_at` timestamp will automatically be updated, so there is no need to manually set its value:
 ```php
-$customer = FluentCrm\App\Models\Customer::find(1);
+$form = FluentForm\App\Models\Form::find(1);
  
-$customer->name = 'New Flight Name';
+$form->title = 'New Form Name';
  
-$customer->save();
+$form->save();
 ```
 
 ### Mass Updates
 Updates can also be performed against any number of models that match a given query. In this example, all flights that are `active` and have a `location` of `San Diego` will be marked as delayed:
 ```php
-FluentCrm\App\Models\Customer::where('active', 1)
-          ->where('location', 'San Diego')
-          ->update(['status' => 1]);
+FluentForm\App\Models\Form::where('has_payment', 1)
+          ->where('type', 'form')
+          ->update(['status' => 'published']);
 ```
 The `update` method expects an array of column and value pairs representing the columns that should be updated.
 
@@ -266,27 +266,27 @@ The `update` method expects an array of column and value pairs representing the 
 
 You may also use the `create` method to save a new model in a single line. The inserted model instance will be returned to you from the method. However, before doing so, you will need to specify either a `fillable` or `guarded` attribute on the model, as all Fluent ORM models protect against mass-assignment by default.
 A mass-assignment vulnerability occurs when a user passes an unexpected HTTP parameter through a request, and that parameter changes a column in your database you did not expect. For example, a malicious user might send an `is_admin` parameter through an HTTP request, which is then passed into your model's `create` method, allowing the user to escalate themselves to an administrator.
-So, to get started, you should define which model attributes you want to make mass assignable. You may do this using the `$fillable` property on the model. For example, let's make the `name` attribute of our `Customer` model mass assignable:
+So, to get started, you should define which model attributes you want to make mass assignable. You may do this using the `$fillable` property on the model. For example, let's make the `title` attribute of our `Form` model mass assignable:
 ```php
 <?php
  
-namespace FluentCrm\App\Models;
+namespace FluentForm\App\Models;
  
-use FluentCrm\Framework\Database\Orm\Model;
+use FluentForm\Framework\Database\Orm\Model;
  
-class Customer extends Model
+class Form extends Model
 {
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['name'];
+    protected $fillable = ['title'];
 }
 ```
 Once we have made the attributes mass assignable, we can use the `create` method to insert a new record in the database. The `create` method returns the saved model instance:
 ```php
-$customer = FluentCrm\App\Models\Customer::create(['name' => 'Customer 10']);
+$form = FluentForm\App\Models\Form::create(['title' => 'Form 10']);
 ```
 
 ### Guarding Attributes
@@ -294,11 +294,11 @@ While `$fillable` serves as a "white list" of attributes that should be mass ass
 ```php
 <?php
  
-namespace FluentCrm\App\Models;
+namespace FluentForm\App\Models;
  
-use FluentCrm\Framework\Database\Orm\Model;
+use FluentForm\Framework\Database\Orm\Model;
  
-class Customer extends Model
+class Form extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -325,31 +325,31 @@ There are two other methods you may use to create models by mass assigning attri
 
 The `firstOrNew` method, like `firstOrCreate` will attempt to locate a record in the database matching the given attributes. However, if a model is not found, a new model instance will be returned. Note that the model returned by `firstOrNew` has not yet been persisted to the database. You will need to call save manually to persist it:
 ```php
-// Retrieve customer by name, or create it if it doesn't exist...
-$customer = FluentCrm\App\Models\Customer::firstOrCreate(['name' => 'Customer 7']);
+// Retrieve form by title, or create it if it doesn't exist...
+$form = FluentForm\App\Models\Form::firstOrCreate(['title' => 'Form 7']);
  
-// Retrieve customer by name, or create it with the name and delayed attributes...
-$customer = FluentCrm\App\Models\Customer::firstOrCreate(
-    ['name' => 'Customer 7'], ['delayed' => 1]
+// Retrieve form by title, or create it with the title and delayed attributes...
+$form = FluentForm\App\Models\Form::firstOrCreate(
+    ['title' => 'Form 7'], ['delayed' => 1]
 );
  
-// Retrieve by name, or instantiate...
-$customer = FluentCrm\App\Models\Customer::firstOrNew(['name' => 'Customer 7']);
+// Retrieve by title, or instantiate...
+$form = FluentForm\App\Models\Form::firstOrNew(['title' => 'Form 7']);
  
-// Retrieve by name, or instantiate with the name and delayed attributes...
-$customer = FluentCrm\App\Models\Customer::firstOrNew(
-    ['name' => 'Customer 7'], ['delayed' => 1]
+// Retrieve by title, or instantiate with the title and delayed attributes...
+$form = FluentForm\App\Models\Form::firstOrNew(
+    ['title' => 'Form 7'], ['delayed' => 1]
 );
 ```
 
 ### updateOrCreate
 You may also come across situations where you want to update an existing model or create a new model if none exists. Fluent ORM provides an `updateOrCreate` method to do this in one step. Like the `firstOrCreate` method, `updateOrCreate` persists the model, so there's no need to call `save()`:
 ```php
-// If there's a customer from Oakland to San Diego, set the price to $99.
+// If there's a form name Blank Form and is unpublished, change its status.
 // If no matching model exists, create one.
-$customer = FluentCrm\App\Models\Customer::updateOrCreate(
-    ['departure' => 'Oakland', 'location' => 'San Diego'],
-    ['age' => 37]
+$form = FluentForm\App\Models\Form::updateOrCreate(
+    ['title' => 'Blank Form', 'status' => 'unpublished'],
+    ['status' => 'published']
 );
 ```
 
@@ -358,40 +358,40 @@ $customer = FluentCrm\App\Models\Customer::updateOrCreate(
 
 To delete a model, call the `delete` method on a model instance:
 ```php
-$customer = FluentCrm\App\Models\Customer::find(1);
+$form = FluentForm\App\Models\Form::find(1);
  
-$customer->delete();
+$form->delete();
 ```
 
 ### Deleting An Existing Model By Key
 In the example above, we are retrieving the model from the database before calling the `delete` method. However, if you know the primary key of the model, you may delete the model without retrieving it. To do so, call the `destroy` method:
 ```php
-FluentCrm\App\Models\Customer::destroy(1);
+FluentForm\App\Models\Form::destroy(1);
  
-FluentCrm\App\Models\Customer::destroy([1, 2, 3]);
+FluentForm\App\Models\Form::destroy([1, 2, 3]);
  
-FluentCrm\App\Models\Customer::destroy(1, 2, 3);
+FluentForm\App\Models\Form::destroy(1, 2, 3);
 ```
 
 ### Deleting Models By Query
-Of course, you may also run a delete statement on a set of models. In this example, we will delete all flights that are marked as inactive. Like mass updates, mass deletes will not fire any model events for the models that are deleted:
+Of course, you may also run a delete statement on a set of models. In this example, we will delete all forms that are marked as unpublished. Like mass updates, mass deletes will not fire any model events for the models that are deleted:
 ```php
-$deletedRows = FluentCrm\App\Models\Customer::where('active', 0)->delete();
+$deletedRows = FluentForm\App\Models\Form::where('status', 'unpublished')->delete();
 ```
 
 
 ## Soft Deleting
 
-In addition to actually removing records from your database, Fluent Orm can also "soft delete" models. When models are soft deleted, they are not actually removed from your database. Instead, a deleted_at attribute is set on the model and inserted into the database. If a model has a non-null `deleted_at` value, the model has been soft deleted. To enable soft deletes for a model, use the `FluentCrm\Framework\Database\Orm\SoftDeletes` trait on the model and add the `deleted_at` column to your $dates property:
+In addition to actually removing records from your database, Fluent Orm can also "soft delete" models. When models are softly deleted, they are not actually removed from your database. Instead, a deleted_at attribute is set on the model and inserted into the database. If a model has a non-null `deleted_at` value, the model has been softly deleted. To enable soft deletes for a model, use the `FluentForm\Framework\Database\Orm\SoftDeletes` trait on the model and add the `deleted_at` column to your $dates property:
 ```php
 <?php
  
-namespace FluentCrm\App\Models;
+namespace FluentForm\App\Models;
  
-use FluentCrm\Framework\Database\Orm\Model;
-use FluentCrm\Framework\Database\Orm\SoftDeletes;
+use FluentForm\Framework\Database\Orm\Model;
+use FluentForm\Framework\Database\Orm\SoftDeletes;
  
-class Customer extends Model
+class Form extends Model
 {
     use SoftDeletes;
  
@@ -405,9 +405,9 @@ class Customer extends Model
 ```
 Now, when you call the `delete` method on the model, the `deleted_at` column will be set to the current date and time. And, when querying a model that uses soft deletes, the soft deleted models will automatically be excluded from all query results.
 
-To determine if a given model instance has been soft deleted, use the `trashed` method:
+To determine if a given model instance has been softly deleted, use the `trashed` method:
 ```php
-if ($customer->trashed()) {
+if ($form->trashed()) {
     //
 }
 ```
@@ -418,19 +418,19 @@ if ($customer->trashed()) {
 ### Including Soft Deleted Models
 As noted above, soft deleted models will automatically be excluded from query results. However, you may force soft deleted models to appear in a result set using the `withTrashed` method on the query:
 ```php
-$customers = FluentCrm\App\Models\Customer::withTrashed()
+$forms = FluentForm\App\Models\Form::withTrashed()
                 ->where('status', 1)
                 ->get();
 ```
 The `withTrashed` method may also be used on a relationship query:
 ```php
-$customers->history()->withTrashed()->get();
+$forms->history()->withTrashed()->get();
 ```
 
 ### Retrieving Only Soft Deleted Models
 The `onlyTrashed` method will retrieve only soft deleted models:
 ```php
-$customers = FluentCrm\App\Models\Customer::onlyTrashed()
+$forms = FluentForm\App\Models\Form::onlyTrashed()
                 ->where('status', 1)
                 ->get();
 ```
@@ -438,27 +438,27 @@ $customers = FluentCrm\App\Models\Customer::onlyTrashed()
 ### Restoring Soft Deleted Models
 Sometimes you may wish to "un-delete" a soft deleted model. To restore a soft deleted model into an active state, use the `restore` method on a model instance:
 ```php
-$customers->restore();
+$forms->restore();
 ```
 You may also use the `restore` method in a query to quickly restore multiple models. Again, like other "mass" operations, this will not fire any model events for the models that are restored:
 ```php
-FluentCrm\App\Models\Customer::withTrashed()
+FluentForm\App\Models\Form::withTrashed()
         ->where('status', 1)
         ->restore();
 ```
 Like the `withTrashed` method, the restore method may also be used on relationships:
 ```php
-$customer->history()->restore();
+$form->history()->restore();
 ```
 
 ### Permanently Deleting Models
 Sometimes you may need to truly remove a model from your database. To permanently remove a soft deleted model from the database, use the `forceDelete` method:
 ```php
 // Force deleting a single model instance...
-$customer->forceDelete();
+$form->forceDelete();
  
 // Force deleting all related models...
-$customer->history()->forceDelete();
+$form->history()->forceDelete();
 ```
 
 
@@ -469,17 +469,17 @@ Global scopes allow you to add constraints to all queries for a given model.
 Writing your own global scopes can provide a convenient, easy way to make sure every query for a given model receives certain constraints.
 
 ### Writing Global Scopes
-Writing a global scope is simple. Define a class that implements the `FluentCrm\Framework\Database\Orm\Scope` interface. This interface requires you to implement one method: `apply`. The `apply` method may add where constraints to the query as needed:
+Writing a global scope is simple. Define a class that implements the `FluentForm\Framework\Database\Orm\Scope` interface. This interface requires you to implement one method: `apply`. The `apply` method may add where constraints to the query as needed:
 ```php
 <?php
  
-namespace FluentCrm\App\Scopes;
+namespace CustomApp\App\Scopes;
  
-use FluentCrm\Framework\Database\Orm\Scope;
-use FluentCrm\Framework\Database\Orm\Model;
-use FluentCrm\Framework\Database\Orm\Builder;
+use FluentForm\Framework\Database\Orm\Scope;
+use FluentForm\Framework\Database\Orm\Model;
+use FluentForm\Framework\Database\Orm\Builder;
  
-class AgeScope implements Scope
+class DateScope implements Scope
 {
     /**
      * Apply the scope to a given Orm query builder.
@@ -490,7 +490,7 @@ class AgeScope implements Scope
      */
     public function apply(Builder $builder, Model $model)
     {
-        $builder->where('age', '>', 200);
+        $builder->where('created_at', '>=', '2023-01-01 00:00:00');
     }
 }
 ```
@@ -500,12 +500,12 @@ To assign a global scope to a model, you should override a given model's boot me
 ```php
 <?php
  
-namespace FluentCrm\App\Models;
+namespace FluentForm\App\Models;
  
-use FluentCrm\App\Scopes\AgeScope;
-use FluentCrm\Framework\Database\Orm\Model;
+use CustomApp\App\Scopes\DateScope;
+use FluentForm\Framework\Database\Orm\Model;
  
-class Customer extends Model
+class Form extends Model
 {
     /**
      * The "booting" method of the model.
@@ -516,13 +516,13 @@ class Customer extends Model
     {
         parent::boot();
  
-        static::addGlobalScope(new AgeScope);
+        static::addGlobalScope(new DateScope);
     }
 }
 ```
-After adding the scope, a query to `Customer::all()` will produce the following SQL:
+After adding the scope, a query to `Form::all()` will produce the following SQL:
 ```sql
-select * from `customers` where `age` > 200
+select * from `fluentform_forms` where `created_at` >= '2023-01-01 00:00:00'
 ```
 
 ### Anonymous Global Scopes
@@ -530,12 +530,12 @@ Orm also allows you to define global scopes using Closures, which is particularl
 ```php
 <?php
  
-namespace FluentCrm\App\Models;
+namespace FluentForm\App\Models;
  
-use FluentCrm\Framework\Database\Orm\Model;
-use FluentCrm\Framework\Database\Orm\Builder;
+use FluentForm\Framework\Database\Orm\Model;
+use FluentForm\Framework\Database\Orm\Builder;
  
-class Customer extends Model
+class Form extends Model
 {
     /**
      * The "booting" method of the model.
@@ -546,8 +546,8 @@ class Customer extends Model
     {
         parent::boot();
  
-        static::addGlobalScope('age', function (Builder $builder) {
-            $builder->where('age', '>', 200);
+        static::addGlobalScope('created_at', function (Builder $builder) {
+            $builder->where('created_at' >= '2023-01-01 00:00:00');
         });
     }
 }
@@ -556,19 +556,19 @@ class Customer extends Model
 ### Removing Global Scopes
 If you would like to remove a global scope for a given query, you may use the `withoutGlobalScope` method. The method accepts the class name of the global scope as its only argument:
 ```php
-Customer::withoutGlobalScope(AgeScope::class)->get();
+Form::withoutGlobalScope(DateScope::class)->get();
 ```
 Or, if you defined the global scope using a Closure:
 ```php
-Customer::withoutGlobalScope('age')->get();
+Form::withoutGlobalScope('created_at')->get();
 ```
-If you would like to remove several or even all of the global scopes, you may use the `withoutGlobalScopes` method:
+If you would like to remove several or even all the global scopes, you may use the `withoutGlobalScopes` method:
 ```php
 // Remove all the global scopes...
-Customer::withoutGlobalScopes()->get();
+Form::withoutGlobalScopes()->get();
  
 // Remove some of global scopes...
-Customer::withoutGlobalScopes([
+Form::withoutGlobalScopes([
     FirstScope::class, SecondScope::class
 ])->get();
 ```
@@ -582,32 +582,32 @@ Scopes should always return a query builder instance:
 ```php
 <?php
  
-namespace FluentCrm\App\Models;
+namespace FluentForm\App\Models;
  
-use FluentCrm\Framework\Database\Orm\Model;
+use FluentForm\Framework\Database\Orm\Model;
  
-class Customer extends Model
+class Form extends Model
 {
     /**
-     * Scope a query to only include popular users.
+     * Scope a query to only include conversation forms.
      *
-     * @param \FluentCrm\Framework\Database\Orm\Builder $query
-     * @return \FluentCrm\Framework\Database\Orm\Builder
+     * @param \FluentForm\Framework\Database\Orm\Builder $query
+     * @return \FluentForm\Framework\Database\Orm\Builder
      */
-    public function scopePopular($query)
+    public function scopeConvForm($query)
     {
-        return $query->where('votes', '>', 100);
+        return $query->where('type', 'conversational_form');
     }
  
     /**
-     * Scope a query to only include active users.
+     * Scope a query to only include published forms.
      *
-     * @param \FluentCrm\Framework\Database\Orm\Builder $query
-     * @return \FluentCrm\Framework\Database\Orm\Builder
+     * @param \FluentForm\Framework\Database\Orm\Builder $query
+     * @return \FluentForm\Framework\Database\Orm\Builder
      */
-    public function scopeActive($query)
+    public function scopePublished($query)
     {
-        return $query->where('active', 1);
+        return $query->where('status', 'published');
     }
 }
 ```
@@ -615,7 +615,7 @@ class Customer extends Model
 ### Utilizing A Local Scope
 Once the scope has been defined, you may call the scope methods when querying the model. However, you should not include the scope prefix when calling the method. You can even chain calls to various scopes, for example:
 ```php
-$customers = FluentCrm\App\Models\Customer::popular()->active()->orderBy('created_at')->get();
+$forms = FluentForm\App\Models\Form::convForm()->published()->orderBy('created_at')->get();
 ```
 
 ### Dynamic Scopes
@@ -623,36 +623,36 @@ Sometimes you may wish to define a scope that accepts parameters. To get started
 ```php
 <?php
  
-namespace FluentCrm\App\Models;
+namespace FluentForm\App\Models;
  
-use FluentCrm\Framework\Database\Orm\Model;
+use FluentForm\Framework\Database\Orm\Model;
  
-class Customer extends Model
+class Form extends Model
 {
     /**
-     * Scope a query to only include popular users.
+     * Scope a query to only include conversation forms.
      *
-     * @param \FluentCrm\Framework\Database\Orm\Builder $query
-     * @return \FluentCrm\Framework\Database\Orm\Builder
+     * @param \FluentForm\Framework\Database\Orm\Builder $query
+     * @return \FluentForm\Framework\Database\Orm\Builder
      */
-    public function scopePopular($query)
+    public function scopeConvForm($query)
     {
-        return $query->where('votes', '>', 100);
+        return $query->where('type', 'conversational_form');
     }
  
     /**
-     * Scope a query to only include active users.
+     * Scope a query to only include status forms.
      *
-     * @param \FluentCrm\Framework\Database\Orm\Builder $query
-     * @return \FluentCrm\Framework\Database\Orm\Builder
+     * @param \FluentForm\Framework\Database\Orm\Builder $query
+     * @return \FluentForm\Framework\Database\Orm\Builder
      */
     public function scopeHasStatus($query, $status)
     {
-        return $query->where('active', $status);
+        return $query->where('status', $status);
     }
 }
 ```
 Now, you may pass the parameters when calling the scope:
 ```php
-$customers = FluentCrm\App\Models\Customer::hasStatus('premium')->get();
+$forms = FluentForm\App\Models\Form::hasStatus('published')->get();
 ```

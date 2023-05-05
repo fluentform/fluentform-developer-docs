@@ -5,7 +5,7 @@
 
 ## Introduction
 
-Database tables are often related to one another. For example, a blog post may have many comments, or an order could be related to the user who placed it. Fluent ORM makes managing and working with these relationships easy, and supports several types of relationships:
+Database tables are often related to one another. For example, a form may have many submissions, or submission could be related to the user who submit it. Fluent ORM makes managing and working with these relationships easy, and supports several types of relationships:
 
 - `One To One`
 - `One To Many`
@@ -17,172 +17,177 @@ Database tables are often related to one another. For example, a blog post may h
 
 ## Defining Relationships
 
-Fluent ORM relationships are defined as methods on your Fluent ORM model classes. Since, like Fluent ORM models themselves, relationships also serve as powerful <a :href="$withBase('/database/query-builder')">query builders</a>, defining relationships as methods provides powerful method chaining and querying capabilities. For example, we may chain additional constraints on this `orders` relationship:
+Fluent ORM relationships are defined as methods on your Fluent ORM model classes. Since, like Fluent ORM models themselves, relationships also serve as powerful <a :href="$withBase('/database/query-builder')">query builders</a>, defining relationships as methods provides powerful method chaining and querying capabilities. For example, we may chain additional constraints on this `conversationalMeta` relationship:
 ```php
-$customer->orders()->where('status', 'paid')->get();
+$form->conversationalMeta()->where('meta_key', 'conversational_settings')->get();
 ```
 But, before diving too deep into using relationships, let's learn how to define each type.
 
 ### One To One
-A one-to-one relationship is a very basic relation. For example, a `Customer` model might be associated with one `Address`. To define this relationship, we place a `address` method on the `Customer` model. The `address` method should call the `hasOne` method and return its result:
+A one-to-one relationship is a very basic relation. For example, a `Form` model might be associated with one `FormMeta`. To define this relationship, we place a `conversationalMeta` method on the `Form` model. The `conversationalMeta` method should call the `hasOne` method and return its result:
 ```php
 <?php
  
-namespace FluentCrm\App\Models;
+namespace FluentForm\App\Models;
  
-use FluentCrm\Framework\Database\Orm\Model;
+use FluentForm\Framework\Database\Orm\Model;
  
-class Customer extends Model
+class Form extends Model
 {
-    /**
-     * Get the address record associated with the customer.
+     /**
+     * A form may have one form meta to determine if
+     * the form is a regular or conversational one.
+     *
+     * @return \FluentForm\Framework\Database\Orm\Relations\HasOne
      */
-    public function address()
+    public function conversationalMeta()
     {
-        return $this->hasOne('FluentCrm\App\Models\Address');
+        return $this->hasOne(FormMeta::class, 'form_id', 'id')->where('meta_key', 'is_conversion_form');
     }
 }
 ```
 The first argument passed to the `hasOne` method is the name of the related model. Once the relationship is defined, we may retrieve the related record using Fluent ORM's dynamic properties. Dynamic properties allow you to access relationship methods as if they were properties defined on the model:
 ```php
-$address = FluentCrm\App\Models\Customer::find(1)->address;
+$conversationalMeta = FluentForm\App\Models\Form::find(1)->conversationalMeta;
 ```
-Fluent ORM determines the foreign key of the relationship based on the model name. In this case, the `Address` model is automatically assumed to have a `customer_id` foreign key. If you wish to override this convention, you may pass a second argument to the `hasOne` method:
+Fluent ORM determines the foreign key of the relationship based on the model name. In this case, the `FormMeta` model is automatically assumed to have a `form_id` foreign key. If you wish to override this convention, you may pass a second argument to the `hasOne` method:
 ```php
-return $this->hasOne('FluentCrm\App\Models\Address', 'foreign_key');
+return $this->hasOne('FluentForm\App\Models\FormMeta', 'form_id');
 ```
-Additionally, Fluent ORM assumes that the foreign key should have a value matching the `id` (or the custom `$primaryKey`) column of the parent. In other words, Fluent ORM will look for the value of the customer's `id` column in the `customer_id` column of the `Address` record. If you would like the relationship to use a value other than `id`, you may pass a third argument to the `hasOne` method specifying your custom key:
+Additionally, Fluent ORM assumes that the foreign key should have a value matching the `id` (or the custom `$primaryKey`) column of the parent. In other words, Fluent ORM will look for the value of the customer's `id` column in the `form_id` column of the `FormMeta` record. If you would like the relationship to use a value other than `id`, you may pass a third argument to the `hasOne` method specifying your custom key:
 ```php
-return $this->hasOne('FluentCrm\App\Models\Address', 'foreign_key', 'local_key');
+return $this->hasOne('FluentForm\App\Models\FormMeta', 'form_id', 'local_key');
 ```
 
 ### Defining The Inverse Of The Relationship
-So, we can access the `Address` model from our `Customer`. Now, let's define a relationship on the `Address` model that will let us access the `Customer` that owns the `address`. We can define the inverse of a `hasOne` relationship using the `belongsTo` method:
+So, we can access the `FormMeta` model from our `Form`. Now, let's define a relationship on the `FormMeta` model that will let us access the `Form` that owns the `conversationalMeta`. We can define the inverse of a `hasMany` relationship using the `belongsTo` method:
 ```php
 <?php
  
-namespace FluentCrm\App\Models;
+namespace FluentForm\App\Models;
  
-use FluentCrm\Framework\Database\Orm\Model;
+use FluentForm\Framework\Database\Orm\Model;
  
-class Address extends Model
+class FormMeta extends Model
 {
     /**
-     * Get the customer record associated with the address.
+     * Get the form record associated with the conversationalMeta.
      */
-    public function customer()
+    public function form()
     {
-        return $this->belongsTo('FluentCrm\App\Models\Customer');
+        return $this->belongsTo('FluentForm\App\Models\Form');
     }
 }
 ```
-In the example above, Fluent ORM will try to match the `customer_id` from the `Address` model to an id on the `Customer` model. Fluent ORM determines the default foreign key name by examining the name of the relationship method and suffixing the method name with `_id`. However, if the foreign key on the `Address` model is not `customer_id`, you may pass a custom key name as the second argument to the `belongsTo` method:
+In the example above, Fluent ORM will try to match the `form_id` from the `FormMeta` model to an id on the `Form` model. Fluent ORM determines the default foreign key name by examining the name of the relationship method and suffixing the method name with `_id`. However, if the foreign key on the `FormMeta` model is not `form_id`, you may pass a custom key name as the second argument to the `belongsTo` method:
 ```php
-return $this->belongsTo('FluentCrm\App\Models\Customer', 'foreign_key');
+return $this->belongsTo('FluentForm\App\Models\Form', 'form_id');
 ```
 If your parent model does not use `id` as its primary key, or you wish to join the child model to a different column, you may pass a third argument to the `belongsTo` method specifying your parent table's custom key:
 ```php
-return $this->belongsTo('FluentCrm\App\Models\Customer', 'foreign_key', 'other_key');
+return $this->belongsTo('FluentForm\App\Models\Form', 'form_id', 'other_key');
 ```
 
 ### One To Many
-A "one-to-many" relationship is used to define relationships where a single model owns any amount of other models. For example, a blog post may have an infinite number of comments. Like all other Fluent ORM relationships, one-to-many relationships are defined by placing a function on your Fluent ORM model:
+A "one-to-many" relationship is used to define relationships where a single model owns any amount of other models. For example, a form may have an infinite number of submission. Like all other Fluent ORM relationships, one-to-many relationships are defined by placing a function on your Fluent ORM model:
 ```php
 <?php
  
-namespace FluentCrm\App\Models;
+namespace FluentForm\App\Models;
  
-use FluentCrm\Framework\Database\Orm\Model;
+use FluentForm\Framework\Database\Orm\Model;
  
-class Post extends Model
+class Form extends Model
 {
     /**
-     * Get the comments for the blog post.
+     * A form has many submissions.
+     *
+     * @return \FluentForm\Framework\Database\Orm\Relations\HasMany
      */
-    public function comments()
+    public function submissions()
     {
-        return $this->hasMany('FluentCrm\App\Models\Comment');
+         return $this->hasMany(Submission::class, 'form_id', 'id');
     }
 }
 ```
-Remember, Fluent ORM will automatically determine the proper foreign key column on the `Comment` model. By convention, Fluent ORM will take the "snake case" name of the owning model and suffix it with `_id`. So, for this example, Fluent ORM will assume the foreign key on the `Comment` model is `post_id`.
+Remember, Fluent ORM will automatically determine the proper foreign key column on the `Submission` model. By convention, Fluent ORM will take the "snake case" name of the owning model and suffix it with `_id`. So, for this example, Fluent ORM will assume the foreign key on the `Submission` model is `submission_id`.
 
-Once the relationship has been defined, we can access the collection of comments by accessing the `comments` property. Remember, since Fluent ORM provides "dynamic properties", we can access relationship methods as if they were defined as properties on the model:
+Once the relationship has been defined, we can access the collection of submissions by accessing the `submissions` property. Remember, since Fluent ORM provides "dynamic properties", we can access relationship methods as if they were defined as properties on the model:
 ```php
-$comments = FluentCrm\App\Models\Post::find(1)->comments;
+$submissions = FluentForm\App\Models\Form::find(1)->submissions;
  
-foreach ($comments as $comment) {
+foreach ($submissions as $submission) {
     //
 }
 ```
-Of course, since all relationships also serve as query builders, you can add further constraints to which `comments` are retrieved by calling the `comments` method and continuing to chain conditions onto the query:
+Of course, since all relationships also serve as query builders, you can add further constraints to which `submissions` are retrieved by calling the `submissions` method and continuing to chain conditions onto the query:
 ```php
-$comment = FluentCrm\App\Models\Post::find(1)->comments()->where('title', 'foo')->first();
+$submission = FluentForm\App\Models\Form::find(1)->submissions()->where('title', 'foo')->first();
 ```
-Like the `hasOne` method, you may also override the foreign and local keys by passing additional arguments to the `hasMany` method
+Like the `hasMany` method, you may also override the foreign and local keys by passing additional arguments to the `hasMany` method
 ```php
-return $this->hasMany('FluentCrm\App\Models\Comment', 'foreign_key');
+return $this->hasMany('FluentForm\App\Models\Submission', 'form_id');
  
-return $this->hasMany('FluentCrm\App\Models\Comment', 'foreign_key', 'local_key');
+return $this->hasMany('FluentForm\App\Models\Submission', 'form_id', 'local_key');
 ```
 
 ### One To Many (Inverse)
-Now that we can access all of a post's comments, let's define a relationship to allow a comment to access its parent post. To define the inverse of a `hasMany` relationship, define a relationship function on the child model which calls the `belongsTo` method:
+Now that we can access all of a form's submissions, let's define a relationship to allow a submission to access its parent form. To define the inverse of a `hasMany` relationship, define a relationship function on the child model which calls the `belongsTo` method:
 ```php
 <?php
  
-namespace FluentCrm\App\Models;
+namespace FluentForm\App\Models;
  
-use FluentCrm\Framework\Database\Orm\Model;
+use FluentForm\Framework\Database\Orm\Model;
  
-class Comment extends Model
+class Submission extends Model
 {
     /**
-     * Get the post that owns the comment.
+     * Get the form that owns the submission.
      */
-    public function post()
+    public function form()
     {
-        return $this->belongsTo('FluentCrm\App\Models\Post');
+        return $this->belongsTo('FluentForm\App\Models\Form');
     }
 }
 ```
-Once the relationship has been defined, we can retrieve the `Post` model for a `Comment` by accessing the `post` "dynamic property":
+Once the relationship has been defined, we can retrieve the `Form` model for a `Submission` by accessing the `form` "dynamic property":
 ```php
-$comment = FluentCrm\App\Models\Comment::find(1);
+$submission = FluentForm\App\Models\Submission::find(1);
  
-echo $comment->post->title;
+echo $submission->form->title;
 ```
-In the example above, Fluent ORM will try to match the `post_id` from the `Comment` model to an `id` on the `Post` model. Fluent ORM determines the default foreign key name by examining the name of the relationship method and suffixing the method name with a `_` followed by the name of the primary key column. However, if the foreign key on the `Comment` model is not `post_id`, you may pass a custom key name as the second argument to the `belongsTo` method:
+In the example above, Fluent ORM will try to match the `submission_id` from the `Submission` model to an `id` on the `Form` model. Fluent ORM determines the default foreign key name by examining the name of the relationship method and suffixing the method name with a `_` followed by the name of the primary key column. However, if the foreign key on the `Submission` model is not `submission_id`, you may pass a custom key name as the second argument to the `belongsTo` method:
 ```php
 /**
- * Get the post that owns the comment.
+ * Get the form that owns the submission.
  */
-public function post()
+public function form()
 {
-    return $this->belongsTo('FluentCrm\App\Models\Post', 'foreign_key');
+    return $this->belongsTo('FluentForm\App\Models\Form', 'form_id');
 }
 ```
 If your parent model does not use `id` as its primary key, or you wish to join the child model to a different column, you may pass a third argument to the `belongsTo` method specifying your parent table's custom key:
 ```php
 /**
- * Get the post that owns the comment.
+ * Get the form that owns the submission.
  */
-public function post()
+public function form()
 {
-    return $this->belongsTo('FluentCrm\App\Models\Post', 'foreign_key', 'other_key');
+    return $this->belongsTo(Form::class, 'form_id', 'id');
 }
 ```
 
 ### Many To Many
-Many-to-many relations are slightly more complicated than `hasOne` and `hasMany` relationships. An example of such a relationship is a user with many roles, where the roles are also shared by other users. For example, many users may have the role of "Admin". To define this relationship, three database tables are needed: `users`, `roles`, and `role_user`. The `role_user` table is derived from the alphabetical order of the related model names, and contains the `user_id` and `role_id` columns.
+Many-to-many relations are slightly more complicated than `hasMany` and `hasMany` relationships. An example of such a relationship is a user with many roles, where the roles are also shared by other users. For example, many users may have the role of "Admin". To define this relationship, three database tables are needed: `users`, `roles`, and `role_user`. The `role_user` table is derived from the alphabetical order of the related model names, and contains the `user_id` and `role_id` columns.
 
 Many-to-many relationships are defined by writing a method that returns the result of the `belongsToMany` method. For example, let's define the `roles` method on our `User` model:
 ```php
 <?php
  
-namespace FluentCrm\App\Models;
+namespace FluentForm\App\Models;
  
-use FluentCrm\Framework\Database\Orm\Model;
+use FluentForm\Framework\Database\Orm\Model;
  
 class User extends Model
 {
@@ -191,13 +196,13 @@ class User extends Model
      */
     public function roles()
     {
-        return $this->belongsToMany('FluentCrm\App\Models\Role');
+        return $this->belongsToMany('FluentForm\App\Models\Role');
     }
 }
 ```
 Once the relationship is defined, you may access the user's roles using the `roles` dynamic property:
 ```php
-$user = FluentCrm\App\Models\User::find(1);
+$user = FluentForm\App\Models\User::find(1);
  
 foreach ($user->roles as $role) {
     //
@@ -205,15 +210,15 @@ foreach ($user->roles as $role) {
 ```
 Of course, like all other relationship types, you may call the `roles` method to continue chaining query constraints onto the relationship:
 ```php
-$roles = FluentCrm\App\Models\User::find(1)->roles()->orderBy('name')->get();
+$roles = FluentForm\App\Models\User::find(1)->roles()->orderBy('name')->get();
 ```
 As mentioned previously, to determine the table name of the relationship's joining table, Fluent ORM will join the two related model names in alphabetical order. However, you are free to override this convention. You may do so by passing a second argument to the `belongsToMany` method:
 ```php
-return $this->belongsToMany('FluentCrm\App\Models\Role', 'role_user');
+return $this->belongsToMany('FluentForm\App\Models\Role', 'role_user');
 ```
 In addition to customizing the name of the joining table, you may also customize the column names of the keys on the table by passing additional arguments to the `belongsToMany` method. The third argument is the foreign key name of the model on which you are defining the relationship, while the fourth argument is the foreign key name of the model that you are joining to:
 ```php
-return $this->belongsToMany('FluentCrm\App\Models\Role', 'role_user', 'user_id', 'role_id');
+return $this->belongsToMany('FluentForm\App\Models\Role', 'role_user', 'user_id', 'role_id');
 ```
 
 #### Defining The Inverse Of The Relationship
@@ -221,9 +226,9 @@ To define the inverse of a many-to-many relationship, you place another call to 
 ```php
 <?php
  
-namespace FluentCrm\App\Models;
+namespace FluentForm\App\Models;
  
-use FluentCrm\Framework\Database\Orm\Model;
+use FluentForm\Framework\Database\Orm\Model;
  
 class Role extends Model
 {
@@ -232,16 +237,16 @@ class Role extends Model
      */
     public function users()
     {
-        return $this->belongsToMany('FluentCrm\App\Models\User');
+        return $this->belongsToMany('FluentForm\App\Models\User');
     }
 }
 ```
-As you can see, the relationship is defined exactly the same as its User counterpart, with the exception of referencing the `FluentCrm\App\Models\User` model. Since we're reusing the belongsToMany method, all of the usual table and key customization options are available when defining the inverse of many-to-many relationships.
+As you can see, the relationship is defined exactly the same as its User counterpart, except referencing the `FluentForm\App\Models\User` model. Since we're reusing the belongsToMany method, all the usual table and key customization options are available when defining the inverse of many-to-many relationships.
 
 #### Retrieving Intermediate Table Columns
 As you have already learned, working with many-to-many relations requires the presence of an intermediate table. Fluent ORM provides some very helpful ways of interacting with this table. For example, let's assume our `User` object has many `Role` objects that it is related to. After accessing this relationship, we may access the intermediate table using the pivot attribute on the models:
 ```php
-$user = FluentCrm\App\Models\User::find(1);
+$user = FluentForm\App\Models\User::find(1);
  
 foreach ($user->roles as $role) {
     echo $role->pivot->created_at;
@@ -251,23 +256,23 @@ Notice that each `Role` model we retrieve is automatically assigned a pivot attr
 
 By default, only the model keys will be present on the pivot object. If your pivot table contains extra attributes, you must specify them when defining the relationship:
 ```php
-return $this->belongsToMany('FluentCrm\App\Models\Role')->withPivot('column1', 'column2');
+return $this->belongsToMany('FluentForm\App\Models\Role')->withPivot('column1', 'column2');
 ```
 If you want your pivot table to have automatically maintained `created_at` and `updated_at` timestamps, use the `withTimestamps` method on the relationship definition:
 ```php
-return $this->belongsToMany('FluentCrm\App\Models\Role')->withTimestamps();
+return $this->belongsToMany('FluentForm\App\Models\Role')->withTimestamps();
 ```
 
 #### Filtering Relationships Via Intermediate Table Columns
 You can also filter the results returned by `belongsToMany` using the `wherePivot` and `wherePivotIn` methods when defining the relationship:
 ```php
-return $this->belongsToMany('FluentCrm\App\Models\Role')->wherePivot('approved', 1);
+return $this->belongsToMany('FluentForm\App\Models\Role')->wherePivot('approved', 1);
  
-return $this->belongsToMany('FluentCrm\App\Models\Role')->wherePivotIn('priority', [1, 2]);
+return $this->belongsToMany('FluentForm\App\Models\Role')->wherePivotIn('priority', [1, 2]);
 ```
 
 ### Has Many Through
-The "has-many-through" relationship provides a convenient shortcut for accessing distant relations via an intermediate relation. For example, a `Country` model might have many `Post` models through an intermediate `User` model. In this example, you could easily gather all blog posts for a given country. Let's look at the tables required to define this relationship:
+The "has-many-through" relationship provides a convenient shortcut for accessing distant relations via an intermediate relation. For example, a `Country` model might have many `Form` models through an intermediate `User` model. In this example, you could easily gather all forms for a given country. Let's look at the tables required to define this relationship:
 ```php
 countries
     id - integer
@@ -278,29 +283,29 @@ users
     country_id - integer
     name - string
  
-posts
+forms
     id - integer
     user_id - integer
     title - string
 ```
-Though `posts` does not contain a `country_id` column, the `hasManyThrough` relation provides access to a country's posts via `$country->posts`. To perform this query, Fluent ORM inspects the `country_id` on the intermediate users table. After finding the matching user IDs, they are used to query the `posts` table.
+Though `forms` does not contain a `country_id` column, the `hasManyThrough` relation provides access to a country's forms via `$country->forms`. To perform this query, Fluent ORM inspects the `country_id` on the intermediate users table. After finding the matching user IDs, they are used to query the `forms` table.
 
 Now that we have examined the table structure for the relationship, let's define it on the `Country` model:
 ```php
 <?php
  
-namespace FluentCrm\App\Models;
+namespace FluentForm\App\Models;
  
-use FluentCrm\Framework\Database\Orm\Model;
+use FluentForm\Framework\Database\Orm\Model;
  
 class Country extends Model
 {
     /**
-     * Get all the posts for the country.
+     * Get all the forms for the country.
      */
-    public function posts()
+    public function forms()
     {
-        return $this->hasManyThrough('FluentCrm\App\Models\Post', 'FluentCrm\App\Models\User');
+        return $this->hasManyThrough('FluentForm\App\Models\Form', 'FluentForm\App\Models\User');
     }
 }
 ```
@@ -310,13 +315,13 @@ Typical Fluent ORM foreign key conventions will be used when performing the rela
 ```php
 class Country extends Model
 {
-    public function posts()
+    public function forms()
     {
         return $this->hasManyThrough(
-            'FluentCrm\App\Models\Post',
-            'FluentCrm\App\Models\User',
+            'FluentForm\App\Models\Form',
+            'FluentForm\App\Models\User',
             'country_id', // Foreign key on users table...
-            'user_id', // Foreign key on posts table...
+            'user_id', // Foreign key on forms table...
             'id', // Local key on countries table...
             'id' // Local key on users table...
         );
@@ -327,9 +332,9 @@ class Country extends Model
 ### Polymorphic Relations
 
 #### Table Structure
-Polymorphic relations allow a model to belong to more than one other model on a single association. For example, imagine users of your application can "comment" on both posts and videos. Using polymorphic relationships, you can use a single `comments` table for both of these scenarios. First, let's examine the table structure required to build this relationship:
+Polymorphic relations allow a model to belong to more than one other model on a single association. For example, imagine users of your application can "submission" on both forms and videos. Using polymorphic relationships, you can use a single `submissions` table for both of these scenarios. First, let's examine the table structure required to build this relationship:
 ```php
-posts
+forms
     id - integer
     title - string
     body - text
@@ -339,92 +344,92 @@ videos
     title - string
     url - string
  
-comments
+submissions
     id - integer
     body - text
-    commentable_id - integer
-    commentable_type - string
+    submission_id - integer
+    submission_type - string
 ```
-Two important columns to note are the `commentable_id` and `commentable_type` columns on the `comments` table. The `commentable_id` column will contain the ID value of the post or video, while the `commentable_type` column will contain the class name of the owning model. The `commentable_type` column is how the ORM determines which "type" of owning model to return when accessing the commentable relation.
+Two important columns to note are the `submission_id` and `submission_type` columns on the `submissions` table. The `submission_id` column will contain the ID value of the form or video, while the `submission_type` column will contain the class name of the owning model. The `submission_type` column is how the ORM determines which "type" of owning model to return when accessing the submission relation.
 
 #### Model Structure
 Next, let's examine the model definitions needed to build this relationship:
 ```php
 <?php
  
-namespace FluentCrm\App\Models;
+namespace FluentForm\App\Models;
  
-use FluentCrm\Framework\Database\Orm\Model;
+use FluentForm\Framework\Database\Orm\Model;
  
-class Comment extends Model
+class Submission extends Model
 {
     /**
-     * Get all of the owning commentable models.
+     * Get all the owning submission models.
      */
-    public function commentable()
+    public function submission()
     {
         return $this->morphTo();
     }
 }
  
-class Post extends Model
+class Form extends Model
 {
     /**
-     * Get all of the post's comments.
+     * Get all the form's submissions.
      */
-    public function comments()
+    public function submissions()
     {
-        return $this->morphMany('FluentCrm\App\Models\Comment', 'commentable');
+        return $this->morphMany('FluentForm\App\Models\Submission', 'submission');
     }
 }
  
 class Video extends Model
 {
     /**
-     * Get all of the video's comments.
+     * Get all the video's submissions.
      */
-    public function comments()
+    public function submissions()
     {
-        return $this->morphMany('FluentCrm\App\Models\Comment', 'commentable');
+        return $this->morphMany('FluentForm\App\Models\Submission', 'submission');
     }
 }
 ```
 
 #### Retrieving Polymorphic Relations
-Once your database table and models are defined, you may access the relationships via your models. For example, to access all the comments for a post, we can use the `comments` dynamic property:
+Once your database table and models are defined, you may access the relationships via your models. For example, to access all the submissions for a form, we can use the `submissions` dynamic property:
 ```php
-$post = FluentCrm\App\Models\Post::find(1);
+$form = FluentForm\App\Models\Form::find(1);
  
-foreach ($post->comments as $comment) {
+foreach ($form->submissions as $submission) {
     //
 }
 ```
-You may also retrieve the owner of a polymorphic relation from the polymorphic model by accessing the name of the method that performs the call to `morphTo`. In our case, that is the `commentable` method on the `Comment` model. So, we will access that method as a dynamic property:
+You may also retrieve the owner of a polymorphic relation from the polymorphic model by accessing the name of the method that performs the call to `morphTo`. In our case, that is the `submission` method on the `Submission` model. So, we will access that method as a dynamic property:
 ```php
-$comment = FluentCrm\App\Models\Comment::find(1);
+$submission = FluentForm\App\Models\Submission::find(1);
  
-$commentable = $comment->commentable;
+$submission = $submission->submission;
 ```
-The `commentable` relation on the `Comment` model will return either a `Post` or `Video` instance, depending on which type of model owns the comment.
+The `submission` relation on the `Submission` model will return either a `Form` or `Video` instance, depending on which type of model owns the submission.
 
 #### Custom Polymorphic Types
-By default, Fluent Framework will use the fully qualified class name to store the type of the related model. For instance, given the example above where a `Comment` may belong to a `Post` or a `Video`, the default `commentable_type` would be either `FluentCrm\App\Models\Post` or `FluentCrm\App\Models\Video`, respectively. However, you may wish to decouple your database from your application's internal structure. In that case, you may define a relationship "morph map" to instruct Fluent ORM to use a custom name for each model instead of the class name:
+By default, Fluent Framework will use the fully qualified class name to store the type of the related model. For instance, given the example above where a `Submission` may belong to a `Form` or a `Video`, the default `submission_type` would be either `FluentForm\App\Models\Form` or `FluentForm\App\Models\Video`, respectively. However, you may wish to decouple your database from your application's internal structure. In that case, you may define a relationship "morph map" to instruct Fluent ORM to use a custom name for each model instead of the class name:
 ```php
-use FluentCrm\Framework\Database\Orm\Relations\Relation;
+use FluentForm\Framework\Database\Orm\Relations\Relation;
  
 Relation::morphMap([
-    'posts'  => 'FluentCrm\App\Models\Post',
-    'videos' => 'FluentCrm\App\Models\Video',
+    'forms'  => 'FluentForm\App\Models\Form',
+    'videos' => 'FluentForm\App\Models\Video',
 ]);
 ```
 You may register the `morphMap` in the boot function of your `AppServiceProvider` or create a separate service provider if you wish.
 
-### Many To Many Polymorphic Relations
+### Many-To-Many Polymorphic Relations
 
 #### Table Structure
-In addition to traditional polymorphic relations, you may also define "many-to-many" polymorphic relations. For example, a blog `Post` and `Video` model could share a polymorphic relation to a `Tag` model. Using a many-to-many polymorphic relation allows you to have a single list of unique tags that are shared across blog posts and videos. First, let's examine the table structure:
+In addition to traditional polymorphic relations, you may also define "many-to-many" polymorphic relations. For example, a blog `Form` and `Video` model could share a polymorphic relation to a `Tag` model. Using a many-to-many polymorphic relation allows you to have a single list of unique tags that are shared across forms and videos. First, let's examine the table structure:
 ```php
-posts
+forms
     id - integer
     name - string
  
@@ -443,67 +448,67 @@ taggables
 ```
 
 #### Model Structure
-Next, we're ready to define the relationships on the model. The `Post` and `Video` models will both have a `tags` method that calls the `morphToMany` method on the base Fluent ORM class:
+Next, we're ready to define the relationships on the model. The `Form` and `Video` models will both have a `tags` method that calls the `morphToMany` method on the base Fluent ORM class:
 ```php
 <?php
  
-namespace FluentCrm\App\Models;
+namespace FluentForm\App\Models;
  
-use FluentCrm\Framework\Database\Orm\Model;
+use FluentForm\Framework\Database\Orm\Model;
  
-class Post extends Model
+class Form extends Model
 {
     /**
-     * Get all of the tags for the post.
+     * Get all the tags for the form.
      */
     public function tags()
     {
-        return $this->morphToMany('FluentCrm\App\Models\Tag', 'taggable');
+        return $this->morphToMany('FluentForm\App\Models\Tag', 'taggable');
     }
 }
 ```
 
 #### Defining The Inverse Of The Relationship
-Next, on the `Tag` model, you should define a method for each of its related models. So, for this example, we will define a `posts` method and a `videos` method:
+Next, on the `Tag` model, you should define a method for each of its related models. So, for this example, we will define a `forms` method and a `videos` method:
 ```php
 <?php
  
-namespace FluentCrm\App\Models;
+namespace FluentForm\App\Models;
  
-use FluentCrm\Framework\Database\Orm\Model;
+use FluentForm\Framework\Database\Orm\Model;
  
 class Tag extends Model
 {
     /**
-     * Get all of the posts that are assigned this tag.
+     * Get all the forms that are assigned this tag.
      */
-    public function posts()
+    public function forms()
     {
-        return $this->morphedByMany('FluentCrm\App\Models\Post', 'taggable');
+        return $this->morphedByMany('FluentForm\App\Models\Form', 'taggable');
     }
  
     /**
-     * Get all of the videos that are assigned this tag.
+     * Get all the videos that are assigned this tag.
      */
     public function videos()
     {
-        return $this->morphedByMany('FluentCrm\App\Models\Video', 'taggable');
+        return $this->morphedByMany('FluentForm\App\Models\Video', 'taggable');
     }
 }
 ```
 
 #### Retrieving The Relationship
-Once your database table and models are defined, you may access the relationships via your models. For example, to access all of the `tags` for a post, you can use the `tags` dynamic property:
+Once your database table and models are defined, you may access the relationships via your models. For example, to access all of the `tags` for a form, you can use the `tags` dynamic property:
 ```php
-$post = FluentCrm\App\Models\Post::find(1);
+$form = FluentForm\App\Models\Form::find(1);
  
-foreach ($post->tags as $tag) {
+foreach ($form->tags as $tag) {
     //
 }
 ```
-You may also retrieve the owner of a polymorphic relation from the polymorphic model by accessing the name of the method that performs the call to `morphedByMany`. In our case, that is the `posts` or `videos` methods on the `Tag` model. So, you will access those methods as dynamic properties:
+You may also retrieve the owner of a polymorphic relation from the polymorphic model by accessing the name of the method that performs the call to `morphedByMany`. In our case, that is the `forms` or `videos` methods on the `Tag` model. So, you will access those methods as dynamic properties:
 ```php
-$tag = FluentCrm\App\Models\Tag::find(1);
+$tag = FluentForm\App\Models\Tag::find(1);
  
 foreach ($tag->videos as $video) {
     //
@@ -513,40 +518,40 @@ foreach ($tag->videos as $video) {
 ### Querying Relations
 Since all types of Fluent ORM relationships are defined via methods, you may call those methods to obtain an instance of the relationship without actually executing the relationship queries. In addition, all types of Fluent ORM relationships also serve as <a :href="$withBase('/database/query-builder')">query builders</a>, allowing you to continue to chain constraints onto the relationship query before finally executing the SQL against your database.
 
-For example, imagine a blog system in which a `User` model has many associated `Post` models:
+For example, imagine a blog system in which a `User` model has many associated `Form` models:
 ```php
 <?php
  
-namespace FluentCrm\App\Models;
+namespace FluentForm\App\Models;
  
-use FluentCrm\Framework\Database\Orm\Model;
+use FluentForm\Framework\Database\Orm\Model;
  
 class User extends Model
 {
     /**
-     * Get all of the posts for the user.
+     * Get all the forms for the user.
      */
-    public function posts()
+    public function forms()
     {
-        return $this->hasMany('FluentCrm\App\Models\Post');
+        return $this->hasMany('FluentForm\App\Models\Form');
     }
 }
 ```
-You may query the `posts` relationship and add additional constraints to the relationship like so:
+You may query the `forms` relationship and add additional constraints to the relationship like so:
 ```php
-$user = FluentCrm\App\Models\User::find(1);
+$user = FluentForm\App\Models\User::find(1);
  
-$user->posts()->where('active', 1)->get();
+$user->forms()->where('status', 'published')->get();
 ```
 You are able to use any of the query builder methods on the relationship, so be sure to explore the <a :href="$withBase('/database/query-builder')">query builders</a> documentation to learn about all the methods that are available to you.
 
 
 ### Relationship Methods Vs. Dynamic Properties
-If you do not need to add additional constraints to an Fluent ORM relationship query, you may access the relationship as if it were a property. For example, continuing to use our `User` and `Post` example models, we may access all of a user's posts like so:
+If you do not need to add additional constraints to an Fluent ORM relationship query, you may access the relationship as if it were a property. For example, continuing to use our `User` and `Form` example models, we may access all of a user's forms like so:
 ```php
-$user = FluentCrm\App\Models\User::find(1);
+$user = FluentForm\App\Models\User::find(1);
  
-foreach ($user->posts as $post) {
+foreach ($user->forms as $form) {
     //
 }
 ```
@@ -554,45 +559,45 @@ Dynamic properties are "lazy loading", meaning they will only load their relatio
 
 
 ### Querying Relationship Existence
-When accessing the records for a model, you may wish to limit your results based on the existence of a relationship. For example, imagine you want to retrieve all blog posts that have at least one comment. To do so, you may pass the name of the relationship to the `has` and `orHas` methods:
+When accessing the records for a model, you may wish to limit your results based on the existence of a relationship. For example, imagine you want to retrieve all forms that have at least one submission. To do so, you may pass the name of the relationship to the `has` and `orHas` methods:
 ```php
-// Retrieve all posts that have at least one comment...
-$posts = FluentCrm\App\Models\Post::has('comments')->get();
+// Retrieve all forms that have at least one submission...
+$forms = FluentForm\App\Models\Form::has('submissions')->get();
 ```
 You may also specify an operator and count to further customize the query:
 ```php
-// Retrieve all posts that have three or more comments...
-$posts = FluentCrm\App\Models\Post::has('comments', '>=', 3)->get();
+// Retrieve all forms that have three or more submissions...
+$forms = FluentForm\App\Models\Form::has('submissions', '>=', 3)->get();
 ```
-Nested `has` statements may also be constructed using "dot" notation. For example, you may retrieve all posts that have at least one comment and vote:
+Nested `has` statements may also be constructed using "dot" notation. For example, you may retrieve all forms that have at least one submission and is_favourite
 ```php
-// Retrieve all posts that have at least one comment with votes...
-$posts = FluentCrm\App\Models\Post::has('comments.votes')->get();
+// Retrieve all forms that have at least one submission with is_favourite...
+$forms = FluentForm\App\Models\Form::has('submissions.is_favourite')->get();
 ```
-If you need even more power, you may use the `whereHas` and `orWhereHas` methods to put "where" conditions on your has queries. These methods allow you to add customized constraints to a relationship constraint, such as checking the content of a comment:
+If you need even more power, you may use the `whereHas` and `orWhereHas` methods to put "where" conditions on your has queries. These methods allow you to add customized constraints to a relationship constraint, such as checking the content of a submission:
 ```php
-// Retrieve all posts with at least one comment containing words like foo%
-$posts = FluentCrm\App\Models\Post::whereHas('comments', function ($query) {
-    $query->where('content', 'like', 'foo%');
+// Retrieve all forms with at least one submission containing words like foo%
+$forms = FluentForm\App\Models\Form::whereHas('submissions', function ($query) {
+    $query->where('response', 'like', 'foo%');
 })->get();
 ```
 
 
 ### Querying Relationship Absence
 
-When accessing the records for a model, you may wish to limit your results based on the absence of a relationship. For example, imagine you want to retrieve all blog posts that don't have any comments. To do so, you may pass the name of the relationship to the `doesntHave` and `orDoesntHave` methods:
+When accessing the records for a model, you may wish to limit your results based on the absence of a relationship. For example, imagine you want to retrieve all forms that don't have any submissions. To do so, you may pass the name of the relationship to the `doesntHave` and `orDoesntHave` methods:
 ```php
-$posts = FluentCrm\App\Models\Post::doesntHave('comments')->get();
+$forms = FluentForm\App\Models\Form::doesntHave('submissions')->get();
 ```
-If you need even more power, you may use the `whereDoesntHave` and `orWhereDoesntHave` methods to put "where" conditions on your `doesntHave` queries. These methods allow you to add customized constraints to a relationship constraint, such as checking the content of a comment:
+If you need even more power, you may use the `whereDoesntHave` and `orWhereDoesntHave` methods to put "where" conditions on your `doesntHave` queries. These methods allow you to add customized constraints to a relationship constraint, such as checking the response of a submission:
 ```php
-$posts = FluentCrm\App\Models\Post::whereDoesntHave('comments', function ($query) {
-    $query->where('content', 'like', 'foo%');
+$forms = FluentForm\App\Models\Form::whereDoesntHave('submissions', function ($query) {
+    $query->where('response', 'like', 'foo%');
 })->get();
 ```
-You may use "dot" notation to execute a query against a nested relationship. For example, the following query will retrieve all posts with comments from authors that are not banned:
+You may use "dot" notation to execute a query against a nested relationship. For example, the following query will retrieve all forms with submissions from authors that are not banned:
 ```php
-$posts = FluentCrm\App\Models\Post::whereDoesntHave('comments.author', function ($query) {
+$forms = FluentForm\App\Models\Form::whereDoesntHave('submissions.user_id', function ($query) {
     $query->where('banned', 1);
 })->get();
 ```
@@ -601,33 +606,33 @@ $posts = FluentCrm\App\Models\Post::whereDoesntHave('comments.author', function 
 ### Counting Related Models
 If you want to count the number of results from a relationship without actually loading them you may use the `withCount` method, which will place a `{relation}_count` column on your resulting models. For example:
 ```php
-$posts = FluentCrm\App\Models\Post::withCount('comments')->get();
+$forms = FluentForm\App\Models\Form::withCount('submissions')->get();
  
-foreach ($posts as $post) {
-    echo $post->comments_count;
+foreach ($forms as $form) {
+    echo $form->submissions_count;
 }
 ```
 You may add the "counts" for multiple relations as well as add constraints to the queries:
 ```php
-$posts = FluentCrm\App\Models\Post::withCount(['votes', 'comments' => function ($query) {
-    $query->where('content', 'like', 'foo%');
+$forms = FluentForm\App\Models\Form::withCount(['is_favourite', 'submissions' => function ($query) {
+    $query->where('response', 'like', 'foo%');
 }])->get();
  
-echo $posts[0]->votes_count;
-echo $posts[0]->comments_count;
+echo $forms[0]->is_favourite_count;
+echo $forms[0]->submissions_count;
 ```
 You may also alias the relationship count result, allowing multiple counts on the same relationship:
 ```php
-$posts = FluentCrm\App\Models\Post::withCount([
-    'comments',
-    'comments as pending_comments_count' => function ($query) {
-        $query->where('approved', false);
+$forms = FluentForm\App\Models\Form::withCount([
+    'submissions',
+    'submissions as pending_submissions_count' => function ($query) {
+        $query->where('status', 'unread');
     }
 ])->get();
  
-echo $posts[0]->comments_count;
+echo $forms[0]->submissions_count;
  
-echo $posts[0]->pending_comments_count;
+echo $forms[0]->pending_submissions_count;
 ```
 
 
@@ -636,9 +641,9 @@ When accessing Fluent ORM relationships as properties, the relationship data is 
 ```php
 <?php
  
-namespace FluentCrm\App\Models;
+namespace FluentForm\App\Models;
  
-use FluentCrm\Framework\Database\Orm\Model;
+use FluentForm\Framework\Database\Orm\Model;
  
 class Book extends Model
 {
@@ -647,23 +652,23 @@ class Book extends Model
      */
     public function author()
     {
-        return $this->belongsTo('FluentCrm\App\Models\Author');
+        return $this->belongsTo('FluentForm\App\Models\Author');
     }
 }
 ```
 Now, let's retrieve all books and their authors:
 ```php
-$books = FluentCrm\App\Models\Book::all();
+$books = FluentForm\App\Models\Book::all();
  
 foreach ($books as $book) {
     echo $book->author->name;
 }
 ```
-This loop will execute 1 query to retrieve all of the books on the table, then another query for each book to retrieve the author. So, if we have 25 books, this loop would run 26 queries: 1 for the original book, and 25 additional queries to retrieve the author of each book.
+This loop will execute 1 query to retrieve all the books on the table, then another query for each book to retrieve the author. So, if we have 25 books, this loop would run 26 queries: 1 for the original book, and 25 additional queries to retrieve the author of each book.
 
 Thankfully, we can use eager loading to reduce this operation to just 2 queries. When querying, you may specify which relationships should be eager loaded using the `with` method:
 ```php
-$books = FluentCrm\App\Models\Book::with('author')->get();
+$books = FluentForm\App\Models\Book::with('author')->get();
  
 foreach ($books as $book) {
     echo $book->author->name;
@@ -677,33 +682,33 @@ select * from authors where id in (1, 2, 3, 4, 5, ...)
 ```
 
 ### Eager Loading Multiple Relationships
-Sometimes you may need to eager load several different relationships in a single operation. To do so, just pass additional arguments to the with method:
+Sometimes you may need to eager load several relationships in a single operation. To do so, just pass additional arguments to the with method:
 ```php
-$books = FluentCrm\App\Models\Book::with(['author', 'publisher'])->get();
+$books = FluentForm\App\Models\Book::with(['author', 'publisher'])->get();
 ```
 
 ### Nested Eager Loading
-To eager load nested relationships, you may use "dot" syntax. For example, let's eager load all of the book's authors and all of the author's personal contacts in one Fluent ORM statement:
+To eager load nested relationships, you may use "dot" syntax. For example, lets eager load all of the book's authors and all the author's personal contacts in one Fluent ORM statement:
 ```php
-$books = FluentCrm\App\Models\Book::with('author.contacts')->get();
+$books = FluentForm\App\Models\Book::with('author.contacts')->get();
 ```
 
 ### Eager Loading Specific Columns
 You may not always need every column from the relationships you are retrieving. For this reason, Fluent ORM allows you to specify which columns of the relationship you would like to retrieve:
 ```php
-$users = FluentCrm\App\Models\Book::with('author:id,name')->get();
+$users = FluentForm\App\Models\Book::with('author:id,name')->get();
 ```
 
 ### Constraining Eager Loads
 Sometimes you may wish to eager load a relationship, but also specify additional query constraints for the eager loading query. Here's an example:
 ```php
-$users = FluentCrm\App\Models\User::with(['posts' => function ($query) {
+$users = FluentForm\App\Models\User::with(['forms' => function ($query) {
     $query->where('title', 'like', '%first%');
 }])->get();
 ```
-In this example, Fluent ORM will only eager load posts where the post's title column contains the word first. Of course, you may call other <a :href="$withBase('/database/query-builder')">query builders</a> methods to further customize the eager loading operation:
+In this example, Fluent ORM will only eager load forms where the form's title column contains the word first. Of course, you may call other <a :href="$withBase('/database/query-builder')">query builders</a> methods to further customize the eager loading operation:
 ```php
-$users = FluentCrm\App\Models\User::with(['posts' => function ($query) {
+$users = FluentForm\App\Models\User::with(['forms' => function ($query) {
     $query->orderBy('created_at', 'desc');
 }])->get();
 ```
@@ -712,44 +717,44 @@ $users = FluentCrm\App\Models\User::with(['posts' => function ($query) {
 ## Inserting & Updating Related Models
 
 ### The Save Method
-Fluent ORM provides convenient methods for adding new models to relationships. For example, perhaps you need to insert a new `Comment` for a `Post` model. Instead of manually setting the `post_id` attribute on the `Comment`, you may insert the `Comment` directly from the relationship's `save` method:
+Fluent ORM provides convenient methods for adding new models to relationships. For example, perhaps you need to insert a new `Submission` for a `Form` model. Instead of manually setting the `submission_id` attribute on the `Submission`, you may insert the `Submission` directly from the relationship's `save` method:
 ```php
-$comment = new FluentCrm\App\Models\Comment(['message' => 'A new comment.']);
+$submission = new FluentForm\App\Models\Submission(['response' => "[....Submission Data]"]);
  
-$post = FluentCrm\App\Models\Post::find(1);
+$form = FluentForm\App\Models\Form::find(1);
  
-$post->comments()->save($comment);
+$form->submissions()->save($submission);
 ```
-Notice that we did not access the `comments` relationship as a dynamic property. Instead, we called the `comments` method to obtain an instance of the relationship. The `save` method will automatically add the appropriate `post_id` value to the new `Comment` model.
+Notice that we did not access the `submissions` relationship as a dynamic property. Instead, we called the `submissions` method to obtain an instance of the relationship. The `save` method will automatically add the appropriate `submission_id` value to the new `Submission` model.
 If you need to save multiple related models, you may use the `saveMany` method:
 ```php
-$post = new FluentCrm\App\Models\Post::find(1);
+$form = new FluentForm\App\Models\Form::find(1);
  
-$post->comments()->saveMany([
-    new FluentCrm\App\Models\Comment(['message' => 'A new comment.']),
-    new FluentCrm\App\Models\Comment(['message' => 'Another comment.']),
+$form->submissions()->saveMany([
+    new FluentForm\App\Models\Submission(['response' => "[....Submission Data]"]),
+    new FluentForm\App\Models\Submission(['response' => "[....Submission Data]"]),
 ]);
 ```
 
 ### The Create Method
 In addition to the `save` and `saveMany` methods, you may also use the `create` method, which accepts an array of attributes, creates a model, and inserts it into the database. Again, the difference between `save` and `create` is that `save` accepts a full Fluent ORM model instance while `create` accepts a plain PHP `array`:
 ```php
-$post = FluentCrm\App\Models\Post::find(1);
+$form = FluentForm\App\Models\Form::find(1);
  
-$comment = $post->comments()->create([
-    'message' => 'A new comment.',
+$submission = $form->submissions()->create([
+    'response' => "[....Submission Data]",
 ]);
 ```
 You may use the `createMany` method to create multiple related models:
 ```php
-$post = FluentCrm\App\Models\Post::find(1);
+$form = FluentForm\App\Models\Form::find(1);
  
-$post->comments()->createMany([
+$form->submissions()->createMany([
     [
-        'message' => 'A new comment.',
+        'response' => "[....Submission Data]",
     ],
     [
-        'message' => 'Another new comment.',
+        'response' => "[....Submission Data]",
     ],
 ]);
 ```
@@ -757,7 +762,7 @@ $post->comments()->createMany([
 ### Belongs To Relationships
 When updating a `belongsTo` relationship, you may use the `associate` method. This method will set the foreign key on the child model:
 ```php
-$account = FluentCrm\App\Models\Account::find(10);
+$account = FluentForm\App\Models\Account::find(10);
  
 $user->account()->associate($account);
  
@@ -770,12 +775,12 @@ $user->account()->dissociate();
 $user->save();
 ```
 
-### Many To Many Relationships
+### Many-To-Many Relationships
 
 #### Attaching / Detaching
 Fluent ORM also provides a few additional helper methods to make working with related models more convenient. For example, let's imagine a user can have many roles and a role can have many users. To attach a role to a user by inserting a record in the intermediate table that joins the models, use the `attach` method:
 ```php
-$user = FluentCrm\App\Models\User::find(1);
+$user = FluentForm\App\Models\User::find(1);
  
 $user->roles()->attach($roleId);
 ```
@@ -793,7 +798,7 @@ $user->roles()->detach();
 ```
 For convenience, `attach` and `detach` also accept arrays of IDs as input:
 ```php
-$user = FluentCrm\App\Models\User::find(1);
+$user = FluentForm\App\Models\User::find(1);
  
 $user->roles()->detach([1, 2, 3]);
  
@@ -826,13 +831,13 @@ $user->roles()->toggle([1, 2, 3]);
 #### Saving Additional Data On A Pivot Table
 When working with a many-to-many relationship, the `save` method accepts an array of additional intermediate table attributes as its second argument:
 ```php
-FluentCrm\App\Models\User::find(1)->roles()->save($role, ['expires' => $expires]);
+FluentForm\App\Models\User::find(1)->roles()->save($role, ['expires' => $expires]);
 ```
 
 #### Updating A Record On A Pivot Table
 If you need to update an existing row in your pivot table, you may use `updateExistingPivot` method. This method accepts the pivot record foreign key and an array of attributes to update:
 ```php
-$user = FluentCrm\App\Models\User::find(1);
+$user = FluentForm\App\Models\User::find(1);
  
 $user->roles()->updateExistingPivot($roleId, $attributes);
 ```
@@ -840,37 +845,37 @@ $user->roles()->updateExistingPivot($roleId, $attributes);
 
 ## Touching Parent Timestamps
 
-When a model `belongsTo` or `belongsToMany` another model, such as a `Comment` which belongs to a `Post`, it is sometimes helpful to update the parent's timestamp when the child model is updated. For example, when a `Comment` model is updated, you may want to automatically "touch" the `updated_at` timestamp of the owning `Post`. Fluent ORM makes it easy. Just add a `touches` property containing the names of the relationships to the child model:
+When a model `belongsTo` or `belongsToMany` another model, such as a `Submission` which belongs to a `Form`, it is sometimes helpful to update the parent's timestamp when the child model is updated. For example, when a `Submission` model is updated, you may want to automatically "touch" the `updated_at` timestamp of the owning `Form`. Fluent ORM makes it easy. Just add a `touches` property containing the names of the relationships to the child model:
 ```php
 <?php
  
-namespace FluentCrm\App\Models;
+namespace FluentForm\App\Models;
  
-use FluentCrm\Framework\Database\Orm\Model;
+use FluentForm\Framework\Database\Orm\Model;
  
-class Comment extends Model
+class Submission extends Model
 {
     /**
-     * All of the relationships to be touched.
+     * All the relationships to be touched.
      *
      * @var array
      */
-    protected $touches = ['post'];
+    protected $touches = ['form'];
  
     /**
-     * Get the post that the comment belongs to.
+     * Get the form that the submission belongs to.
      */
-    public function post()
+    public function form()
     {
-        return $this->belongsTo('FluentCrm\App\Models\Post');
+        return $this->belongsTo('FluentForm\App\Models\Form');
     }
 }
 ```
-Now, when you update a `Comment`, the owning `Post` will have its `updated_at` column updated as well, making it more convenient to know when to invalidate a cache of the `Post` model:
+Now, when you update a `Submission`, the owning `Form` will have its `updated_at` column updated as well, making it more convenient to know when to invalidate a cache of the `Form` model:
 ```php
-$comment = FluentCrm\App\Models\Comment::find(1);
+$submission = FluentForm\App\Models\Submission::find(1);
  
-$comment->text = 'Edit to this comment!';
+$submission->text = 'Edit to this submission!';
  
-$comment->save();
+$submission->save();
 ```

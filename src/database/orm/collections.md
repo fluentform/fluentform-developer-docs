@@ -4,30 +4,30 @@
 
 
 ## Introduction
-All multi-result sets returned by Fluent ORM are instances of the `FluentCrm\Framework\Database\Orm\Collection` object, including results retrieved via the `get` method or accessed via a relationship. The Fluent ORM collection naturally inherits dozens of methods used to fluently work with the underlying array of Fluent ORM models.
+All multi-result sets returned by Fluent ORM are instances of the `FluentForm\Framework\Database\Orm\Collection` object, including results retrieved via the `get` method or accessed via a relationship. The Fluent ORM collection naturally inherits dozens of methods used to fluently work with the underlying array of Fluent ORM models.
 
 Of course, all collections also serve as iterators, allowing you to loop over them as if they were simple PHP arrays:
 ```php
-$users = FluentCrm\App\Models\User::where('active', 1)->get();
+$forms = FluentForm\App\Models\Form::where('status', 'published')->get();
  
-foreach ($users as $user) {
-    echo $user->name;
+foreach ($forms as $form) {
+    echo $form->title;
 }
 ```
-However, collections are much more powerful than arrays and expose a variety of `map` / `reduce` operations that may be chained using an intuitive interface. For example, let's remove all inactive models and gather the first name for each remaining user:
+However, collections are much more powerful than arrays and expose a variety of `map` / `reduce` operations that may be chained using an intuitive interface. For example, let's remove all inactive models and gather the title for each remaining form:
 ```php
-$users = FluentCrm\App\Models\User::all();
+$forms = FluentForm\App\Models\Form::all();
  
-$names = $users->reject(function ($user) {
-    return $user->active === false;
+$titles = $forms->reject(function ($form) {
+    return $form->title === false;
 })
-->map(function ($user) {
-    return $user->name;
+->map(function ($form) {
+    return $form->title;
 });
 ```
 
 ## Available Methods
-All Fluent ORM collections extend the base Fluent Framework collection object; therefore, they inherit all of the powerful methods provided by the base collection class:
+All Fluent ORM collections extend the base Fluent Framework collection object; therefore, they inherit all the powerful methods provided by the base collection class:
 
 <table style="display: table; width: 100%">
     <tbody>
