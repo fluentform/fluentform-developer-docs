@@ -4,7 +4,7 @@ const globalFunctionsSidebar = require('./sidebars/global-functions');
 const hooksSidebar = require('./sidebars/hooks');
 const helpersSidebar = require('./sidebars/helpers');
 const modulesSidebar = require('./sidebars/modules');
-const extendRestApiSidebar = require('./sidebars/extendRestApiSidebar');
+const apiSidebar = require('./sidebars/apiSidebar');
 const submissionLifecycleSidebar = require('./sidebars/submissionLifecycleSidebar');
 
 const path = require('path');
@@ -124,23 +124,23 @@ module.exports = {
                 ],
             },
             {
-                text: 'Modules',
+                text: 'API',
                 items: [
-                    // {
-                    //     text: 'Integration',
-                    //     link: '#',
-                    // },
-                    // {
-                    //     text: 'Custom Form Input',
-                    //     link: '/modules/smart-code/',
-                    // },
-                    // {
-                    //     text: 'Smart Codes',
-                    //     link: '/modules/smart-code/',
-                    // },
                     {
                         text: 'Extending REST API',
-                        link: '/extending-rest-api/',
+                        link: '/api/extending-rest-api/',
+                    },
+                    {
+                        text: 'BaseFieldManager Class',
+                        link: '/api/classes/base-field-manager/'
+                    },
+                    {
+                        text: 'BaseProcessor Class',
+                        link: '/api/classes/base-processor/'
+                    },
+                    {
+                        text: 'BasePaymentMethod Class',
+                        link: '/api/classes/base-payment-method/'
                     }
                 ],
             },
@@ -156,7 +156,7 @@ module.exports = {
             '/hooks/': hooksSidebar,
             '/helpers/': helpersSidebar,
             '/modules/': modulesSidebar,
-            '/extending-rest-api/': extendRestApiSidebar,
+            '/api/': apiSidebar,
             '/submission-lifecycle/': submissionLifecycleSidebar,
 
         }

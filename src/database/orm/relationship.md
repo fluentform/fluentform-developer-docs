@@ -7,12 +7,12 @@
 
 Database tables are often related to one another. For example, a form may have many submissions, or submission could be related to the user who submit it. Fluent ORM makes managing and working with these relationships easy, and supports several types of relationships:
 
-- `One To One`
-- `One To Many`
-- `Many To Many`
-- `Has Many Through`
-- `Polymorphic Relations`
-- `Many To Many Polymorphic Relations`
+- [`One To One`](./relationship/#one-to-one)
+- [`One To Many`](./relationship/#one-to-many)
+- [`Many To Many`](./relationship/#many-to-many)
+- [`Has Many Through`](./relationship/#has-many-through)
+- [`Polymorphic Relations`](./relationship/#polymorphic-relations)
+- [`Many To Many Polymorphic Relations`](./relationship/#many-to-many-polymorphic-relations)
 
 
 ## Defining Relationships

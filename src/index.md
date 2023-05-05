@@ -48,17 +48,17 @@ pageClass: docs-home
 
 <section id="home-components" class="home-content">
   <div>
-    <h2>Fluent Forms Modules</h2>
-    <p>Fluent Forms modules are designed in a way that allows for easy extension, allowing you to build integrations in just a few 
+    <h2>Fluent Forms APIs</h2>
+    <p>Fluent Forms APIs are designed in a way that allows for easy extending, allowing you to build custom handler in just a few 
     hours(Not in days), and giving you full control of your data.</p>
 </div>
   <div>
     <ul>
-      <li><a href="#">Build Custom Integrations</a></li>
-      <li><a href="#">Build Custom Form Input Component</a></li>
+      <li><a href="api/classes/base-field-manager">Extend Form Field</a></li>
       <li><a href="./modules/smart-code/">Extend SmartCodes</a></li>
-      <!-- ><li><a href="./global-navigation/">Extend Global Navigation menu</a></li> -->
-      <li><a href="./extending-rest-api/">Extend REST API</a></li>
+      <li><a href="api/extending-rest-api/">Extend REST API</a></li>
+      <li><a href="api/classes/base-processor">Extend Payment Process</a></li>
+      <li><a href="api/classes/base-payment-method">Extend Payment Method</a></li>
     </ul>
   </div>
 </section>
