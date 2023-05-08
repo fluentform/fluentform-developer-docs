@@ -135,12 +135,20 @@ module.exports = {
                         link: '/api/classes/base-field-manager/'
                     },
                     {
+                        text: 'IntegrationManagerController',
+                        link: '/api/classes/integration-manager-controller/'
+                    },
+                    {
                         text: 'BaseProcessor Class',
                         link: '/api/classes/base-processor/'
                     },
                     {
                         text: 'BasePaymentMethod Class',
                         link: '/api/classes/base-payment-method/'
+                    },
+                    {
+                        text: 'PDFTemplateManager Class',
+                        link: '/api/classes/pdf-template-manager/'
                     }
                 ],
             },

@@ -14,6 +14,7 @@ Please check out the GitHub file to get more information.
 - [`getComponent()`](/api/classes/base-field-manager/#getcomponent)
 - [`render()`](/api/classes/base-field-manager/#render-data-form)
 - [`getGeneralEditorElements()`](/api/classes/base-field-manager/#getgeneraleditorelements)
+- [`getAdvancedEditorElements()`](/api/classes/base-field-manager/#getadvancededitorelements)
 
 ### getComponent()
 ```php
