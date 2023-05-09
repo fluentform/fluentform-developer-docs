@@ -10,7 +10,7 @@ module.exports = [
     {
         title: 'Reference API Classes',
         collapsable: false,
-        sidebarDepth: -1,
+        sidebarDepth: 2,
         children: [
             ['/api/classes/base-field-manager/', 'BaseFieldManager'],
             ['/api/classes/integration-manager-controller/', 'IntegrationManagerController'],
