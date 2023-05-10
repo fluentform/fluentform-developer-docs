@@ -79,7 +79,7 @@ public function getSettingsFields()
         ],
         [
             'key'       => 'demo',
-            'label'     => 'Demp Input',
+            'label'     => 'Demo Input',
             'tips'      => 'Input Help Text',
             'component' => 'text'
         ],
@@ -180,7 +180,7 @@ public function getSettingsFields()
         ],
         [
             'key'       => 'demo',
-            'label'     => 'Demp Input',
+            'label'     => 'Demo Input',
             'tips'      => 'Input Help Text',
             'component' => 'text'
         ],

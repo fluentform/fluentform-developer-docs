@@ -3,7 +3,6 @@ const dbSchemaSidebar = require('./sidebars/db-schema');
 const globalFunctionsSidebar = require('./sidebars/global-functions');
 const hooksSidebar = require('./sidebars/hooks');
 const helpersSidebar = require('./sidebars/helpers');
-const modulesSidebar = require('./sidebars/modules');
 const apiSidebar = require('./sidebars/apiSidebar');
 const submissionLifecycleSidebar = require('./sidebars/submissionLifecycleSidebar');
 
@@ -163,7 +162,6 @@ module.exports = {
             '/global-functions/': globalFunctionsSidebar,
             '/hooks/': hooksSidebar,
             '/helpers/': helpersSidebar,
-            '/modules/': modulesSidebar,
             '/api/': apiSidebar,
             '/submission-lifecycle/': submissionLifecycleSidebar,
 

@@ -55,7 +55,6 @@ pageClass: docs-home
   <div>
     <ul>
       <li><a href="api/classes/base-field-manager">Extend Form Field</a></li>
-      <li><a href="./modules/smart-code/">Extend SmartCodes</a></li>
       <li><a href="api/extending-rest-api/">Extend REST API</a></li>
       <li><a href="api/classes/base-field-manager">Extend Fields</a></li>
       <li><a href="api/classes/integration-manager-controller">Extend Integrations</a></li>
