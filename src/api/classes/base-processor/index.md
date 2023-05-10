@@ -335,4 +335,4 @@ class MyPaymentProcessor extends BaseProcessor
 ```
 
 ## Final Note
-Please check the existing payment processor files to get a more clear concept of this class and implement your custom payment system. There are other methods also to help with possessing a payment. If you have any questions please feel free to reach to our [facebook community group](https://www.facebook.com/groups/fluentforms/)
+Please check the existing payment processor files to get a more clear concept of this class and implement your custom payment system. There are other methods also to help with possessing a payment. If you have any questions please feel free to reach to our [support team](https://wpmanageninja.com/support-tickets/) or ask questions in our [facebook community group](https://www.facebook.com/groups/fluentforms/)

@@ -19,8 +19,9 @@ This is the construct method of this class. You have to pass an Application obje
 Here is an example of the code so far:
 ```php
 use FluentForm\Framework\Foundation\Application;
+use FluentFormPdf\Classes\Templates\TemplateManager;
 
-class FluentExtraTemplateDemo extends \FluentFormPdf\Classes\Templates\TemplateManager
+class FluentExtraTemplateDemo extends TemplateManager
 {
 
     public function __construct(Application $app)
@@ -139,8 +140,9 @@ A demo TemplateManager class will look like this :
 ```php
 
 use FluentForm\Framework\Foundation\Application;
+use FluentFormPdf\Classes\Templates\TemplateManager;
 
-class FluentExtraTemplateDemo extends \FluentFormPdf\Classes\Templates\TemplateManager
+class FluentExtraTemplateDemo extends TemplateManager
 {
 
     public function __construct(Application $app)
@@ -232,7 +234,7 @@ add_action('plugins_loaded', function () {
         return $templates;
     }, 10, 2);
 
-});
+}, 11);
 ```
 
-You can include more classes and add new templates using this method. If you have any query feel free to reach our support team or ask questions in our [facebook community group](https://www.facebook.com/groups/fluentforms/). Also do not forget to share your thoughts on this documentation, by adding your comment or a click on the icons below.
+You can include more classes and add new templates using this method. If you have any query feel free to reach our [support team](https://wpmanageninja.com/support-tickets/) or ask questions in our [facebook community group](https://www.facebook.com/groups/fluentforms/). Also do not forget to share your thoughts on this documentation, by adding your comment or a click on the icons below.

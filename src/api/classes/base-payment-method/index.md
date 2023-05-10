@@ -233,4 +233,4 @@ class MyCustomPaymentMethod extends BasePaymentMethod
 ## Final Note
 It’s highly recommended to explore our source files and try to understand the procedure. Once you understand it’s very easy to implement your own custom payment method.
 
-If you have any questions please feel free to reach to our [facebook community group](https://www.facebook.com/groups/fluentforms/)
+If you have any questions please feel free to reach to our [support team](https://wpmanageninja.com/support-tickets/) or ask questions in our [facebook community group](https://www.facebook.com/groups/fluentforms/)

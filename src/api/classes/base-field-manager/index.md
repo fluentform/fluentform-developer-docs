@@ -323,4 +323,4 @@ add_action('fluentform/loaded', function () {
 ## Final Note
 It’s highly recommended to explore our source files and try to understand the design. Once you get if it’s very easy to implement your own custom input elements. Also, please check our a step by step your custom new field creation guide here [How to Create Your Own Custom Field in Fluentforms](https://fluentforms.com/docs/how-to-create-your-own-custom-field-with-fluent-forms/).
 
-If you have any question please feel free to reach at our [facebook community group](https://www.facebook.com/groups/fluentforms/)
+If you have any question please feel free to reach at our [support team](https://wpmanageninja.com/support-tickets/) or ask questions in our [facebook community group](https://www.facebook.com/groups/fluentforms/)
