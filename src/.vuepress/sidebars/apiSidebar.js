@@ -12,11 +12,26 @@ module.exports = [
         collapsable: false,
         sidebarDepth: 1,
         children: [
-            ['/api/classes/base-field-manager/', 'BaseFieldManager'],
-            ['/api/classes/integration-manager-controller/', 'IntegrationManagerController'],
-            ['/api/classes/base-processor/', 'BaseProcessor'],
-            ['/api/classes/base-payment-method/', 'BasePaymentMethod'],
-            ['/api/classes/pdf-template-manager/', 'PDFTemplateManager'],
+            {
+                title: 'BaseFieldManager',
+                children: ['classes/base-field-manager/']
+            },
+            {
+                title: 'IntegrationManagerController',
+                children: ['classes/integration-manager-controller/']
+            },
+            {
+                title: 'BaseProcessor',
+                children: ['classes/base-processor/']
+            },
+            {
+                title: 'BasePaymentMethod',
+                children: ['classes/base-payment-method/']
+            },
+            {
+                title: 'PDFTemplateManager',
+                children: ['classes/pdf-template-manager/'],
+            },
         ]
     },
 ];
