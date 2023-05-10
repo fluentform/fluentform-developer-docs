@@ -2,7 +2,7 @@
 
 <Badge type="tip" vertical="top" text="Fluent Forms Core" /> <Badge type="warning" vertical="top" text="Intermediate" />
 
-Fluent Forms has many interesting filter hooks that let developers change default settings and even extend Fluent Forms with new functionality.
+Fluent Forms has many interesting filer hooks that let developers change default settings and even extend Fluent Forms with new functionality.
 
 ## What are Filter Hooks
 
@@ -36,4 +36,34 @@ Filter hooks are used to return modified values for certain parameters, based on
 <hr />
 
 !!!include(./src/hooks/filters/_miscellaneous_filters.md)!!!
+
+### Email Filters
+<hr />
+
+!!!include(./src/hooks/filters/_email_filters.md)!!!
+
+### File Uploader Filters
+<hr />
+
+!!!include(./src/hooks/filters/_file_uploader_filters.md)!!!
+
+### Quiz Filters
+<hr />
+
+!!!include(./src/hooks/filters/_quiz_filters.md)!!!
+
+### User Registration Filters
+<hr />
+
+!!!include(./src/hooks/filters/_user_registration_filters.md)!!!
+
+### Webhook Filters
+<hr />
+
+!!!include(./src/hooks/filters/_webhook_filters.md)!!!
+
+### Payment Filters
+<hr />
+
+!!!include(./src/hooks/filters/_payment_filters.md)!!!
 

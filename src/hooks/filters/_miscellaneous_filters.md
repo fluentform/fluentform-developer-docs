@@ -151,6 +151,7 @@ add_filter('fluentform/current_user_permissions', function ($userPermissions) {
 }, 10, 1);
 
 ```
+
 **Reference**
 
 `apply_filters('fluentform/current_user_permissions', $userPermissions);`
@@ -205,6 +206,7 @@ add_filter('fluentform/shortcode_defaults', function($defaults , $atts) {
 }, 10, 2);
 
 ```
+
 **Reference**
 
 `apply_filters('fluentform/shortcode_defaults', $data, $atts);`
@@ -287,6 +289,7 @@ add_filter('fluentform/parse_default_value', function($value, $form) {
 }, 10, 2);
 
 ```
+
 **Reference**
 
 `apply_filters('fluentform/parse_default_value', $attrDefaultValues[$pattern], $form);`
@@ -343,6 +346,7 @@ add_filter('fluentform/akismet_fields', function ($info, $data, $form) {
 }, 10, 3);
 
 ```
+
 **Reference**
 
 `apply_filters('fluentform/akismet_fields', $info, $data, $form);`
@@ -369,6 +373,7 @@ add_filter('fluentform/find_shortcode_params', function($params) {
 }, 10, 1);
 
 ```
+
 **Reference**
 
 `apply_filters('fluentform/find_shortcode_params', $params);`
@@ -396,11 +401,13 @@ add_filter('fluentform/will_parse_url_value', function($status, $form) {
 }, 10, 2);
 
 ```
+
 **Reference**
 
 `apply_filters('fluentform/will_parse_url_value', $parseUrl, $form);`
 
-This filter is located in FluentForm\App\Services\Form\SubmissionHandlerServices -> getReturnData($insertId, $form, $formData)
+This filter is located in FluentForm\App\Services\Form\SubmissionHandlerServices -> getReturnData($insertId, $form,
+$formData)
 
 </explain-block>
 
@@ -424,6 +431,7 @@ add_filter('fluentform/akismet_check_spam', function($status, $formId, $formData
 }, 10, 3);
 
 ```
+
 **Reference**
 
 `apply_filters('fluentform/akismet_check_spam', $isSpamCheck, $form->id, $formData);`
@@ -479,6 +487,7 @@ add_filter('fluentform/has_recaptcha', function($status) {
 }, 10, 1);
 
 ```
+
 **Reference**
 
 `apply_filters('fluentform/has_recaptcha', $hasAutoRecap);`
@@ -489,7 +498,7 @@ This filter is located in FluentForm\App\Services\Form\FormValidationService -> 
 
 <explain-block title="fluentform/has_hcaptcha">
 
-You can Ttoggle Hcaptcha using this filter.
+You can toggle Hcaptcha using this filter.
 
 **Parameters**
 
@@ -505,6 +514,7 @@ add_filter('fluentform/has_hcaptcha', function($status) {
 }, 10, 1);
 
 ```
+
 **Reference**
 
 `apply_filters('fluentform/has_hcaptcha', $hasAutoHcap);`
@@ -531,6 +541,7 @@ add_filter('fluentform/has_turnstile', function($status) {
 }, 10, 1);
 
 ```
+
 **Reference**
 
 `apply_filters('fluentform/has_turnstile', $hasAutoTurnsTile);`
@@ -557,11 +568,13 @@ add_filter('fluentform/recaptcha_v3_ref_score', function($score) {
 }, 10, 1);
 
 ```
+
 **Reference**
 
 `apply_filters('fluentforms/recaptcha_v3_ref_score', $value);`
 
-This filter is located in FluentForm\App\Modules\ReCaptcha\ReCaptcha -> validate($token, $secret = null, $version = 'v2_visible')
+This filter is located in FluentForm\App\Modules\ReCaptcha\ReCaptcha -> validate($token, $secret = null, $version = '
+v2_visible')
 
 </explain-block>
 
@@ -670,11 +683,13 @@ add_filter('fluentform/html_attributes', function ($data, $form) {
 }, 10, 2);
 
 ```
+
 **Reference**
 
 `apply_filters('fluentform/html_attributes', $data, $form);`
 
-This filter is located in FluentForm\App\Services\FormBuilder\FormBuilder -> build($form, $extraCssClass = '', $instanceCssClass = '', $atts = [])
+This filter is located in FluentForm\App\Services\FormBuilder\FormBuilder -> build($form, $extraCssClass = '',
+$instanceCssClass = '', $atts = [])
 
 </explain-block>
 
@@ -696,6 +711,7 @@ add_filter('fluentform/all_data_skip_password_field', function ($status) {
 }, 10, 1);
 
 ```
+
 **Reference**
 
 `apply_filters('fluentform/all_data_skip_password_field',  __return_true());`
@@ -722,6 +738,7 @@ add_filter('fluentform/all_data_without_hidden_fields', function ($status) {
 }, 10, 1);
 
 ```
+
 **Reference**
 
 `apply_filters('fluentform/all_data_without_hidden_fields',  __return_true());`
@@ -751,6 +768,7 @@ add_filter('fluentform/all_data_shortcode_html', function ($html, $formFields, $
 }, 10, 1);
 
 ```
+
 **Reference**
 
 `apply_filters('fluentform/all_data_shortcode_html',  __return_true());`
@@ -778,6 +796,7 @@ add_filter('fluentform/shortcode_parser_callback_pdf.download_link.public', func
 }, 10, 2);
 
 ```
+
 **Reference**
 
 `apply_filters('fluentform/shortcode_parser_callback_pdf.download_link.public', $key, $instance);`
@@ -806,6 +825,7 @@ add_filter('fluentform/shortcode_parser_callback_random_string', function ($valu
 }, 10, 3);
 
 ```
+
 **Reference**
 
 `apply_filters('fluentform/shortcode_parser_callback_random_string', $value, $prefix, static::getInstance());`
@@ -833,6 +853,7 @@ add_filter('fluentform/smartcode_group_' . $group, function ($property, $instanc
 }, 10, 2);
 
 ```
+
 **Reference**
 
 `apply_filters('fluentform/smartcode_group_' . $group, $property, static::getInstance());`
@@ -860,6 +881,7 @@ add_filter('fluentform/shortcode_parser_callback_' . $key, function ($key, $inst
 }, 10, 3);
 
 ```
+
 **Reference**
 
 `apply_filters('fluentform/shortcode_parser_callback_' . $key, static::getInstance());`
@@ -886,6 +908,7 @@ add_filter('fluentform/editor_validation_rule_settings', function ($validation_r
 }, 10, 1);
 
 ```
+
 ```php
 $validation_rule_settings = [
     'required' => [
@@ -1084,90 +1107,12 @@ $validation_rule_settings = [
 ];
 
 ```
+
 **Reference**
 
 `apply_filters('fluentform/editor_validation_rule_settings', $validation_rule_settings);`
 
 This filter is located in FluentForm\App\Services\FormBuilder\ValidationRuleSettings
-
-</explain-block>
-
-<explain-block title="fluentform/email_summary_config">
-
-You can use this filter to modify email summary configuration.
-
-**Parameters**
-
-- `$config` (array) Email Summary Configuration
-
-**Usage**
-
-```php
-add_filter('fluentform/email_summary_config', function ($config) {
-    // Do your stuff here
-    
-    return $config;
-}, 10, 1);
-
-```
-**Reference**
-
-`apply_filters('fluentform/email_summary_config', $config);`
-
-This filter is located in FluentForm\App\Services\Scheduler\Scheduler -> processEmailReport()
-
-</explain-block>
-
-<explain-block title="fluentform/email_summary_body">
-
-You can use this filter to modify email body.
-
-**Parameters**
-
-- `$emailBody` (string) Email Body
-- `$data` (string) Email Send Data
-
-**Usage**
-
-```php
-add_filter('fluentform/email_summary_body', function ($emailBody, $data) {
-    // Do your stuff here
-    
-    return $emailBody;
-}, 10, 2);
-
-```
-**Reference**
-
-`apply_filters('fluentform/email_summary_body', $emailBody, $data);`
-
-This filter is located in FluentForm\App\Services\Scheduler\Scheduler -> processEmailReport()
-
-</explain-block>
-
-<explain-block title="fluentform/email_summary_subject">
-
-You can use this filter to modify email subject.
-
-**Parameters**
-
-- `$emailSubject` (string) Email Subject
-
-**Usage**
-
-```php
-add_filter('fluentform/email_summary_subject', function ($$emailSubject) {
-    // Do your stuff here
-    
-    return $emailSubject;
-}, 10, 1);
-
-```
-**Reference**
-
-`apply_filters('fluentform/email_summary_subject', $emailSubject);`
-
-This filter is located in FluentForm\App\Services\Scheduler\Scheduler -> processEmailReport()
 
 </explain-block>
 
@@ -1189,6 +1134,7 @@ add_filter('fluentform/cleanup_days_count', function ($days) {
 }, 10, 1);
 
 ```
+
 **Reference**
 
 `apply_filters('fluentform/cleanup_days_count', $days);`
@@ -1215,6 +1161,7 @@ add_filter('fluentform/allowed_html_tags', function ($tags) {
 }, 10, 1);
 
 ```
+
 **Reference**
 
 `apply_filters('fluentform/allowed_html_tags', $tags);`
@@ -1241,6 +1188,7 @@ add_filter('fluentform/backend_sanitized_values', function ($inputs) {
 }, 10, 1);
 
 ```
+
 **Reference**
 
 `apply_filters('fluentform/backend_sanitized_values', $inputs);`
@@ -1267,208 +1215,12 @@ add_filter('fluentform/disable_fields_sanitize', function ($status) {
 }, 10, 1);
 
 ```
+
 **Reference**
 
 `apply_filters('fluentform/disable_fields_sanitize', $status);`
 
 This filter is located in FluentForm\boot\globals.php -> fluentformCanUnfilteredHTML()
-
-</explain-block>
-
-<explain-block title="fluentform/email_summary_body_text">
-
-You can use this filter to modify email summary body.
-
-**Parameters**
-
-- `$generateText` (string) Email Summary Body
-- `$submissions` (array) All Submissions
-
-**Usage**
-
-```php
-add_filter('fluentform/email_summary_body_text', function ($generateText, $submissions) {
-    // Do your stuff here
-    
-    return $generateText;
-}, 10, 2);
-
-```
-**Reference**
-
-`apply_filters('fluentform/email_summary_body_text', $generateText, $submissions);`
-
-This filter is located in FluentForm\app\views\email\report\body.php
-
-</explain-block>
-
-<explain-block title="fluentform/email_summary_footer_text">
-
-You can use this filter to modify email summary footer.
-
-**Parameters**
-
-- `$footerText` (string) Email Summary Footer
-
-**Usage**
-
-```php
-add_filter('fluentform/email_summary_footer_text', function ($footerText) {
-    // Do your stuff here
-    
-    return $footerText;
-}, 10, 1);
-
-```
-**Reference**
-
-`apply_filters('fluentform/email_summary_footer_text', $footerText);`
-
-This filter is located in FluentForm\app\views\email\report\body.php
-
-</explain-block>
-
-<explain-block title="fluentform/email_template_footer_credit">
-
-You can use this filter to modify email template footer credit text.
-
-**Parameters**
-
-- `$poweredBy` (string) Credit Text By Default Powered by FluentForm
-- `$form` (object) Form Object
-- `$notification` (array) Email Notification
-
-**Usage**
-
-```php
-add_filter('fluentform/email_template_footer_credit', function ($poweredBy, $form, $notification) {
-    // Do your stuff here
-    
-    return $footerText;
-}, 10, 1);
-
-```
-**Reference**
-
-`apply_filters('fluentform/email_template_footer_credit', $poweredBy, $form, $notification);`
-
-This filter is located in FluentForm\app\views\email\template\footer.php
-
-</explain-block>
-
-<explain-block title="fluentform/email_template_email_heading">
-
-You can use this filter to toggle email template header.
-
-**Parameters**
-
-- `$status` (boolean) Whether the email heading is enabled
-- `$form` (object) Form Object
-- `$notification` (array) Email Notification
-
-**Usage**
-
-```php
-add_filter('fluentform/email_template_email_heading', function ($status, $form, $notification) {
-    // Do your stuff here
-    
-    return $status;
-}, 10, 3);
-
-```
-**Reference**
-
-`apply_filters('fluentform/email_template_email_heading', false, $form, $notification);`
-
-This filter is located in FluentForm\app\views\email\template\header.php
-
-</explain-block>
-
-<explain-block title="fluentform/email_template_header_image">
-
-You can use this filter to toggle email header image.
-
-**Parameters**
-
-- `$status` (boolean) Whether the email header image is enabled
-- `$form` (object) Form Object
-- `$notification` (array) Email Notification
-
-**Usage**
-
-```php
-add_filter('fluentform/email_template_header_image', function ($status, $form, $notification) {
-    // Do your stuff here
-    
-    return $status;
-}, 10, 3);
-
-```
-**Reference**
-
-`apply_filters('fluentform/email_template_header_image', false, $form, $notification);`
-
-This filter is located in FluentForm\app\views\email\template\header.php
-
-</explain-block>
-
-<explain-block title="fluentform/email_content_type_header">
-
-You can use this filter to add email content type to header.
-
-**Parameters**
-
-- `$contentType` (string) Email Header Content Type By Default, text/html; charset=UTF-8
-
-**Usage**
-
-```php
-add_filter('fluentform/email_content_type_header', function ($contentType) {
-    // Do your stuff here
-    
-    return $contentType;
-}, 10, 1);
-
-```
-**Reference**
-
-`apply_filters('fluentform/email_content_type_header', false, $form, $notification);`
-
-This filter is located in FluentForm\app\views\email\template\header.php
-
-</explain-block>
-
-<explain-block title="fluentform/email_template_colors">
-
-You can use this filter to modify email template colors.
-
-**Parameters**
-
-- `$colors` (array) Colors
-
-**Usage**
-
-```php
-add_filter('fluentform/email_template_colors', function ($colors) {
-    // Do your stuff here
-    
-    return $colors;
-}, 10, 1);
-
-```
-```php 
-$colors = array(
-    'background_color'      => '#f6f6f6',
-    'body_background_color' => '#ffffff',
-    'base_color'            => '#444444',
-    'text_color'            => '#444444'
-);
-```
-**Reference**
-
-`apply_filters('fluentform/email_template_colors', $colors);`
-
-This filter is located in FluentForm\app\views\email\template\styles.php
 
 </explain-block>
 
@@ -1490,6 +1242,7 @@ add_filter('fluentform/disabled_components', function ($disabled) {
 }, 10, 1);
 
 ```
+
 ```php
 $disabled['ratings'] = [
     'disabled'    => true,
@@ -1541,7 +1294,8 @@ add_filter('fluentform/validation_error', function ($errors, $formData, $form, $
 
 `apply_filters('fluentform/validation_error', $errors, $this->form, $fields, $this->formData);`
 
-This filter is located in FluentForm\app\Services\Form\SubmissionHandlerService -> getReturnData($insertId, $form, $formData)
+This filter is located in FluentForm\app\Services\Form\SubmissionHandlerService -> getReturnData($insertId, $form,
+$formData)
 
 </explain-block>
 
@@ -1597,5 +1351,173 @@ add_filter('fluentform/https_local_ssl_verify', function ($status) {
 `apply_filters('fluentform/https_local_ssl_verify', false);`
 
 This filter is located in FluentForm\app\Services\WPAsync\FluentFormAsyncRequest -> dispatchAjax($data = [])
+
+</explain-block>
+
+<explain-block title="fluentform/conditional_shortcode_defaults">
+
+You can use this filter to modify shortcode default.
+
+**Parameters**
+
+- `$default` (array) Shortcode Default
+- `$atts` (array) Shortcode Attributes
+
+**Usage**
+
+```php
+add_filter('fluentform/conditional_shortcode_defaults', function ($default, $atts) {
+    // Do your stuff here
+    
+    return $default;
+}, 10, 2);
+
+```
+```php
+$default = [
+    'field' => '',
+    'is'    => '',
+    'to'    => ''
+];
+```
+
+**Reference**
+
+`apply_filters('fluentform/conditional_shortcode_defaults', $default, $atts);`
+
+This filter is located in FluentFormPro\src\classes\ConditionalContent -> handle($atts, $content)
+
+</explain-block>
+
+<explain-block title="fluentform/disable_attachment_delete">
+
+You can toggle double option confirmation file attachment by using this filter.
+
+**Parameters**
+
+- `$status` (boolean) Whether the attachment is disabled
+- `$formId` (int) Form ID
+
+**Usage**
+
+```php
+add_filter('fluentform/disable_attachment_delete', function ($status, $formId) {
+    // Do your stuff here
+    
+    return $status;
+}, 10, 2);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/disable_attachment_delete', $status, $entry->form_id));`
+
+This filter is located in FluentFormPro\src\classes\DoubleOption -> deleteAssociateFiles($entry)
+
+</explain-block>
+
+<explain-block title="fluentform/style_presets">
+
+You can modify form styler by using this filter.
+
+**Parameters**
+
+- `$presets` (array) Form Styler Presets
+
+**Usage**
+
+```php
+add_filter('fluentform/style_presets', function ($presets) {
+    // Do your stuff here
+    
+    return $presets;
+}, 10, 1);
+
+```
+```php
+$presets = [
+    '' => [
+        'label' => __('Default', ''),
+        'src' => ''
+    ],
+    'ffs_modern_b' => [
+        'label' => __('Modern (Bold)', ''),
+        'src' => FLUENTFORMPRO_DIR_URL . 'public/css/skin_modern_bold.css'
+    ],
+    'ffs_modern_l' => [
+        'label' => __('Modern (Light)', ''),
+        'src' => FLUENTFORMPRO_DIR_URL . 'public/css/skin_modern_light.css'
+    ],
+    'ffs_classic' => [
+        'label' => __('Classic', ''),
+        'src' => FLUENTFORMPRO_DIR_URL . 'public/css/skin_classic.css'
+    ],
+    'ffs_bootstrap' => [
+        'label' => __('Bootstrap Style', ''),
+        'src' => FLUENTFORMPRO_DIR_URL . 'public/css/skin_bootstrap.css'
+    ],
+];
+```
+
+**Reference**
+
+`apply_filters('fluentform/style_presets', $presets);`
+
+This filter is located in FluentFormPro\src\classes\FormStyler -> getPresets()
+
+</explain-block>
+
+<explain-block title="fluentform/post_type_selection_types_args">
+
+You can modify post type args using this filter.
+
+**Parameters**
+
+- `$args` (array) Post Type Args
+
+**Usage**
+
+```php
+add_filter('fluentform/post_type_selection_types_args', function ($args) {
+    // Do your stuff here
+    
+    return $args;
+}, 10, 1);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/post_type_selection_types_args', $args);`
+
+This filter is located in FluentFormPro\src\Components\PostSelectionField -> generalEditorElement()
+
+</explain-block>
+
+<explain-block title="fluentform/post_selection_types">
+
+You can modify post selection types using this filter.
+
+**Parameters**
+
+- `$formattedTypes` (array) Post Selection Types
+
+**Usage**
+
+```php
+add_filter('fluentform/post_selection_types', function ($formattedTypes) {
+    // Do your stuff here
+    
+    return $formattedTypes;
+}, 10, 1);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/post_selection_types', $formattedTypes);`
+
+This filter is located in FluentFormPro\src\Components\PostSelectionField -> generalEditorElement()
 
 </explain-block>

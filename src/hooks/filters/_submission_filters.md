@@ -900,3 +900,365 @@ add_filter('fluentform/submission_labels', function ($labels, $submission, $form
 This filter is located in FluentForm\app\Services\Form\FormServices -> getDisabledComponents()
 
 </explain-block>
+
+<explain-block title="fluentform/submission_vars">
+
+You can modify submission variables on double optin confirmation by using this filter.
+
+**Parameters**
+
+- `$submissionVars` (array) Submission Variable
+- `$formId` (int) Form ID
+
+**Usage**
+
+```php
+add_filter('fluentform/submission_vars', function ($submissionVars, $formId) {
+    // Do your stuff here
+    
+    return $submissionVars;
+}, 10, 2);
+
+```
+```php
+$submissionVars = [
+    'settings'        => $settings,
+    'title'           => 'Submission Confirmed - ' . $form->title,
+    'form_id'         => $formId,
+    'entry'           => $entry,
+    'form'            => $form,
+    'bg_color'        => $settings['custom_color'],
+    'landing_content' => $message,
+    'has_header'      => false,
+    'isEmbeded'       => !!ArrayHelper::get($_GET, 'embedded')
+];
+```
+
+**Reference**
+
+`apply_filters('fluentform/submission_vars', $submissionVars, $formId);`
+
+This filter is located in FluentFormPro\src\classes\DoubleOption -> confirmSubmission($data)
+
+</explain-block>
+
+<explain-block title="fluentform/step_form_entry_vars">
+
+You can modify step form submission variables by using this filter.
+
+**Parameters**
+
+- `$entryVars` (array) Step Form Submission Variables
+- `$form` (object) Form Object
+
+**Usage**
+
+```php
+add_filter('fluentform/step_form_entry_vars', function ($entryVars, $form) {
+    // Do your stuff here
+    
+    return $entryVars;
+}, 10, 2);
+
+```
+```php
+$entryVars = [
+    'form_id' => $form->id,
+    'current_form_title' => $form->title,
+    'has_pro' => defined('FLUENTFORMPRO'),
+    'all_forms_url' => admin_url('admin.php?page=fluent_forms'),
+    'printStyles' => [fluentformMix('css/settings_global.css')],
+    'entries_url_base' => admin_url('admin.php?page=fluent_forms&route=msformentries&form_id='),
+    'available_countries' => getFluentFormCountryList(),
+    'no_found_text' => __('Sorry! No entries found. All your entries will be shown here once you start getting form submissions', 'fluentformpro')
+];
+```
+
+**Reference**
+
+`apply_filters('fluentform/step_form_entry_vars', $entryVars, $form);`
+
+This filter is located in FluentFormPro\src\classes\StepFormEntries -> renderEntries($form_id)
+
+</explain-block>
+
+<explain-block title="fluentform/all_entries">
+
+You can modify all submissions using the filter.
+
+**Parameters**
+
+- `$submission` (array) Form Submission
+
+**Usage**
+
+```php
+add_filter('fluentform/all_entries', function ($submission) {
+    // Do your stuff here
+    
+    return $submission;
+}, 10, 1);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/all_entries', $entries['submissions']);`
+
+This filter is located in FluentFormPro\src\classes\StepFormEntries -> getEntries()
+
+</explain-block>
+
+<explain-block title="fluentform/single_response_data">
+
+You can modify submission of a certain form using this filter.
+
+**Parameters**
+
+- `$submission` (array) Form Submission
+- `$formId` (int) Form ID
+
+**Usage**
+
+```php
+add_filter('fluentform/single_response_data', function ($submission, $formId) {
+    // Do your stuff here
+    
+    return $submission;
+}, 10, 2);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/single_response_data', $submission, $this->formId);`
+
+This filter is located in FluentFormPro\src\classes\StepFormEntries -> getstepFormEntry()
+
+</explain-block>
+
+<explain-block title="fluentform/single_response_input_fields">
+
+You can modify inputs of a submission under a certain form using this filter.
+
+**Parameters**
+
+- `$inputs` (array) Form Inputs
+- `$formId` (int) Form ID
+
+**Usage**
+
+```php
+add_filter('fluentform/single_response_input_fields', function ($inputs, $formId) {
+    // Do your stuff here
+    
+    return $inputs;
+}, 10, 2);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/single_response_input_fields', $formMeta['inputs'], $this->formId);`
+
+This filter is located in FluentFormPro\src\classes\StepFormEntries -> getstepFormEntry()
+
+</explain-block>
+
+<explain-block title="fluentform/single_response_input_labels">
+
+You can modify input labels of a submission under a certain form using this filter.
+
+**Parameters**
+
+- `$labels` (array) Form Input Labels
+- `$formId` (int) Form ID
+
+**Usage**
+
+```php
+add_filter('fluentform/single_response_input_labels', function ($labels, $formId) {
+    // Do your stuff here
+    
+    return $labels;
+}, 10, 2);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/single_response_input_labels', $formMeta['labels'], $this->formId);`
+
+This filter is located in FluentFormPro\src\classes\StepFormEntries -> getstepFormEntry()
+
+</explain-block>
+
+<explain-block title="fluentform/submission_cards">
+
+You can use this filter to modify submission page cards.
+
+**Parameters**
+
+- `$cards` (array) Submission Cards
+- `$resources` (array) Submission Resources
+- `$submission` (array) Submission
+
+**Usage**
+
+```php
+add_filter('fluentform/submission_cards', function ($cards, $resources, $submission) {
+    // Do your stuff here
+    
+    return $cards;
+}, 10, 3);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/submission_cards', $cards, $resources, $submission);`
+
+This filter is located in Fluentform\app\services\Submission\SubmissionService -> resources($attributes)
+
+</explain-block>
+
+<explain-block title="fluentform/submission_order_data">
+
+You can use this filter to toggle submission payment order.
+
+**Parameters**
+
+- `$order_data` (boolean) Whether submission payment order is available
+- `$submission` (array) Submission
+- `$form` (object) Form Object
+
+**Usage**
+
+```php
+add_filter('fluentform/submission_order_data', function ($order_data, $submission, $form) {
+    // Do your stuff here
+    
+    return $order_data;
+}, 10, 3);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/submission_order_data', $order_data, $submission, $form);`
+
+This filter is located in Fluentform\app\services\Submission\SubmissionService -> _getEntry()
+
+</explain-block>
+
+<explain-block title="fluentform/auto_read">
+
+You can use this filter to toggle submission status to read automatically.
+
+**Parameters**
+
+- `$autoRead` (boolean) Whether change submission status to read
+- `$form` (object) Form Object
+
+**Usage**
+
+```php
+add_filter('fluentform/auto_read', function ($autoRead, $form) {
+    // Do your stuff here
+    
+    return $autoRead;
+}, 10, 2);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/auto_read', $autoRead, $form);`
+
+This filter is located in Fluentform\app\Modules\Entries\Entries -> _getEntry()
+
+</explain-block>
+
+<explain-block title="fluentform/auto_read_submission">
+
+You can use this filter to toggle submission status to read automatically.
+
+**Parameters**
+
+- `$autoRead` (boolean) Whether change submission status to read
+- `$form` (object) Form Object
+
+**Usage**
+
+```php
+add_filter('fluentform/auto_read_submission', function ($autoRead, $form) {
+    // Do your stuff here
+    
+    return $autoRead;
+}, 10, 2);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/auto_read_submission', $autoRead, $form);`
+
+This filter is located in Fluentform\app\Services\Submission\SubmissionService -> find($submissionId)
+
+</explain-block>
+
+<explain-block title="fluentform/submissions_widgets">
+
+You can use this filter to modify submission widgets.
+
+**Parameters**
+
+- `$widgets` (array) Submission Widgets
+- `$resources` (array) Submission Resources
+- `$submission` (array) Submission
+
+**Usage**
+
+```php
+add_filter('fluentform/submissions_widgets', function ($widgets, $resources, $submission) {
+    // Do your stuff here
+    
+    return $widgets;
+}, 10, 3);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/submissions_widgets', $widgets, $resources, $submission);`
+
+This filter is located in Fluentform\app\Services\Submission\SubmissionService -> resources($attributes)
+
+</explain-block>
+
+<explain-block title="fluentform/submission_resources">
+
+You can use this filter to modify all submission resources.
+
+**Parameters**
+
+- `$resources` (array) Submission Resources
+
+**Usage**
+
+```php
+add_filter('fluentform/submission_resources', function ($resources) {
+    // Do your stuff here
+    
+    return $resources;
+}, 10, 1);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/submission_resources', $resources);`
+
+This filter is located in Fluentform\app\Services\Submission\SubmissionService -> resources($attributes)
+
+</explain-block>

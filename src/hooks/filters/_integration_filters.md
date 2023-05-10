@@ -536,3 +536,261 @@ add_filter('fluentform/global_addons', function ($addons) use ($isEnabled) {
 This filter is located in FluentForm\app\Modules\AddOnModules -> showFluentAddOns()
 
 </explain-block>
+
+<explain-block title="'fluentform/integration_data_' . $this->integrationKey">
+
+You can modify any integration data through valid integration key before form submission by using this filter.
+
+**Parameters**
+
+- `$addData` (array) Submitted Data
+- `$feed` (array) Form Feed
+- `$entry` (array) Submission
+
+**Usage**
+
+```php
+add_filter('fluentform/integration_data_' . $this->integrationKey, function ($addData, $feed, $entry) {
+    // Do your stuff here
+    
+    return $addData;
+}, 10, 3);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/integration_data_' . $this->integrationKey, $addData, $feed, $entry);`
+
+This filter is located in FluentFormPro\src\Integrations\ActiveCampaign\Bootstrap -> notify($feed, $formData, $entry, $form)
+
+</explain-block>
+
+<explain-block title="fluentform/integration_constantcontact_action_by">
+
+You can edit constant contact API url action using the filter.
+
+**Parameters**
+
+- `$actionName` (array) Action Name
+
+**Usage**
+
+```php
+add_filter('fluentform/integration_constantcontact_action_by', function ($actionName) {
+    // Do your stuff here
+    
+    return $actionName;
+}, 10, 1);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/integration_constantcontact_action_by', $actionName);`
+
+This filter is located in FluentFormPro\src\Integrations\ConstantContact\API -> getApiUrl($resource)
+
+</explain-block>
+
+<explain-block title="fluentform/hubspot_field_data">
+
+You can modify hubspot feed field data before form submission using the filter.
+
+**Parameters**
+
+- `$fields` (array) Form Fields
+- `$feed` (array) Hubspot Feed
+- `$entry` (array) Submission
+- `$form` (object) Form Object
+
+**Usage**
+
+```php
+add_filter('fluentform/hubspot_field_data', function ($fields, $feed, $entry, $form) {
+    // Do your stuff here
+    
+    return $fields;
+}, 10, 4);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/hubspot_field_data', $fields, $feed, $entry, $form);`
+
+This filter is located in FluentFormPro\src\Integrations\Hubspot\Bootstrap -> notify($feed, $formData, $entry, $form)
+
+</explain-block>
+
+<explain-block title="fluentform/icontact_request_args">
+
+You can modify IContact GET / POST Feed data using the filter.
+
+**Parameters**
+
+- `$options` (array) Feed Data
+- `$action` (string) IContact API Action
+- `$method` (string) GET/POST Method
+- `$return_key` (string) Return Key
+
+**Usage**
+
+```php
+add_filter('fluentform/icontact_request_args', function ($options, $action, $method, $return_key) {
+    // Do your stuff here
+    
+    return $options;
+}, 10, 4);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/icontact_request_args', $options, $action, $method, $return_key);`
+
+This filter is located in FluentFormPro\src\Integrations\IContact\IContactApi -> make_request( $action = null, $options = array(), $method = 'GET', $return_key = null )
+
+</explain-block>
+
+<explain-block title="fluentform/integration_discord_message">
+
+You can modify discord message arguments using the filter.
+
+**Parameters**
+
+- `$messageArgs` (array) Discord Message Args
+- `$feed` (array) Form Feed
+
+**Usage**
+
+```php
+add_filter('fluentform/integration_discord_message', function ($messageArgs, $feed) {
+    // Do your stuff here
+    
+    return $messageArgs; 
+}, 10, 2);
+
+```
+```php
+$messageArgs = [
+    'embeds' => [
+        0 => [
+            'fields' => $fields,
+            'title' => esc_html($messageTitle),
+            'url' => esc_url_raw($entryLink),
+            'description' => sanitize_text_field($description),
+            'color' => hexdec('3F9EFF'),
+            'footer' => [
+                'text' => sanitize_text_field($footer)
+            ]
+        ],
+    ],
+    'content' => '*New submission on '. $form->title.' (#' . $entry->id . ')*'
+];
+```
+
+**Reference**
+
+`apply_filters('fluentform/integration_discord_message', $messageArgs, $feed);`
+
+This filter is located in FluentFormPro\src\Integrations\Discord\Bootstrap -> notify($feed, $formData, $entry, $form)
+
+</explain-block>
+
+<explain-block title="fluentform/inventory_fields_before_render">
+
+You can use this filter to modify inventory form fields.
+
+**Parameters**
+
+- `$field` (array) Form Fields
+- `$form` (object) Form Object
+- `$previousSubmissionData` (array) Previous Form Submission
+
+**Usage**
+
+```php
+add_filter('fluentform/inventory_fields_before_render', function ($field, $form, $previousSubmissionData) {
+    // Do your stuff here
+    
+    return $field;
+}, 10, 3);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/inventory_fields_before_render', $field, $form, $previousSubmissionData);`
+
+This filter is located in FluentFormPro\src\classes\Inventory\InventoryFieldsRenderer -> processInventoryFields($field,
+$form, $previousSubmissionData)
+
+</explain-block>
+
+<explain-block title="fluentform/inventory_inputs">
+
+You can use this filter to modify inventory input fields.
+
+**Parameters**
+
+- `$fields` (array) Inventory Input Fields
+
+**Usage**
+
+```php
+add_filter('fluentform/inventory_inputs', function ($fields) {
+    // Do your stuff here
+    
+    return $fields;
+}, 10, 1);
+
+```
+
+```php
+$fields = [
+    'select',
+    'input_radio',
+    'input_checkbox',
+    'multi_payment_component'
+];
+```
+
+**Reference**
+
+`apply_filters('fluentform/inventory_inputs', $fields);`
+
+This filter is located in FluentFormPro\src\classes\Inventory\InventorySettingsManager -> getInventoryInputs()
+
+</explain-block>
+
+<explain-block title="fluentform/inventory_validation_error">
+
+You can use this filter to modify inventory stock out error message.
+
+**Parameters**
+
+- `$stockOutMsg` (string) Error Message
+- `$fieldName` (array) Inventory Fields
+- `$item` (array) Inventory Item
+- `$formData` (array) Form Data
+- `$form` (object) Form
+
+**Usage**
+
+```php
+add_filter('fluentform/inventory_validation_error', function ($stockOutMsg, $fieldName, $item, $formData, $form) {
+    // Do your stuff here
+    
+    return $stockOutMsg;
+}, 10, 5);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/inventory_validation_error', $stockOutMsg, $fieldName, $item, $this->formData, $this->form);`
+
+This filter is located in FluentFormPro\src\classes\Inventory\InventoryValidation -> validate()
+
+</explain-block>
