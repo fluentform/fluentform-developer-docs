@@ -129,6 +129,35 @@ This action is located in `fluentformpro/src/classes/FormStyler.php`, `fluentfor
 
 ------------------------------------------------
 
+<explain-block title="fluentform/form_application_view_{$route}">
+
+**Description**
+
+This action runs admin page view. You can hook into it and run your script depending on the current route and form ID.
+
+**Parameters**
+
+- `$form_id` (int) Form ID
+
+**Usage:**
+
+```php
+add_action('fluentform/form_application_view_{$route}', function($form_id) {
+   // Do your stuff here
+}, 10, 2);
+```
+**Note:** `{$route}` is a dynamic route. Replace `{$route}` with Fluent Forms admin route key.
+
+**Reference**
+
+`do_action('fluentform/form_application_view_' . $route, $form_id);`
+
+This action is located in `fluentform/app/Views/admin/form/form_wrapper.php`
+
+</explain-block>
+
+------------------------------------------------
+
 <explain-block title="fluentform/after_form_navigation">
 
 **Description**
@@ -524,5 +553,62 @@ add_action('fluentform/before_form_screen_wrapper', function($form_id, $route) {
 `do_action('fluentform/before_form_screen_wrapper', $form_id, $route);`
 
 This hook is located in `fluentform/app/Views/admin/form/form_wrapper.php`.
+
+</explain-block>
+
+------------------------------------------------
+
+<explain-block title="fluentform/after_form_screen_wrapper">
+
+**Description**
+
+This action runs after the fluent form editor wrapper in the admin panel. If you need to do anything in the background you can use this action.
+
+**Parameters**
+- `$form_id` (int) Form ID
+- `$route` (string) Route
+
+**Usage**
+
+```php
+add_action('fluentform/after_form_screen_wrapper', function($form_id, $route) {
+   // Do your stuff here
+}, 10, 2);
+```
+
+**Reference**
+
+`do_action('fluentform/after_form_screen_wrapper', $form_id, $route);`
+
+This hook is located in `fluentform/app/Views/admin/form/form_wrapper.php`.
+
+</explain-block>
+
+
+------------------------------------------------
+
+<explain-block title="fluentform/render_item_submit_button">
+
+**Description**
+
+This action runs every time when submit button is rendered. If you need to do anything in the background you can use this action.
+
+**Parameters**
+- `$submitButton` (array) Input Element
+- `$form` (object) Form Object
+
+**Usage**
+
+```php
+add_action('fluentform/render_item_submit_button', function($submitButton, $form) {
+   // Do your stuff here
+}, 10, 2);
+```
+
+**Reference**
+
+`do_action('fluentform/render_item_submit_button', $form->fields['submitButton'], $form);`
+
+This hook is located in `fluentform/app/Modules/Component/Component.php`.
 
 </explain-block>

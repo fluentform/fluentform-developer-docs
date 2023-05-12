@@ -71,3 +71,127 @@ add_action('fluentform/after_editor_start', function() {
 This hook is located in `fluentform/app/Views/admin/form/editor.php`.
 
 </explain-block>
+
+----------------------------------------
+
+<explain-block title="fluentform/after_all_entries_render">
+
+**Description**
+
+This action runs after rendering the all entries page.
+
+**Usage**
+
+```php
+add_action('fluentform/after_all_entries_render', function() {
+   // Do your stuff here
+}, 10, 0);
+```
+
+**Reference**
+
+`do_action('fluentform/after_all_entries_render');`
+
+This hook is located in `fluentform/app/views/admin/all_entries.php`.
+
+</explain-block>
+
+----------------------------------------
+
+<explain-block title="fluentform/before_all_entries_render">
+
+**Description**
+
+This action runs before rendering the all entries page.
+
+**Usage**
+
+```php
+add_action('fluentform/before_all_entries_render', function() {
+   // Do your stuff here
+}, 10, 0);
+```
+
+**Reference**
+
+`do_action('fluentform/before_all_entries_render');`
+
+This hook is located in `fluentform/app/views/admin/all_entries.php`.
+
+</explain-block>
+
+------------------------------------------------
+
+<explain-block title="fluentform/admin_nave_menu_{$itemKey}">
+
+**Description**
+
+This action runs when admin menu render. You can hook into it and run your script when admin menu render.
+
+
+**Usage:**
+
+```php
+add_action('fluentform/admin_nave_menu_{$itemKey}', function() {
+   // Do your stuff here
+}, 10, 0);
+```
+**Note:** `{$itemKey}` is a dynamic nav item name. Replace `{$itemKey}` with Fluent Forms admin name item key.
+
+**Reference**
+
+`do_action("fluentform/admin_nav_menu_{$itemKey}");`
+
+This action is located in `fluentform/app/Modules/Registerer/AdminBar.php`
+
+</explain-block>
+
+------------------------------------------------
+
+<explain-block title="fluentform/before_no_permission">
+
+**Description**
+
+This action runs before rendering no permission view.
+
+
+**Usage:**
+
+```php
+add_action('fluentform/before_no_permission', function() {
+   // Do your stuff here
+}, 10, 0);
+```
+
+**Reference**
+
+`do_action('fluentform/before_no_permission');`
+
+This action is located in `fluentform/app/Views/admin/no_permission.php`
+
+</explain-block>
+
+------------------------------------------------
+
+<explain-block title="fluentform/after_no_permission">
+
+**Description**
+
+This action runs after rendering no permission view.
+
+
+**Usage:**
+
+```php
+add_action('fluentform/after_no_permission', function() {
+   // Do your stuff here
+}, 10, 0);
+```
+
+**Reference**
+
+`do_action('fluentform/after_no_permission');`
+
+This action is located in `fluentform/app/Views/admin/no_permission.php`
+
+</explain-block>

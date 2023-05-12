@@ -19,7 +19,7 @@ add_action('fluentform/before_insert_submission', function($insertData, $data, $
 
 **Reference**
 
-`do_action('fluentform/before_insert_payment_form', $insertData, $formDataRaw, $this->form);`
+`do_action('fluentform/before_insert_submission', $insertData, $formDataRaw, $this->form);`
 
 This action is located in `fluentform/app/Services/Form/SubmissionHandlerService.php`
 
@@ -78,6 +78,32 @@ add_action('fluentform/before_submission_confirmation', function($submissionId, 
 `do_action('fluentform/before_submission_confirmation', $insertId, $formData, $form);`
 
 This action is located in `fluentform/app/Services/Form/SubmissionHandlerService.php`
+
+</explain-block>
+
+------------------------------------------------
+
+<explain-block title="fluentform/entry_confirmation">
+
+**Description**
+
+This action runs during the confirmation process of double opt-in. Using this action fluent form confirms the subscription of double optin. You can also use this to run your script during the confirmation process.
+
+**Parameters**
+- `$_REQUEST` (array)  Global PHP Request
+
+**Usage:**
+```php 
+add_action('fluentform/entry_confirmation', function($_REQUEST) {
+   // Do whatever you want here
+}, 10);
+```
+
+**Reference**
+
+`do_action('fluentform/entry_confirmation', $_REQUEST);`
+
+This action is located in `fluentformpor/src/classes/SharePage/SharePage.php`
 
 </explain-block>
 

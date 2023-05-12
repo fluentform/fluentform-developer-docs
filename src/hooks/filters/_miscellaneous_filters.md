@@ -243,33 +243,6 @@ This filter is located in FluentForm\App\Modules\Component\Component -> renderFo
 
 </explain-block>
 
-<explain-block title="fluentform/shortcode_feed_text">
-
-This filter returns the input labels for the entries on the entries page.
-
-**Parameters**
-
-- `$stepText` (string) Active Step Text
-
-**Usage**
-
-```php
-add_filter('fluentform/step_string', function ($stepText) {
-   // Do your stuff here
-
-   return $stepText;
-}, 10, 1);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/step_string', $stepText);`
-
-This filter is located in FluentForm\App\Modules\Component\Component -> renderForm($atts)
-
-</explain-block>
-
 <explain-block title="fluentform/parse_default_value">
 
 You can modify form default shortcode value using this filter.
