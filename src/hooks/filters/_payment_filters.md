@@ -1444,6 +1444,34 @@ This filter is located in FluentFormPro\src\PaymentMethods\Stripe\StripeSettings
 
 </explain-block>
 
+
+<explain-block title="fluentform/stripe_strong_customer_verify_waiting_message">
+
+You can use this filter to modify stripe strong customer verify waiting message
+
+**Parameters**
+
+- `$message` (string) Waiting Message
+
+**Usage**
+
+```php
+add_filter('fluentform/stripe_strong_customer_verify_waiting_message', function ($message) {
+    // replace message if you need
+    
+    return $message;
+});
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/stripe_strong_customer_verify_waiting_message', $message);`
+
+This filter is located in FluentFormPro\src\Payments\PaymentMethods\Stripe\StripeInlineProcessor.php -> handlePaymentIntent()
+
+</explain-block>
+
 <explain-block title="fluentform/square_payment_args">
 
 You can use this filter to modify payment arguments of Square payment method.
