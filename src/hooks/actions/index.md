@@ -16,6 +16,11 @@ Action hooks are used to run custom code when certain events occur.
 
 !!!include(./src/hooks/actions/_submission_hooks.md)!!!
 
+### Partial Submission Specific
+<hr />
+
+!!!include(./src/hooks/actions/_partial_submission_hooks.md)!!!
+
 ### Form Specific
 <hr />
 
