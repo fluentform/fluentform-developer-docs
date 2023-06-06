@@ -247,6 +247,168 @@ This action is located in `fluentform/app/Views/admin/settings/index.php`
 
 </explain-block>
 
+------------------------------------------
+
+<explain-block title="fluentform/before_tools_wrapper">
+
+**Description**
+
+This action fires before tool settings render. Do your stuff before tool settings rendered.
+
+**Usage:**
+```php 
+add_action('fluentform/before_tools_wrapper', function() {
+   // Do your stuff here
+}, 10, 0);
+```
+
+**Reference**
+
+`do_action('fluentform/before_tools_wrapper');`
+
+This action is located in `fluentform/app/Views/admin/tools/index.php`
+
+</explain-block>
+
+------------------------------------------
+
+<explain-block title="fluentform/after_tools_wrapper">
+
+**Description**
+
+This action fires after tool settings render. Do your stuff after tool settings rendered.
+
+**Usage:**
+```php 
+add_action('fluentform/after_tools_wrapper', function() {
+   // Do your stuff here
+}, 10, 0);
+```
+
+**Reference**
+
+`do_action('fluentform/after_tools_wrapper');`
+
+This action is located in `fluentform/app/Views/admin/tools/index.php`
+
+</explain-block>
+
+------------------------------------------
+
+<explain-block title="fluentform/before_tools_container">
+
+**Description**
+
+This action fires before tool setting body render. Do your stuff before tool settings body rendered.
+
+**Usage:**
+```php 
+add_action('fluentform/before_tools_container', function() {
+   // Do your stuff here
+}, 10, 0);
+```
+
+**Reference**
+
+`do_action('fluentform/before_tools_container');`
+
+This action is located in `fluentform/app/Views/admin/tools/index.php`
+
+</explain-block>
+
+------------------------------------------
+
+<explain-block title="fluentform/after_tools_container">
+
+**Description**
+
+This action fires after tool settings body render. Do your stuff after tool settings body rendered.
+
+**Usage:**
+```php 
+add_action('fluentform/after_tools_container', function() {
+   // Do your stuff here
+}, 10, 0);
+```
+
+**Reference**
+
+`do_action('fluentform/after_tools_container');`
+
+This action is located in `fluentform/app/Views/admin/tools/index.php`
+
+</explain-block>
+
+------------------------------------------
+
+<explain-block title="fluentform/email_template_after_footer">
+
+**Description**
+
+This action fire after email template footer rendered.
 
 
+**Parameters**
+- `$form` (object) Form Object
+- `$notification` (array) Email Notification
 
+**Usage:**
+```php 
+add_action('fluentform/email_template_after_footer', function($form, $notification) {
+   // Do your stuff here
+}, 10, 2);
+```
+
+**Reference**
+
+`do_action( 'fluentform/email_template_after_footer', $form, $notification );`
+
+This action is located in `fluentform/app/Views/email/template/footer.php`
+
+</explain-block>
+
+------------------------------------------
+
+<explain-block title="fluentform/do_scheduled_tasks">
+
+**Description**
+
+This action fire when register schedule task event.
+
+**Usage:**
+```php 
+add_action('fluentform/do_scheduled_tasks', function() {
+   // Do your stuff here
+}, 10, 0);
+```
+
+**Reference**
+
+`do_action( 'fluentform/do_scheduled_tasks');`
+
+This action is located in `fluentform/app/Hooks/Handlers/ActivationHandler.php -> setCronSchedule()`, `fluentform/app/Hooks/actions.php`
+
+</explain-block>
+
+------------------------------------------
+
+<explain-block title="fluentform/do_email_report_scheduled_tasks">
+
+**Description**
+
+This action fire when register email report schedule task event.
+
+**Usage:**
+```php 
+add_action('fluentform/do_email_report_scheduled_tasks', function() {
+   // Do your stuff here
+}, 10, 0);
+```
+
+**Reference**
+
+`do_action( 'fluentform/do_email_report_scheduled_tasks');`
+
+This action is located in `fluentform/app/Hooks/Handlers/ActivationHandler.php -> setCronSchedule()`, `fluentform/app/Hooks/actions.php`
+
+</explain-block>
