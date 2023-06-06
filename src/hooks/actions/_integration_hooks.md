@@ -138,4 +138,121 @@ This action is located in `fluentformpro/src/Integrations/**/Bootstrap.php`
 
 </explain-block>
 
+------------------------------------------------
 
+<explain-block title="fluentform/user_registration_before_start">
+
+**Description**
+
+This action runs before register user. Do your stuff before user is registering by fluentform.
+
+**Parameters**
+- `$feed` (array) User Feed
+- `$submission` (object) Submission
+- `$form`  (object) Form
+
+**Usage:**
+```php 
+add_action('fluentform/user_registration_before_start', function ($feed, $submission, $form) {
+   // Do your stuff here
+}, 10, 3);
+```
+
+
+**Reference**
+
+`do_action('fluentform/user_registration_before_start', $feed, $entry, $form);`
+
+This action is located in `fluentformpro/src/Integrations/UserRegistration/UserRegistrationApi.php -> registerUser()`
+
+</explain-block>
+
+------------------------------------------------
+
+<explain-block title="fluentform/created_user">
+
+**Description**
+
+This action runs after user created. Do your stuff after user is created by fluentform.
+
+**Parameters**
+- `$userId` (int) User ID
+- `$feed` (array) User Feed
+- `$submission` (object) Submission
+- `$form`  (object) Form
+
+**Usage:**
+```php 
+add_action('fluentform/created_user', function ($userId, $feed, $submission, $form) {
+   // Do your stuff here
+}, 10, 4);
+```
+
+
+**Reference**
+
+`do_action('fluentform/created_user', $userId, $feed, $entry, $form);`
+
+This action is located in `fluentformpro/src/Integrations/UserRegistration/UserRegistrationApi.php -> createUser()`
+
+</explain-block>
+
+------------------------------------------------
+
+<explain-block title="fluentform/user_registration_completed">
+
+**Description**
+
+This action runs after user registration completed. Do your stuff after user is registered by fluentform.
+
+**Parameters**
+- `$userId` (int) User ID
+- `$feed` (array) User Feed
+- `$submission` (object) Submission
+- `$form`  (object) Form
+
+**Usage:**
+```php 
+add_action('fluentform/user_registration_completed', function ($userId, $feed, $submission, $form) {
+   // Do your stuff here
+}, 10, 4);
+```
+
+
+**Reference**
+
+`do_action('fluentform/user_registration_completed', $userId, $feed, $entry, $form);`
+
+This action is located in `fluentformpro/src/Integrations/UserRegistration/UserRegistrationApi.php -> createUser()`
+
+</explain-block>
+
+------------------------------------------------
+
+<explain-block title="fluentform/user_update_completed">
+
+**Description**
+
+This action runs after user update completed. Do your stuff after user is updated by fluentform.
+
+**Parameters**
+- `$userId` (int) User ID
+- `$feed` (array) User Feed
+- `$submission` (object) Submission
+- `$form`  (object) Form
+
+**Usage:**
+```php 
+add_action('fluentform/user_update_completed', function ($userId, $feed, $submission, $form) {
+   // Do your stuff here
+}, 10, 4);
+```
+
+
+**Reference**
+
+`do_action('fluentform/user_update_completed', $userId, $feed, $entry, $form);`
+
+This action is located in `fluentformpro/src/Integrations/UserRegistration/UserUpdateFormHandler.php -> handleUpdateUser()`
+
+</explain-block>
