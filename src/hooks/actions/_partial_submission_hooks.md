@@ -250,3 +250,32 @@ add_action('fluentform/partial_submission_deleted', function ($draft, $formId){
 This action is located in `fluentformpro/src/classes/DraftSubmissionsManager.php -> deleteSavedStateDraft()`.
 
 </explain-block>
+
+------------------------------------------
+
+<explain-block title="fluentform/email_form_resume_link_before_sent">
+
+**Description**
+
+This action fire before sending email resume link for partial submission.
+
+**Parameters**
+- `$emailFormat` (array) Email Format
+- `$submittedData` (array) Partial Submitted Data
+- `$requestData` (array) Request Data
+- `$form` (object) Form
+
+**Usage:**
+```php 
+add_action('fluentform/email_form_resume_link_before_sent', function($emailFormat, $submittedData, $requestData, $form) {
+   // Do your stuff here
+}, 10, 4);
+```
+
+**Reference**
+
+`do_action('fluentform/email_form_resume_link_before_sent', $emailFormat, $submittedData, $requestData, $form);`
+
+This action is located in `fluentformpro/src/classes/DraftSubmissionsManager.php -> emailProgressLink()`
+
+</explain-block>

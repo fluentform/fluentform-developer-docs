@@ -220,4 +220,151 @@ This action is located in `fluentform/app/Services/Form/SubmissionHandlerService
 
 </explain-block>
 
+---------------------------------------------------
+
+<explain-block title="fluentform/submission_user_changed">
+
+**Description**
+
+This action runs after a submission user changed
+
+**Parameters**
+- `$submission`  (object)   Submission
+- `$user`     (object)   User
+
+**Usage:**
+```php 
+add_action('fluentform/submission_user_changed', function ($submission, $user){
+   // Do your stuff
+}, 10, 2);
+```
+
+**Reference**
+
+`do_action('fluentform/submission_user_changed', $submission, $user);`
+
+This action is located in `fluentform/app/Services/Submission/SubmissionService.php -> updateSubmissionUser()`.
+
+</explain-block>
+
+---------------------------------------------------
+
+<explain-block title="fluentform/before_deleting_entries">
+
+**Description**
+
+This action runs before deleting a submission.
+
+**Parameters**
+- `$submissionId`  (int)   Submission ID
+- `$formId`     (int)   Form ID
+
+**Usage:**
+```php 
+add_action('fluentform/before_deleting_entries', function ($submissionIds, $formId){
+   // Do your stuff
+}, 10, 2);
+```
+
+**Reference**
+
+`do_action('fluentform/before_deleting_entries', $submissionIds, $formId);`
+
+This action is located in `fluentform/app/Services/Submission/SubmissionService.php -> deleteEntries()`.
+
+</explain-block>
+
+---------------------------------------------------
+
+<explain-block title="fluentform/after_deleting_submissions">
+
+**Description**
+
+This action runs after deleting a submission.
+
+**Parameters**
+- `$submissionId`  (int)   Submission ID
+- `$formId`     (int)   Form ID
+
+**Usage:**
+```php 
+add_action('fluentform/after_deleting_submissions', function ($submissionIds, $formId){
+   // Do your stuff
+}, 10, 2);
+```
+
+**Reference**
+
+`do_action('fluentform/after_deleting_submissions', $submissionIds, $formId);`
+
+This action is located in `fluentform/app/Services/Submission/SubmissionService.php -> deleteEntries()`.
+
+</explain-block>
+
+---------------------------------------------------
+
+<explain-block title="fluentform/submission_note_stored">
+
+**Description**
+
+This action runs after submission note saved.
+
+**Parameters**
+- `$submissionMetaId`  (int)   Submission meta ID
+- `$submissionMeta`     (object)   Submission meta
+
+**Usage:**
+```php 
+add_action('fluentform/submission_note_stored', function ($submissionMetaId, $submissionMeta){
+   // Do your stuff
+}, 10, 2);
+```
+
+**Reference**
+
+`do_action('fluentform/submission_note_stored', $submissionMeta->id, $submissionMeta);`
+
+This action is located in `fluentform/app/Services/Submission/SubmissionService.php -> storeNote()`.
+
+</explain-block>
+
+---------------------------------------------------
+
+<explain-block title="fluentform/log_data">
+
+**Description**
+
+This action for adding log on FluentForm log table.  You should do_action and pass log data for adding log.
+
+**Usage:**
+```php 
+do_action('fluentform/log_data', [
+    'parent_source_id' => $submission->form_id,
+    'source_type'      => 'submission_item',
+    'source_id'        => $submission->id,
+    'component'        => 'My Log',
+    'status'           => 'info',
+    'title'            => 'Log title',
+    'description'      => 'Log Description',
+]);
+```
+
+**Data**
+- `parent_source_id` (int) Form ID
+- `source_type` (string) Source type 
+- `source_id` (int) Submission ID 
+- `component` (sort string) Component title
+- `status` (string) Status 
+  - `info` For informative log
+  - `pending` For pending log
+  - `error` For error log
+  - `success` For success log
+  - `failed` For failed log
+- `title` (string) Message title
+- `description` (string) Message details
+
+This action is added in `fluentform/app/Hooks/actions.php`.
+
+</explain-block>
+
 
