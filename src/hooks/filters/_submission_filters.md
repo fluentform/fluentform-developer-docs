@@ -79,7 +79,7 @@ add_filter('fluentform/truncate_password_values', function ($isTruncate, $formId
 
 **Reference**
 
-`apply_filters('fluentform/file_upload_options', $locations);`
+`apply_filters('fluentform/truncate_password_values', true, $formId)`
 
 This filter is located in FluentForm\App\Helpers\Helper -> shouldHidePassword($formId)
 
