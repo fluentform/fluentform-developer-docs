@@ -450,7 +450,7 @@ This filter returns response data for the form inputs.
 **Usage**
 
 ```php
-add_filter('fluentform_response_render_textarea', function ($value, $field, $formId, $isHtml) {
+add_filter('fluentform/response_render_textarea', function ($value, $field, $formId, $isHtml) {
     if (!$isHtml || !$value) {
          return $value;
     }
@@ -610,25 +610,25 @@ Similar Filter for Other Input
 ```php
 /*
  * Common Filter hook names
- * Text/Mask: fluentform_validate_input_item_input_text
- * Email: fluentform_validate_input_item_input_email
- * Textarea: fluentform_validate_input_item_textarea
- * Numeric: fluentform_validate_input_item_input_number
- * Range Slider: fluentform_validate_input_item_rangeslider
- * Address: fluentform_validate_input_item_address
- * Country Select: fluentform_validate_input_item_select_country
- * Select: fluentform_validate_input_item_select
- * Radio: fluentform_validate_input_item_input_radio
- * Checkbox: fluentform_validate_input_item_input_checkbox
- * Website URL: fluentform_validate_input_item_input_input_url
- * Date: fluentform_validate_input_item_input_input_date
- * Image Upload: fluentform_validate_input_item_input_image
- * File Upload: fluentform_validate_input_item_input_file
- * Phone Field: fluentform_validate_input_item_phone
- * Color Picker: fluentform_validate_input_item_color_picker
- * Net Promoter Score: fluentform_validate_input_item_net_promoter_score
- * Password: fluentform_validate_input_item_input_password
- * Ratings: fluentform_validate_input_item_ratings
+ * Text/Mask: fluentform/validate_input_item_input_text
+ * Email: fluentform/validate_input_item_input_email
+ * Textarea: fluentform/validate_input_item_textarea
+ * Numeric: fluentform/validate_input_item_input_number
+ * Range Slider: fluentform/validate_input_item_rangeslider
+ * Address: fluentform/validate_input_item_address
+ * Country Select: fluentform/validate_input_item_select_country
+ * Select: fluentform/validate_input_item_select
+ * Radio: fluentform/validate_input_item_input_radio
+ * Checkbox: fluentform/validate_input_item_input_checkbox
+ * Website URL: fluentform/validate_input_item_input_input_url
+ * Date: fluentform/validate_input_item_input_input_date
+ * Image Upload: fluentform/validate_input_item_input_image
+ * File Upload: fluentform/validate_input_item_input_file
+ * Phone Field: fluentform/validate_input_item_phone
+ * Color Picker: fluentform/validate_input_item_color_picker
+ * Net Promoter Score: fluentform/validate_input_item_net_promoter_score
+ * Password: fluentform/validate_input_item_input_password
+ * Ratings: fluentform/validate_input_item_ratings
  */
 ```
 **Reference**
