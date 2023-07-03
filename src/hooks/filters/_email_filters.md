@@ -428,3 +428,326 @@ add_filter('fluentform/email_attachments', function ($attachments, $processedVal
 This filter is located in FluentFormPro\src\classes\ResendNotificationHandler -> resendEntryEmail($entryId, $feed, $sendToType, $customRecipient, $form)
 
 </explain-block>
+
+<explain-block title="fluentform/email_to">
+
+This filter returns the destination email for emails. Multiple emails can be added by (,) comma separator.
+
+**Parameters**
+
+- `$address` (string) Email Address
+- `$notification` (array) Notification Data
+- `$submittedData` (array) Submitted Data
+- `$form` (object) Form Object
+
+**Usage**
+
+```php
+add_filter('fluentform/email_to', function ($address, $notification, $submittedData, $form) {
+    // Do your stuff here
+
+    return $address;
+}, 10, 4);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/email_to', $address, $notification, $submittedData, $form);`
+
+This filter is located in FluentForm\app\Services\FormBuilder\Notifications\EmailNotifications -> notify($notification, $submittedData, $form, $entryId = false)
+
+</explain-block>
+
+<explain-block title="fluentform/send_plain_html_email">
+
+You can toggle to send plain html as email.
+
+**Parameters**
+
+- `$isSendAsPlain` (boolean) Whether send email as plain text
+- `$form` (object) Form Object
+- `$notification` (array) Notification Data
+
+**Usage**
+
+```php
+add_filter('fluentform/send_plain_html_email', function ($isSendAsPlain, $form, $notification) {
+    // Do your stuff here
+
+    return $isSendAsPlain;
+}, 10, 3);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/send_plain_html_email', $isSendAsPlain, $form, $notification);`
+
+This filter is located in FluentForm\app\Services\FormBuilder\Notifications\EmailNotifications -> notify($notification, $submittedData, $form, $entryId = false)
+
+</explain-block>
+
+<explain-block title="fluentform/submission_message_parse">
+
+This filter returns parsed message from submission as email body.
+
+**Parameters**
+
+- `$emailBody` (string) Email Body
+- `$entryId` (int) Submission ID
+- `$submittedData` (array) Submitted Data
+- `$form` (object) Form Object
+
+**Usage**
+
+```php
+add_filter('fluentform/submission_message_parse', function ($emailBody, $entryId, $submittedData, $form) {
+    // Do your stuff here
+
+    return $emailBody;
+}, 10, 4);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/submission_message_parse', $emailBody, $entryId, $submittedData, $form);`
+
+This filter is located in FluentForm\app\Services\FormBuilder\Notifications\EmailNotifications -> notify($notification, $submittedData, $form, $entryId = false)
+
+</explain-block>
+
+<explain-block title="fluentform/email_subject">
+
+You can hook into this filter and modify the email subject.
+
+**Parameters**
+
+- `$subject` (string) Email Subject
+- `$notification` (array) Notification Data
+- `$submittedData` (array) Submitted Data
+- `$form` (object) Form Object
+
+**Usage**
+
+```php
+add_filter('fluentform/email_subject', function ($subject, $notification, $submittedData, $form) {
+    // Do your stuff here
+
+    return $subject;
+}, 10, 4);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/email_subject', $notification['subject'], $notification, $submittedData, $form);`
+
+This filter is located in FluentForm\app\Services\FormBuilder\Notifications\EmailNotifications -> notify($notification, $submittedData, $form, $entryId = false)
+
+</explain-block>
+
+<explain-block title="fluentform/filter_email_attachments">
+
+You can hook into this filter and modify the email attachments.
+
+**Parameters**
+
+- `$notificationAttachments` (string) Email Attachments
+- `$notification` (array) Notification Data
+- `$form` (object) Form Object
+- `$submittedData` (array) Submitted Data
+
+**Usage**
+
+```php
+add_filter('fluentform/filter_email_attachments', function ($notificationAttachments, $notification, $form, $submittedData) {
+    // Do your stuff here
+
+    return $notificationAttachments;
+}, 10, 4);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/filter_email_attachments', $notificationAttachments, $notification, $form, $submittedData);`
+
+This filter is located in FluentForm\app\Services\FormBuilder\Notifications\EmailNotifications -> notify($notification, $submittedData, $form, $entryId = false)
+
+</explain-block>
+
+<explain-block title="fluentform/email_body">
+
+You can hook into this filter and modify the email body.
+
+**Parameters**
+
+- `$emailBody` (string) Email Body
+- `$notification` (array) Notification Data
+- `$submittedData` (array) Submitted Data
+- `$form` (object) Form Object
+
+**Usage**
+
+```php
+add_filter('fluentform/email_body', function ($emailBody, $notification, $submittedData, $form) {
+    // Do your stuff here
+
+    return $emailBody;
+}, 10, 4);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/email_body', $emailBody, $notification, $submittedData, $form);`
+
+This filter is located in FluentForm\app\Services\FormBuilder\Notifications\EmailNotifications -> notify($notification, $submittedData, $form, $entryId = false)
+
+</explain-block>
+
+<explain-block title="fluentform/email_header">
+
+You can hook into this filter and modify the email header.
+
+**Parameters**
+
+- `$emailHeader` (string) Email Header
+- `$form` (object) Form Object
+- `$notification` (array) Notification Data
+
+**Usage**
+
+```php
+add_filter('fluentform/email_header', function ($emailHeader, $form, $notification) {
+    // Do your stuff here
+
+    return $emailHeader;
+}, 10, 3);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/email_header', $emailHeader, $form, $notification);`
+
+This filter is located in FluentForm\app\Services\FormBuilder\Notifications\EmailNotifications -> getEmailWithTemplate($emailBody, $form, $notification)
+
+</explain-block>
+
+<explain-block title="fluentform/email_footer">
+
+You can hook into this filter and modify the email footer.
+
+**Parameters**
+
+- `$emailFooter` (string) Email Footer
+- `$form` (object) Form Object
+- `$notification` (array) Notification Data
+
+**Usage**
+
+```php
+add_filter('fluentform/email_footer', function ($emailFooter, $form, $notification) {
+    // Do your stuff here
+
+    return $emailFooter;
+}, 10, 3);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/email_footer', $emailFooter, $form, $notification);`
+
+This filter is located in FluentForm\app\Services\FormBuilder\Notifications\EmailNotifications -> getEmailWithTemplate($emailBody, $form, $notification)
+
+</explain-block>
+
+<explain-block title="fluentform/email_styles">
+
+You can hook into this filter and modify the email styles using css.
+
+**Parameters**
+
+- `$css` (string) Styles for the email
+- `$form` (object) Form Object
+- `$notification` (array) Notification Data
+
+**Usage**
+
+```php
+add_filter('fluentform/email_styles', function ($css, $form, $notification) {
+    // Do your stuff here
+
+    return $css;
+}, 10, 3);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/email_styles', $css, $form, $notification);`
+
+This filter is located in FluentForm\app\Services\FormBuilder\Notifications\EmailNotifications -> getEmailWithTemplate($emailBody, $form, $notification)
+
+</explain-block>
+
+<explain-block title="fluentform/email_template_footer_text">
+
+You can hook into this filter and modify the email template footer text.
+
+**Parameters**
+
+- `$footerText` (string) Email Template Footer Text
+- `$form` (object) Form Object
+- `$notification` (array) Notification Data
+
+**Usage**
+
+```php
+add_filter('fluentform/email_template_footer_text', function ($footerText, $form, $notification) {
+    // Do your stuff here
+
+    return $footerText;
+}, 10, 3);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/email_template_footer_text', $footerText, $form, $notification);`
+
+This filter is located in FluentForm\app\Services\FormBuilder\Notifications\EmailNotifications -> getFooterText($form, $notification)
+
+</explain-block>
+
+<explain-block title="fluentform/email_template_header">
+
+You can hook into this filter and modify the email template header array.
+
+**Parameters**
+
+- `$headers` (array) Email Template Header Data
+- `$notification` (array) Notification Data
+
+**Usage**
+
+```php
+add_filter('fluentform/email_template_header', function ($headers, $notification) {
+    // Do your stuff here
+
+    return $headers;
+}, 10, 2);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/email_template_header', $headers, $notification);`
+
+This filter is located in FluentForm\app\Services\FormBuilder\Notifications\EmailNotifications -> getHeaders($notification, $isSendAsPlain = false)
+
+</explain-block>

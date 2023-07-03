@@ -48,6 +48,77 @@ add_filter('fluentform/conversational_url_slug', function ($slug){
 
 This filter is located in FluentForm\App\Services\FluentConversational\Classes\Form -> renderDesignSettings($formId)
 
+> By default, Fluent Form’s conversional form’s URL looks like this: yourdomain.com/?fluent-form=FORM_ID&form=OPTIONAL_SECURITY_CODE
+> 
+> But if you want to customize it and make it pretty something like yourdomain.com/my-forms/FORM_ID/OPTIONAL_SECURITY_CODE then please follow this tutorial
+>
+> First copy and paste this code to your theme’s functions.php file or in your custom code snippet plugin
+
+```php
+/*
+ * Internal Function for Fluent Forms Custom Slug
+ * Do not EDIT this function
+ */
+function customFfLandingPageSlug($slug)
+{
+    add_action('init', function () use ($slug) {
+        add_rewrite_endpoint($slug, EP_ALL);
+    });
+    add_action('wp', function () use ($slug) {
+        global $wp_query;
+        if (isset($wp_query->query_vars[$slug])) {
+            $formString = $wp_query->query_vars[$slug];
+            if (!$formString) {
+                return;
+            }
+            $array = explode('/', $formString);
+
+            $formId = $array[0];
+
+            if (!$formId || !is_numeric($formId)) {
+                return;
+            }
+
+            $secretKey = '';
+            if (count($array) > 1) {
+                $secretKey = $array[1];
+            }
+
+            $paramKey = apply_filters('fluentform_conversational_url_slug', 'fluent-form');
+
+            $_GET[$paramKey] = $formId;
+            $_REQUEST[$paramKey] = $formId;
+
+            $request = wpFluentForm('request');
+	    $request->set($paramKey, $formId);
+	    $request->set('form', $secretKey);
+        }
+    });
+}
+
+/*
+ * Creating custom slug for conversational form landing page
+ *
+ * my-forms is your custom slug for the form
+ * if your form id is 123 then the landing page url will be then
+ * https://your-domain.com/my-forms/123
+ * if you use Security Code on conversational form then the url will be
+ * https://your-domain.com/my-forms-x/123/SECURITY-CODE
+ *
+ * After paste the code to your theme's functions.php file please re-save the permalink settings
+*/
+
+customFfLandingPageSlug('my-forms'); // you may change the "my-forms" for your own page slug
+
+```
+> Once you add the code, please feel free to change the ‘my-forms’ to your own slug that you want
+>
+> If your form id is 123 then the landing page url will be then your-domain.com/my-forms/123
+> 
+> If you use Security Code on conversational form then the url will be your-domain.com/my-forms/123/SECURITY-CODE
+>
+> Please note that once you add the code make sure you re-save your permalink from Settings -> Permalinks (on wp-admin)
+
 </explain-block>
 
 <explain-block title="fluentform/numeric_styles">
