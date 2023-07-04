@@ -137,9 +137,9 @@ class MyCustomPaymentMethod extends BasePaymentMethod
 
     public function init()
     {  
-        add_filter('payment_method_settings_validation_'.$this->key, array($this, 'validateSettings'), 10, 2);
+        add_filter('fluentform/payment_method_settings_validation_' . $this->key, array($this, 'validateSettings'), 10, 2);
 
-        add_filter('fluentform_transaction_data_' . $this->key, array($this, 'modifyTransaction'), 10, 1);
+        add_filter('fluentform/transaction_data_' . $this->key, array($this, 'modifyTransaction'), 10, 1);
 
         add_filter(
             'fluentform/available_payment_methods',

@@ -49,7 +49,7 @@ public function __construct(Application $application)
     $this->logo = '/my-integration-image-file-path.png';  // Integration Logo
     $this->registerAdminHooks();                          // Internal Functions
     
-//  add_filter("fluentform_notifying_async_.$this->integrationKey", '__return_false');
+//  add_filter("fluentform/notifying_async_.$this->integrationKey", '__return_false');
 }
 ```
 

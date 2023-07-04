@@ -184,7 +184,7 @@ add_action('fluentform/payment_refunded', function($refund, $form_id) {
 
 **Reference**
 
-`do_action('fluentform_payment_refunded', $refund, $refund->form_id);`
+`do_action('fluentform/payment_refunded', $refund, $refund->form_id);`
 
 This action is located in `fluentformpro/src/Payments/PaymentMethods/BaseProcessor.php`
 

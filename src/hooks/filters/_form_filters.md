@@ -84,7 +84,7 @@ function customFfLandingPageSlug($slug)
                 $secretKey = $array[1];
             }
 
-            $paramKey = apply_filters('fluentform_conversational_url_slug', 'fluent-form');
+            $paramKey = apply_filters('fluentform/conversational_url_slug', 'fluent-form');
 
             $_GET[$paramKey] = $formId;
             $_REQUEST[$paramKey] = $formId;

@@ -675,7 +675,7 @@ This filter is fired right before rendering an form field with the data and sett
 **Usage**
 
 ```php
-add_filter('fluentform_rendering_field_data_input_text', function ($data, $form)
+add_filter('fluentform/rendering_field_data_input_text', function ($data, $form)
 {
    if($form->id != 5) {
       return;
@@ -688,7 +688,7 @@ add_filter('fluentform_rendering_field_data_input_text', function ($data, $form)
 ```
 
 ```php
-add_filter('fluentform_rendering_field_data_select', function ($data, $form) {
+add_filter('fluentform/rendering_field_data_select', function ($data, $form) {
 
     if ($form->id != 91) {
         return $data;
@@ -738,7 +738,7 @@ This filter returns HTML output for each input of the form. You can hook into th
 **Usage**
 
 ```php
-add_filter('fluentform_rendering_field_html_text', function ($html, $data, $form) {
+add_filter('fluentform/rendering_field_html_text', function ($html, $data, $form) {
     // Do your stuff here
 
     return $html;
