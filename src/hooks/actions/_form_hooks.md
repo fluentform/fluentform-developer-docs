@@ -52,22 +52,22 @@ This action is located in `fluentform/app/Services/Form/FormService.php`
 
 -----------------------------------
 
-<explain-block title="fluentform/add_oxygen_plus_form">
+<explain-block title="oxygen_add_plus_fluentform_form">
 
 **Description**
 
-This action runs when register Fluent Forms Oxygen Plus widget subsections.
+This action runs when register Fluent Forms Oxygen widget sections.
 
 **Usage:**
 ```php 
-add_action('fluentform/add_oxygen_plus_form', function() {
+add_action('oxygen_add_plus_fluentform_form', function() {
    // Do your stuff when register oxyget plus widget
 }, 10, 0);
 ```
 
 **Reference**
 
-`do_action('fluentform/add_oxygen_plus_form');`
+`do_action('oxygen_add_plus_fluentform_form');`
 
 This action is located in `fluentform/app/Modules/Widgets/OxygenWidget.php`
 
