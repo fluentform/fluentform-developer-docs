@@ -751,3 +751,34 @@ add_filter('fluentform/email_template_header', function ($headers, $notification
 This filter is located in FluentForm\app\Services\FormBuilder\Notifications\EmailNotifications -> getHeaders($notification, $isSendAsPlain = false)
 
 </explain-block>
+
+<explain-block title="fluentform/email_body">
+
+You can hook into this filter and modify the email body.
+
+**Parameters**
+
+- `$emailBody` (array) Email Template Body
+- `$notification` (array) Notification Data
+- `$submittedData` (array) Submitted Data
+- `$form` (object) Form Object
+
+
+**Usage**
+
+```php
+add_filter('fluentform/email_body', function ($emailBody, $notification, $submittedData, $form) {
+    // Do your stuff here
+
+    return $emailBody;
+}, 10, 4);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/email_body', $emailBody, $notification, $submittedData, $form);`
+
+This filter is located in \FluentForm\App\Services\FormBuilder\Notifications\EmailNotification::notify
+
+</explain-block>
