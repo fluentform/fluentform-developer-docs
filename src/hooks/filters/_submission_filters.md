@@ -17,7 +17,7 @@ add_filter('fluentform/insert_response_data', function ($formData, $formId, $inp
    // Do your stuff here
    
    return $formData;
-});
+},10, 3);
 ```
 
 **Reference**
