@@ -1494,3 +1494,29 @@ add_filter('fluentform/post_selection_types', function ($formattedTypes) {
 This filter is located in FluentFormPro\src\Components\PostSelectionField -> generalEditorElement()
 
 </explain-block>
+
+<explain-block title="fluentform/pdf_html_format">
+
+You can set HTML formatted value on PDF header, body or footer using this filter.
+
+**Parameters**
+
+- `$feed` (array) PDF parts (header, body or footer)
+
+**Usage**
+
+```php
+add_filter('fluentform/pdf_html_format', function($feed) {
+    $feed[] = 'body';
+    return $feed;
+}, 10, 1);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/pdf_html_format', []);`
+
+This filter is located in FluentForm\app\Hooks\Filters.php
+
+</explain-block>
