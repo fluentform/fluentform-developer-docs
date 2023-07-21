@@ -10,6 +10,11 @@ new functionality.
 Action hooks are used to run custom code when certain events occur.
  
 ## Available Action Hooks
+
+### Plugin Specific
+<hr />
+
+!!!include(./src/hooks/actions/_plugin_init_hooks.md)!!!
  
 ### Submission Specific
 <hr />

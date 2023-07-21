@@ -412,3 +412,63 @@ add_action('fluentform/do_email_report_scheduled_tasks', function() {
 This action is located in `fluentform/app/Hooks/Handlers/ActivationHandler.php -> setCronSchedule()`, `fluentform/app/Hooks/actions.php`
 
 </explain-block>
+
+------------------------------------------
+
+<explain-block title="fluentform/email_summary_details">
+
+**Description**
+
+This action fire when process email report.
+
+**Parameters**
+- `$emailData` (array) Email Send Data
+- `$data` (array) Config Data
+- `$emailResult` (bool|mixed) wp_mail response
+
+**Usage:**
+```php 
+add_action('fluentform/email_summary_details', function($emailData, $data, $emailResult) {
+   // Do your stuff here
+}, 10, 3);
+```
+
+**Reference**
+
+```php
+do_action('fluentform/email_summary_details', [
+'recipients' => $recipients,
+'email_subject' => $emailSubject,
+'email_body' => $emailBody
+], $data, $emailResult);
+```
+
+This action is located in `fluentform/app/Services/Scheduler/Scheduler.php -> processEmailReport()`
+
+</explain-block>
+
+------------------------------------------
+
+<explain-block title="fluentform/saving_global_settings_with_key_method">
+
+**Description**
+
+This action fire when store global settings.
+
+**Parameters**
+- `$attributes` (array) Request params
+
+**Usage:**
+```php 
+add_action('fluentform/saving_global_settings_with_key_method', function($attributes) {
+   // Do your stuff here
+}, 10, 1);
+```
+
+**Reference**
+
+`do_action('fluentform/saving_global_settings_with_key_method', $attributes);`
+
+This action is located in `fluentform/app/Services/GlobalSettings/GlobalSettingsService.php-> store()`
+
+</explain-block>
