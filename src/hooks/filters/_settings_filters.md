@@ -1282,3 +1282,30 @@ add_filter('fluentform/dashboard_notices', function ($notices) {
 This filter is located in FluentForm\app\views\admin\all_entries.php
 
 </explain-block>
+
+<explain-block title="fluentform/permission_callback">
+
+This filter checks the permission callback status. You can check the current permission and change the permission status.
+
+**Parameters**
+
+- `$status` (boolean) Permission Status
+- `$permission` (string) Permission Name
+
+**Usage**
+
+```php
+add_filter('fluentform/permission_callback', function($status, $permission) {
+    // Do your staff
+
+    return $status;
+}, 10, 2);
+
+```
+
+**Reference**
+`apply_filters('fluentform/permission_callback', $status, $permission);`
+
+This filter is located in FluentForm\app\Hooks\filters.php
+
+</explain-block>
