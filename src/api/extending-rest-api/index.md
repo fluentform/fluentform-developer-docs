@@ -188,3 +188,46 @@ The my-plugin directory is the root directory for your plugin. It contains the f
 - `my-plugin.php`: This is the entry point for your plugin. It contains the code that run your Application when the plugin is activated.
 - `Policies/`: This directory contains the `MyPolicy` class, which is a custom policy class for your plugin. It extends the base Policy class from the Fluent Forms plugin and provides additional functionality for handling authorization requests.
 - `Controllers/`: This directory contains the `MyController` class, which is a custom controller class for your plugin. It extends the base Controller class from the Fluent Forms plugin and provides additional functionality for handling requests.
+
+# Examples
+
+Here is an example of how to configure REST api service for form submission
+
+```php
+
+// Add this code to the functions.php file or the code snippet:
+add_action('fluentform/loaded', function ($app) {
+    $app->router->post('/test-submit', function () use ($app) {
+    try {
+    $data = $app->request->get('data');
+
+    $data['_wp_http_referer'] = isset($data['_wp_http_referer']) ? sanitize_url(urldecode($data['_wp_http_referer'])) : '';
+
+    $app->request->merge(['data' => $data]);
+
+    $formId = intval($app->request->get('form_id'));
+
+    $response = (new FluentForm\App\Services\Form\SubmissionHandlerService())->handleSubmission($data, $formId);
+
+    return $app->response->json($response);
+    } catch (FluentForm\Framework\Validator\ValidationException $e) {
+    return $app->response->json($e->errors(), $e->getCode());
+    }
+    });
+});
+
+// Use this JSON Format for submit the forms with specific entries
+{
+    "form_id": "5",
+    "data": {
+        "email" : "johndoe@gmail.com",
+        "names": {
+            "first_name": "John",
+            "last_name" : "Doe"
+        },
+        "subject" : "test",
+        "message": "Hello"
+    }
+}
+
+```
