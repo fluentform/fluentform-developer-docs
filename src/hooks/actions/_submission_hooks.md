@@ -59,7 +59,7 @@ This action is located in `fluentform/app/Services/Form/SubmissionHandlerService
 
 **Description**
 
-This action runs when tags have been added to a contact
+This action runs after all the actions are completed regarding the form submission and before the submission confirmation message. 
 
 **Parameters**
 - `$submissionId` Submission ID
