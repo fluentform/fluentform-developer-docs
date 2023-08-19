@@ -159,7 +159,7 @@ add_filter('fluentform/email_template_footer_credit', function ($poweredBy, $for
 **Reference**
 
 `apply_filters('fluentform/email_template_footer_credit', $poweredBy, $form, $notification);`
-
+ 
 This filter is located in FluentForm\app\views\email\template\footer.php
 
 </explain-block>
