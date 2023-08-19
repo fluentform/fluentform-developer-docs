@@ -1151,7 +1151,7 @@ This filter is located in Fluentform\app\services\Submission\SubmissionService -
 
 </explain-block>
 
-<explain-block title="fluentform/auto_read">
+<explain-block title="fluentform/auto_read_submission">
 
 You can use this filter to toggle submission status to read automatically.
 
@@ -1163,7 +1163,7 @@ You can use this filter to toggle submission status to read automatically.
 **Usage**
 
 ```php
-add_filter('fluentform/auto_read', function ($autoRead, $form) {
+add_filter('fluentform/auto_read_submission', function ($autoRead, $form) {
     // Do your stuff here
     
     return $autoRead;

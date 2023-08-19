@@ -26,6 +26,33 @@ This action is located in `fluentform/app/Services/Form/FormService.php`
 
 -----------------------------------
 
+
+<explain-block title="fluentform/form_element_start">
+
+**Description**
+
+This action runs before rendering the input elements of the form. If you need to do anything in the background you can use this action.
+
+**parameters**
+- `$form` (object) Form Object
+
+**Usage:**
+```php 
+add_action('fluentform/form_element_start', function($formId, $data) {
+   // Do your stuff when form element start
+}, 10, 1);
+```
+
+**Reference**
+
+`do_action('fluentform/form_element_start', $form);`
+
+This action is located in `fluentform/app/Services/FormBuilder/FormBuilder.php -> build()`
+
+</explain-block>
+
+-----------------------------------
+
 <explain-block title="fluentform/form_duplicated">
 
 **Description**
@@ -264,57 +291,6 @@ This hook is located in fluentform/app/Modules/Acl/Acl.php
 
 ------------------------------------------------
 
-<explain-block title="fluentform/scripts_registered">
-
-**Description**
-
-This action fires after fluentform scripts are registered.
-
-**Usage**
-
-```php
-add_action('fluentform/scripts_registered', function() {
-   // Do your stuff here
-}, 10, 0);
-```
-
-**Reference**
-
-`do_action('fluentform/scripts_registered');`
-
-This hook is located in fluentform/app/Modules/Component/Component.php
-
-</explain-block>
-
-------------------------------------------------
-
-<explain-block title="fluentform/pre_load_scripts">
-
-**Description**
-
-This action fires after fluentform plugin is loaded.
-
-**Parameters**
-
-- `$post` (object) Global post
-
-**Usage**
-
-```php
-add_action('fluentform/pre_load_scripts', function($post) {
-   // Do your stuff here
-}, 10, 1);
-```
-
-**Reference**
-
-`$this->app->doAction('fluentform/pre_load_scripts', $post);`
-
-This hook is located in fluentform/app/Modules/Component/Component.php
-
-</explain-block>
-
-------------------------------------------------
 
 <explain-block title="fluentform/rendering_calculation_form">
 
@@ -344,32 +320,6 @@ This hook is located in `fluentform/app/Services/FluentConversational/Classes/Co
 
 ------------------------------------------------
 
-<explain-block title="fluentform/loading_editor_assets">
-
-**Description**
-
-This action runs during asset loading for the editor. You can hook into this action and load your custom scripts or do other tasks.
-
-**Parameters**
-- `$form` (object) Form
-
-**Usage**
-
-```php
-add_action('fluentform/loading_editor_assets', function($form) {
-   // Do your stuff here
-}, 10, 1);
-```
-
-**Reference**
-
-`do_action('fluentform/loading_editor_assets', $form);`
-
-This hook is located in `fluentform/app/Modules/Registerer/Menu.php`.
-
-</explain-block>
-
-------------------------------------------------
 
 <explain-block title="fluentform/render_item_{$item_element}">
 
@@ -610,5 +560,140 @@ add_action('fluentform/render_item_submit_button', function($submitButton, $form
 `do_action('fluentform/render_item_submit_button', $form->fields['submitButton'], $form);`
 
 This hook is located in `fluentform/app/Modules/Component/Component.php`.
+
+</explain-block>
+
+------------------------------------------------
+
+<explain-block title="fluentform/starting_file_upload">
+
+**Description**
+
+This action run before uploading a file.
+
+**Parameters**
+- `$files` (array) Files
+- `$form` (object) Form Object
+
+**Usage**
+
+```php
+add_action('fluentform/starting_file_upload', function($files, $form) {
+   // Do your stuff here
+}, 10, 2);
+```
+
+**Reference**
+
+`do_action('fluentform/starting_file_upload', $files, $this->form);`
+
+This hook is located in `fluentformpro/src/Uploader.php -> upload()`.
+
+</explain-block>
+
+------------------------------------------------
+
+<explain-block title="fluentform/starting_file_processing">
+
+**Description**
+
+This action run when processing uploaded file.
+
+**Parameters**
+- `$files` (array) Files
+- `$uploadLocation` (string) Files Upload Location
+- `$formData` (array) Submission Data
+- `$form` (object) Form Object
+
+**Usage**
+
+```php
+add_action('fluentform/starting_file_processing', function($files, $uploadLocation, $formData, $form) {
+   // Do your stuff here
+}, 10, 4);
+```
+
+**Reference**
+
+`do_action('fluentform/starting_file_processing', $files, $uploadLocation, $formData, $form);`
+
+This hook is located in `fluentformpro/src/Uploader.php -> processFiles()`.
+
+</explain-block>
+
+
+------------------------------------------------
+
+<explain-block title="fluentform/rendering_address_field">
+
+**Description**
+
+This action run when render address field.
+
+**Parameters**
+- `$field` (array) Field Data
+- `$form` (object) Form Object
+
+**Usage**
+
+```php
+add_action('fluentform/rendering_address_field', function($field, $form) {
+   // Do your stuff here
+}, 10, 2);
+```
+
+**Reference**
+
+`do_action('fluentform/rendering_address_field', $data, $form);`
+
+This hook is located in `fluentform/app/Services/FormBuilder/Components/Address.php -> compile()`.
+
+</explain-block>
+
+------------------------------------------------
+
+<explain-block title="fluentform/before_documentation_wrapper">
+
+**Description**
+
+This action run before render support page documentation.
+
+**Usage**
+
+```php
+add_action('fluentform/before_documentation_wrapper', function() {
+   // Do your stuff here
+}, 10, 0);
+```
+
+**Reference**
+
+`do_action('fluentform/before_documentation_wrapper');`
+
+This hook is located in `fluentform/app/Views/admin/docs/index.php`.
+
+</explain-block>
+
+------------------------------------------------
+
+<explain-block title="fluentform/after_documentation_wrapper">
+
+**Description**
+
+This action run after render support page documentation.
+
+**Usage**
+
+```php
+add_action('fluentform/after_documentation_wrapper', function() {
+   // Do your stuff here
+}, 10, 0);
+```
+
+**Reference**
+
+`do_action('fluentform/after_documentation_wrapper');`
+
+This hook is located in `fluentform/app/Views/admin/docs/index.php`.
 
 </explain-block>
