@@ -1520,3 +1520,35 @@ add_filter('fluentform/pdf_html_format', function($feed) {
 This filter is located in FluentForm\app\Hooks\Filters.php
 
 </explain-block>
+
+
+<explain-block title="fluentform/email_exists_validation_message">
+
+Change User registration existing email validation message
+
+**Parameters**
+- `validationMsg` (string) Message
+- `$form` (object) Form Object
+- `$feed` (array) Integraion Feed Data
+- `$email` (string) Email 
+
+**Usage**
+
+```php
+add_filter('fluentform/email_exists_validation_message', function($validationMsg) {
+    $validationMsg = "This email is already registered. Please choose another one.";
+    return $validationMsg;
+}, 10, 1);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/email_exists_validation_message', $validationMsg, $form, $feed, $email);`
+
+This filter is located in fluentformpro/src/Integrations/UserRegistration/UserRegistrationApi.php
+
+</explain-block>
+
+
+
