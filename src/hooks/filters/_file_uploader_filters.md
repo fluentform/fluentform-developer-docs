@@ -113,36 +113,6 @@ This filter is located in FluentFormPro\src\Uploader -> renameFileName($file)
 
 </explain-block>
 
-<explain-block title="fluentform/uploaded_file_name">
-
-You can modify uploaded file name using the filter.
-
-**Parameters**
-
-- `$file` (array) Uploaded File
-- `$originalFileArray` (array) Original File
-- `$formData` (array) Form Data
-- `$form` (object) Form Object
-
-**Usage**
-
-```php
-add_filter('fluentform/uploaded_file_name', function ($file, $originalFileArray, $formData, $form) {
-    // Do your stuff here
-    
-    return $file;
-}, 10, 4);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/uploaded_file_name', $file, $originalFileArray, $this->formData, $this->form);`
-
-This filter is located in FluentFormPro\src\Uploader -> renameFileName($file)
-
-</explain-block>
-
 <explain-block title="fluentform/default_upload_path">
 
 You can modify uploaded file default path using the filter.
