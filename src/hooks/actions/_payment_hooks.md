@@ -192,6 +192,413 @@ This action is located in `fluentformpro/src/Payments/PaymentMethods/BaseProcess
 
 ------------------------------------------
 
+<explain-block title="fluentform/ipn_mollie_action_{$status}">
+
+**Description**
+
+This action runs when  Mollie ipn verification response.
+
+**Parameters**
+- `$submission` (object) Submission Object
+- `$vendorData` - (array) Transaction vendor data
+- `$data` (array) Encoded vendor data
+
+**Usage:**
+```php 
+add_action('fluentform/ipn_mollie_action_{$status}', function($submission, $vendorData, $data) {
+   // Do your stuff here
+}, 10, 3);
+```
+
+**Note:** `{$status}` is valid [Mollie payment status](https://docs.mollie.com/payments/status-changes). Replace `{$status}` with INP transaction type.
+
+**Reference**
+
+`do_action('fluentform/ipn_mollie_action_' . $status, $submission, $vendorTransaction, $data);`
+
+This action is located in `fluentformpro/src/Payments/PaymentMethods/Mollie/API/IPN.php`
+
+</explain-block>
+
+------------------------------------------
+
+<explain-block title="fluentform/ipn_mollie_action_refunded">
+
+**Description**
+
+This action runs when  Mollie ipn verification response with refund.
+
+**Parameters**
+- `$amount` (int) Refund Amount
+- `$submission` (object) Submission Object
+- `$vendorData` - (array) Transaction vendor data
+- `$data` (array) Encoded vendor data
+
+**Usage:**
+```php 
+add_action('fluentform/ipn_mollie_action_refunded', function($amount, $submission, $vendorData, $data) {
+   // Do your stuff here
+}, 10, 4);
+```
+
+**Reference**
+
+`do_action('fluentform/ipn_mollie_action_refunded', $refundAmount, $submission, $vendorTransaction, $data);`
+
+This action is located in `fluentformpro/src/Payments/PaymentMethods/Mollie/API/IPN.php`
+
+</explain-block>
+
+------------------------------------------
+
+<explain-block title="fluentform/ipn_razorpay_action_{$status}">
+
+**Description**
+
+This action runs when  Razorpay ipn verification response.
+
+**Parameters**
+- `$submission` (object) Submission Object
+- `$vendorData` - (array) Transaction vendor data
+- `$data` (array) Encoded vendor data
+
+**Usage:**
+```php 
+add_action('fluentform/ipn_razorpay_action_{$status}', function($submission, $vendorData, $data) {
+   // Do your stuff here
+}, 10, 3);
+```
+
+**Note:** `{$status}` is valid Razorpay payment status.
+
+**Reference**
+
+`do_action('fluentform/ipn_razorpay_action_' . $status, $submission, $vendorTransaction, $data);`
+
+This action is located in `fluentformpro/src/Payments/PaymentMethods/RazorPay/API.php`
+
+</explain-block>
+
+------------------------------------------
+
+<explain-block title="fluentform/ipn_razorpay_action_refunded">
+
+**Description**
+
+This action runs when  Razorpay ipn verification response with refund.
+
+**Parameters**
+- `$amount` (int) Refund Amount
+- `$submission` (object) Submission Object
+- `$vendorData` - (array) Transaction vendor data
+- `$data` (array) Encoded vendor data
+
+**Usage:**
+```php 
+add_action('fluentform/ipn_razorpay_action_refunded', function($amount, $submission, $vendorData, $data) {
+   // Do your stuff here
+}, 10, 4);
+```
+
+**Reference**
+
+`do_action('fluentform/ipn_razorpay_action_refunded', $refundAmount, $submission, $vendorTransaction, $data);`
+
+This action is located in `fluentformpro/src/Payments/PaymentMethods/RazorPay/API.php`
+
+</explain-block>
+
+------------------------------------------
+
+<explain-block title="fluentform/stripe_customer_created">
+
+**Description**
+
+This action runs after created Stripe customer.
+
+**Parameters**
+- `$data` (array) Customer API response
+- `$customerArgs` (array) Customer Args
+
+**Usage:**
+```php 
+add_action('fluentform/stripe_customer_created', function($data, $customerArgs) {
+   // Do your stuff here
+}, 10, 2);
+```
+
+**Reference**
+
+`do_action('fluentform/stripe_customer_created', $response, $customerArgs);`
+
+This action is located in `fluentformpro/src/Payments/PaymentMethods/Stripe/API/Customer.php`
+
+</explain-block>
+
+------------------------------------------
+
+<explain-block title="fluentform/payment_stripe_failed">
+
+**Description**
+
+This action runs when handle payment charge error.
+
+**Parameters**
+- `$submission` (object) Submission
+- `$transaction` (object) Transaction
+- `$formId` (int) Form Id
+- `$charge` (bool) Charged or not
+- `$type` (string) Type
+  - `customer`
+  - `subscription`
+  - `invoice`
+  - `payment_intent`
+  - `payment_error`
+
+**Usage:**
+```php 
+add_action('fluentform/payment_stripe_failed', function($submission, $transaction, $formId, $charge, $type) {
+   // Do your stuff here
+}, 10, 5);
+```
+
+**Reference**
+
+`do_action('fluentform/payment_stripe_failed', $submission, $transaction, $this->form->id, $charge, $type);`
+
+This action is located in `fluentformpro/src/Payments/PaymentMethods/Stripe/StripeProcessor.php -> handlePaymentChargeError()`
+
+</explain-block>
+
+------------------------------------------
+
+<explain-block title="fluentform/payment_failed">
+
+**Description**
+
+This action runs when handle payment charge error.
+
+**Parameters**
+- `$submission` (object) Submission
+- `$transaction` (object) Transaction
+- `$formId` (int) Form Id
+- `$charge` (bool) Charged or not
+- `$type` (string) Type
+  - `customer`
+  - `subscription`
+  - `invoice`
+  - `payment_intent`
+  - `payment_error`
+
+**Usage:**
+```php 
+add_action('fluentform/payment_failed', function($submission, $transaction, $formId, $charge, $type) {
+   // Do your stuff here
+}, 10, 5);
+```
+
+**Reference**
+
+`do_action('fluentform/payment_failed', $submission, $transaction, $this->form->id, $charge, $type);`
+
+This action is located in `fluentformpro/src/Payments/PaymentMethods/Stripe/StripeProcessor.php -> handlePaymentChargeError()`
+
+</explain-block>
+
+
+------------------------------------------
+
+<explain-block title="fluentform/transactions_before_table">
+
+**Description**
+
+This action runs before creating transactions receipt table.
+
+**Parameters**
+- `$transaction` (array) Transactions
+
+**Usage:**
+```php 
+add_action('fluentform/transactions_before_table', function($transactions) {
+   // Do your stuff here
+}, 10, 1);
+```
+
+**Reference**
+
+`do_action('fluentform/transactions_before_table', $transactions);`
+
+This action is located in `fluentformpro/src/views/receipt/transactions_table.php`
+
+</explain-block>
+
+------------------------------------------
+
+<explain-block title="fluentform/transaction_table_thead_row">
+
+**Description**
+
+This action runs after creating transactions receipt table head (th).
+
+**Parameters**
+- `$transactions` (array) Transactions
+
+**Usage:**
+```php 
+add_action('fluentform/transaction_table_thead_row', function($transactions) {
+   // Do your stuff here
+}, 10, 1);
+```
+
+**Reference**
+
+`do_action('fluentform/transaction_table_thead_row', $transactions);`
+
+This action is located in `fluentformpro/src/views/receipt/transactions_table.php`
+
+</explain-block>
+
+------------------------------------------
+
+<explain-block title="fluentform/transactions_actions">
+
+**Description**
+
+This action runs when render transaction receipt table body actions.
+
+**Parameters**
+- `$transaction` (object) Transaction
+
+**Usage:**
+```php 
+add_action('fluentform/transactions_actions', function($transaction) {
+   // Do your stuff here
+}, 10, 1);
+```
+
+**Reference**
+
+`do_action('fluentform/transactions_actions', $transaction);`
+
+This action is located in `fluentformpro/src/views/receipt/transactions_table.php`
+
+</explain-block>
+
+------------------------------------------
+
+<explain-block title="fluentform/transaction_table_tbody_row">
+
+**Description**
+
+This action runs after render transaction receipt table body td.
+
+**Parameters**
+- `$transaction` (object) Transaction
+- `$transactions` (array) Transactions
+
+**Usage:**
+```php 
+add_action('fluentform/transaction_table_tbody_row', function($transaction, $transactions) {
+   // Do your stuff here
+}, 10, 2);
+```
+
+**Reference**
+
+`do_action('fluentform/transaction_table_tbody_row', $transaction, $transactions);`
+
+This action is located in `fluentformpro/src/views/receipt/transactions_table.php`
+
+</explain-block>
+
+------------------------------------------
+
+<explain-block title="fluentform/transactions_before_table_close">
+
+**Description**
+
+This action runs before closing transactions receipt table.
+
+**Parameters**
+- `$transactions` (array) Transactions
+
+**Usage:**
+```php 
+add_action('fluentform/transactions_before_table_close', function($transactions) {
+   // Do your stuff here
+}, 10, 1);
+```
+
+**Reference**
+
+`do_action('fluentform/transactions_before_table_close', $transactions);`
+
+This action is located in `fluentformpro/src/views/receipt/transactions_table.php`
+
+</explain-block>
+
+------------------------------------------
+
+<explain-block title="fluentform/transactions_after_table">
+
+**Description**
+
+This action runs after created transaction receipt table.
+
+**Parameters**
+- `$transactions` (array) Transactions
+
+**Usage:**
+```php 
+add_action('fluentform/transactions_after_table', function($transactions) {
+   // Do your stuff here
+}, 10, 1);
+```
+
+**Reference**
+
+`do_action('fluentform/transactions_after_table', $transactions);`
+
+This action is located in `fluentformpro/src/views/receipt/transactions_table.php`
+
+</explain-block>
+
+
+------------------------------------------
+
+<explain-block title="fluentform/after_transaction_status_change">
+
+**Description**
+
+This action runs when change transaction status.
+
+**Parameters**
+- `$status` (string) Valid Payment Status
+- `$submission` (object) Submission
+- `$transtionId` (int) Transaction ID
+
+**Usage:**
+```php 
+add_action('fluentform/after_transaction_status_change', function($status, $submission, $transtionId) {
+   // Do your stuff here
+}, 10, 3);
+```
+
+**Reference**
+
+`do_action(
+'fluentform/after_transaction_status_change',
+$newStatus,
+$this->getSubmission(),
+$transactionId
+);`
+
+This action is located in `fluentformpro/src/Payments/PaymentMethods/BaseProcessor.php`
+
+</explain-block>
+
+------------------------------------------
+
 <explain-block title="fluentform/ipn_paypal_action_{$txn_type}">
 
 **Description**
@@ -400,6 +807,33 @@ This action is located in `fluentformpro/src/Payments/Classes/PaymentEntries.php
 
 ------------------------------------------
 
+<explain-block title="fluentform/form_submission_activity_start">
+
+**Description**
+
+This action runs when PayPal INP process subscription payment or Stripe handle cancelled subscription.
+
+**Parameters**
+- `$formId` (ing) Form Id
+
+**Usage:**
+```php 
+add_action('fluentform/form_submission_activity_start', function($formId) {
+   // Do your stuff here
+}, 10, 1);
+```
+
+**Reference**
+
+`do_action('fluentform/form_submission_activity_start', $submission->form_id);`
+
+This action is located in `fluentformpro/src/Payments/PaymentMethods/PayPal/API/IPN.php -> processSubscriptionPayment()`
+This action is located in `fluentformpro/src/Payments/PaymentMethods/Stripe/API/StripeListener.php -> handleSubscriptionCancelled()`
+
+</explain-block>
+
+------------------------------------------
+
 <explain-block title="fluentform/payment_subscription_status_to_cancelled">
 
 **Description**
@@ -560,6 +994,66 @@ add_action('fluentform/ipn_endpoint_{$paymentMethod}', function() {
 `do_action('fluentform/ipn_endpoint_' . $paymentMethod);`
 
 This action is located in `fluentformpro/src/Payments/PaymentHandler.php`
+
+</explain-block>
+
+-------------------------------------------
+
+<explain-block title="fluentform/subscription_payment_received">
+
+**Description**
+
+This action runs when PayPal new subscription received.
+
+**Parameters**
+- `$submission` - (object) Submission data
+- `$updatedSubscription` - (array) Subscription updated data
+- `$formId` - (int) Form Id
+- `$subscription` - (object) Subscription data
+
+**Usage:**
+```php 
+add_action('fluentform/subscription_payment_received', function($subscription, $submission, $vendorData) {
+   // Do your stuff here
+}, 10, 4);
+```
+
+
+**Reference**
+
+`do_action('fluentform/subscription_payment_received', $subscription, $submission, $vendorData);`
+
+This action is located in `fluentformpro/src/Payments/PaymentMethods/PayPal/API/IPN.php`
+
+</explain-block>
+
+-------------------------------------------
+
+<explain-block title="fluentform/subscription_payment_received_paypal">
+
+**Description**
+
+This action runs when PayPal new subscription received.
+
+**Parameters**
+- `$submission` - (object) Submission data
+- `$updatedSubscription` - (array) Subscription updated data
+- `$formId` - (int) Form Id
+- `$subscription` - (object) Subscription data
+
+**Usage:**
+```php 
+add_action('fluentform/subscription_payment_received_paypal', function($subscription, $submission, $vendorData) {
+   // Do your stuff here
+}, 10, 4);
+```
+
+
+**Reference**
+
+`do_action('fluentform/subscription_payment_received_paypal', $subscription, $submission, $vendorData);`
+
+This action is located in `fluentformpro/src/Payments/PaymentMethods/PayPal/API/IPN.php`
 
 </explain-block>
 
