@@ -226,9 +226,7 @@ add_filter('fluentform/validate_input_item_{YOUR_ELEMENT_KEY}', function ($error
 }, 10, 5);
 ```
 
-Learn more about this validation here:
-
-[https://wpfluentforms.com/docs/fluentform_validate_input_item_input_text](https://wpfluentforms.com/docs/fluentform_validate_input_item_input_text)
+Learn more about this validation [here](/hooks/filters/#_fluentform_response_render______field__element__)
 
 ### Transforming Input Data in Entries/Emails
 Maybe you collected the data as array or key of any dynamic data, and you need to transform that data to anywhere that is viewable at admin panel entries/email/3rd party integrations.
