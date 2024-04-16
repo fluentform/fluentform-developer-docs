@@ -239,6 +239,160 @@ try {
    }
    showErrorMessages(e.messages);
 }
+
+var sendData = function ($theForm, formData) {
+   function addParameterToURL(param) {
+      let _url = fluentFormVars.ajaxUrl;
+      _url += (_url.split('?')[1] ? '&' : '?') + param;
+      return _url;
+   }
+
+   const ajaxRequestUrl = addParameterToURL('t=' + Date.now());
+
+   if (this.isSending) {
+      return;
+   }
+
+   var that = this;
+
+   this.isSending = true;
+
+   $.post(ajaxRequestUrl, formData)
+           .then(function (res) {
+              if (!res || !res.data || !res.data.result) {
+                 // This is an error
+                 $theForm.trigger('fluentform_submission_failed', {
+                    form: $theForm,
+                    response: res
+                 });
+                 showErrorMessages(res);
+                 return;
+              }
+
+              if (res.data.append_data) {
+                 addHiddenData(res.data.append_data);
+              }
+
+              if (res.data.nextAction) {
+                 $theForm.trigger('fluentform_next_action_' + res.data.nextAction, {
+                    form: $theForm,
+                    response: res
+                 });
+                 return;
+              }
+
+              $theForm.triggerHandler('fluentform_submission_success', {
+                 form: $theForm,
+                 config: form,
+                 response: res
+              });
+
+              jQuery(document.body).trigger('fluentform_submission_success', {
+                 form: $theForm,
+                 config: form,
+                 response: res
+              });
+
+              if ('redirectUrl' in res.data.result) {
+                 if (res.data.result.message) {
+                    $('<div/>', {
+                       'id': formId + '_success',
+                       'class': 'ff-message-success'
+                    })
+                            .html(res.data.result.message)
+                            .insertAfter($theForm);
+                    $theForm.find('.ff-el-is-error').removeClass('ff-el-is-error');
+                 }
+
+                 location.href = res.data.result.redirectUrl;
+                 return;
+              } else {
+                 const successMsgId = formId + '_success';
+                 const successMsgSelector = '#' + successMsgId;
+                 if ($(successMsgSelector).length) {
+                    $(successMsgSelector).slideUp('fast');
+                 }
+                 $('<div/>', {
+                    'id': successMsgId,
+                    'class': 'ff-message-success'
+                 })
+                         .html(res.data.result.message)
+                         .insertAfter($theForm);
+
+                 $theForm.find('.ff-el-is-error').removeClass('ff-el-is-error');
+
+                 if (res.data.result.action == 'hide_form') {
+                    $theForm.hide().addClass('ff_force_hide');
+                    $theForm[0].reset();
+                 } else {
+                    jQuery(document.body).trigger('fluentform_reset', [$theForm, form]);
+                    $theForm[0].reset();
+                 }
+
+                 // Scroll to success msg if not in viewport
+                 const successMsg = $(successMsgSelector);
+                 if (successMsg.length && !isElementInViewport(successMsg[0])) {
+                    $('html, body').animate({
+                       scrollTop: successMsg.offset().top - (!!$('#wpadminbar') ? 32 : 0) - 20
+                    }, fluentFormVars.stepAnimationDuration);
+                 }
+              }
+           })
+           .fail(function (res) {
+
+              $theForm.trigger('fluentform_submission_failed', {
+                 form: $theForm,
+                 response: res
+              });
+
+              if (!res || !res.responseJSON || !res.responseJSON || !res.responseJSON.errors) {
+                 showErrorMessages(res.responseText);
+                 return;
+              }
+
+              if (res.responseJSON.append_data) {
+                 addHiddenData(res.responseJSON.append_data);
+              }
+
+              showErrorMessages(res.responseJSON.errors);
+
+              scrollToFirstError(350);
+
+              if ($theForm.find('.fluentform-step').length) {
+                 var step = $theForm
+                         .find('.error')
+                         .not(':empty:first')
+                         .closest('.fluentform-step');
+
+                 if (step.length) {
+                    let goBackToStep = step.index();
+                    fireUpdateSlider(
+                            goBackToStep, fluentFormVars.stepAnimationDuration, false
+                    );
+                 }
+              }
+           })
+           .always(function (res) {
+              that.isSending = false;
+              hideFormSubmissionProgress($theForm);
+              // reset reCaptcha if available.
+              if (window.grecaptcha) {
+                 let reCaptchaId = getRecaptchaClientId(formData.form_id);
+                 if (reCaptchaId) {
+                    grecaptcha.reset(reCaptchaId);
+                 }
+              }
+              if (window.hcaptcha) {
+                 hcaptcha.reset(); //two recapthca on same page creates conflicts
+              }
+              if (window.turnstile) {
+                 let turnstileId = getTurnstileClientId(formData.form_id);
+                 if (turnstileId) {
+                    turnstileId.reset(turnstileId);
+                 }
+              }
+           });
+}
 ```
 
 [Tutorial](https://fluentforms.com/docs-tag/tutorial/)
