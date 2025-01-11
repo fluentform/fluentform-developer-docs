@@ -279,7 +279,7 @@ add_filter('fluentform/export_data', function($data, $form, $exportData, $inputL
 
 `apply_filters('fluentform/export_data', $data, $form, $exportData, $inputLabels);`
 
-This filter is located in FluentForm\App\Services\Submission -> index($args)
+This filter is located in FluentForm\App\Services\Transfer\TransferService -> exportEntries($args)
 
 </explain-block>
 
