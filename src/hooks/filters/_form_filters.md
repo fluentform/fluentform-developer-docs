@@ -262,29 +262,41 @@ This filter is located in FluentForm\App\Modules\Component\Component -> index()
 
 <explain-block title="fluentform/load_default_public">
 
-You can toggle to load public styles using this filter.
+This filter allows you to toggle the loading of default public styles for Fluent Forms.
 
 **Parameters**
 
-- `$status` (boolean) True / False
-- `$form` (Object) Form Object
+- `$status` (boolean) Whether to load the default public styles (true) or not (false).
+- `$form` (Object) Form object. Maybe an empty object in some cases.
+- `$postId` (int) The current post ID. May be 0 if not available.
 
 **Usage**
 
 ```php
-add_filter('fluentform/load_default_public', function ($status, $form) {
-   // Do your stuff here
-   
-   return $isSkip;
-}, 10, 1);
 
+add_filter('fluentform/load_default_public', function ($status, $form, $postId) {
+// Your custom logic here
+
+return $status;
+}, 10, 3);
 ```
 
 **Reference**
 
-`apply_filters('fluentform/load_default_public', true, $form);`
+This filter is applied in multiple locations:
 
-This filter is located in FluentForm\App\Modules\Component\Component -> renderForm($atts)
+1. `FluentForm\App\Modules\Component\Component::maybeLoadFluentFormStyles()`
+2. `FluentForm\App\Modules\Component\Component::renderForm()`
+3. In the `wp` action hook for handling form previews
+4. In the `enqueue_block_editor_assets` action hook for Gutenberg integration
+
+Example of filter application:
+
+```php
+$loadPublicStyle = apply_filters('fluentform/load_default_public', $initialStatus, $form, $postId);
+```
+
+**Note:** This filter replaces the deprecated `fluentform_load_default_public` filter. It's recommended to use `fluentform/load_default_public` in all new code.
 
 </explain-block>
 
