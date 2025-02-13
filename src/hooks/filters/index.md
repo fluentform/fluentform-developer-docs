@@ -67,3 +67,8 @@ Filter hooks are used to return modified values for certain parameters, based on
 
 !!!include(./src/hooks/filters/_payment_filters.md)!!!
 
+### Fluent PDF Filters
+<hr />
+
+!!!include(./src/hooks/filters/_pdf_filters.md)!!!
+
