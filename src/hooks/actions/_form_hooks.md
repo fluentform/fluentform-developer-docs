@@ -697,3 +697,34 @@ add_action('fluentform/after_documentation_wrapper', function() {
 This hook is located in `fluentform/app/Views/admin/docs/index.php`.
 
 </explain-block>
+
+
+<explain-block title="fluentform/spam_attempt_caught">
+
+**Description**
+
+This action is triggered when a spam attempt is caught. You can use this to log spam attempts, notify administrators, or implement additional security measures.
+
+**Parameters**
+
+`$reason` (string) The reason for the spam detection
+
+**Usage**
+
+```php
+add_action('fluentform/spam_attempt_caught', function ($reason) {
+    // Log spam attempt
+    error_log("Spam attempt caught: " . $reason);
+    
+    // Notify admin
+    wp_mail('admin@example.com', 'Spam Attempt Detected', "A spam attempt was caught. Reason: " . $reason);
+}, 10, 1);
+```
+
+**Reference**
+
+`do_action('fluentform/spam_attempt_caught', $reason);`
+
+This action is located in the `FluentForm\App\Modules\Form\TokenBasedSpamProtection -> handleSpam` method.
+
+</explain-block>

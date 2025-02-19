@@ -1550,5 +1550,190 @@ This filter is located in fluentformpro/src/Integrations/UserRegistration/UserRe
 
 </explain-block>
 
+<explain-block title="fluentform/token_based_protection_response">
+
+This filter allows you to modify the response sent when generating a protection token.
+
+**Parameters**
+
+- `$response` (array) The default response containing the token
+- `$formId` (int) The ID of the form
+
+**Usage**
+
+```php
+add_filter('fluentform/token_based_protection_response', function ($response, $formId) {
+    // Modify the response
+    return $response;
+}, 10, 2);
+```
+**Reference**
+
+`apply_filters('fluentform/token_based_protection_response', ['token' => $token], $formId);`
+This filter is located in the FluentForm\App\Modules\Form\TokenBasedSpamProtection -> ajaxGenerateToken method.
+
+</explain-block>
+
+<explain-block title="fluentform/generated_protection_token">
+
+This filter allows you to modify the generated protection token.
+
+**Parameters**
+
+- `$token` (string) The encrypted token
+- `$formId` (int) The ID of the form
+- `$timeStamp` (int) The current timestamp
+
+**Usage**
+
+```php
+add_filter('fluentform/generated_protection_token', function ($token, $formId, $timeStamp) {
+    // Modify the token
+    return $token;
+}, 10, 3);
+```
+**Reference**
+
+`apply_filters('fluentform/generated_protection_token', Protector::encrypt($data), $formId, $timeStamp);`
+
+This filter is located in the FluentForm\App\Modules\Form\TokenBasedSpamProtection -> generateToken method.
+
+</explain-block>
+
+<explain-block title="fluentform/token_based_validation_error_message">
+
+This filter allows you to customize the error message displayed when token validation fails. You can use this to provide more specific or user-friendly error messages.
+
+**Parameters**
+
+- `$errorMessage` (string) The default error message
+- `$formId` (int) The ID of the form
+
+**Usage**
+
+```php
+add_filter('fluentform/token_based_validation_error_message', function ($errorMessage, $formId) {
+    // Customize the error message
+    return "Sorry, we couldn't verify your submission. Please try again or contact support if the issue persists.";
+}, 10, 2);
+```
+**Reference**
+
+`apply_filters('fluentform/token_based_validation_error_message', __('Suspicious activity detected. Form submission blocked', 'fluentform'), $formId);`
+
+This filter is located in the FluentForm\App\Modules\Form\TokenBasedSpamProtection -> verify method.
+
+</explain-block>
+
+<explain-block title="fluentform/token_expiration_time">
+
+This filter allows you to modify the expiration time for the protection token. If the protection token expires, form submission will fail. Adjust this value based on your security requirements and expected user behavior.
+
+**Parameters**
+
+- `$expirationTime` (int) The default expiration time in seconds 
+- `$formId` (int) The ID of the form
+
+**Usage**
+
+```php
+add_filter('fluentform/token_expiration_time', function ($expirationTime, $formId) {
+    // Modify the expiration time
+    // Default is (3600s = 1 hour)
+    $expirationTime = 1800; // 30 minutes
+    return $expirationTime;
+}, 10, 2);
+```
+**Reference**
+
+`apply_filters('fluentform/token_expiration_time', 3600, $formId);`
+
+This filter is located in the FluentForm\App\Modules\Form\TokenBasedSpamProtection -> validateToken method.
+
+</explain-block>
+
+<explain-block title="fluentform/token_based_validation_result">
+
+This filter allows you to modify the result of token validation. Use this filter to implement additional validation logic if needed.
+
+**Parameters**
+
+- `$isValid` (bool) The initial validation result 
+- `$timestamp` (int) The timestamp from the token 
+- `$tokenFormId` (int) The form ID from the token 
+- `$formId` (int) The current form ID
+
+**Usage**
+
+```php
+add_filter('fluentform/token_based_validation_result', function ($isValid, $timestamp, $tokenFormId, $formId) {
+    // Add additional validation logic
+    $isWithinTimeFrame = (time() - $timestamp) < 3600; // Check if token is less than an hour old
+    return $isValid && $isWithinTimeFrame;
+}, 10, 4);
+```
+**Reference**
+
+`apply_filters('fluentform/token_based_validation_result', $isValid, $timestamp, $tokenFormId, $formId);`
+
+This filter is located in the FluentForm\App\Modules\Form\TokenBasedSpamProtection -> validateToken method.
+
+</explain-block>
+
+<explain-block title="fluentform/token_based_spam_protection_status">
+
+This filter allows you to modify the status of token-based spam protection for a specific form. You can use this to enable or disable protection for certain forms based on custom logic.
+
+
+**Parameters**
+
+- `$status` (bool) The current status of token-based protection 
+- `$formId` (int|false) The ID of the form, or false if not specific to a form
+
+**Usage**
+
+```php
+add_filter('fluentform/token_based_spam_protection_status', function ($status, $formId) {
+    // Disable protection for a specific form
+    if ($formId === 123) {
+        return false;
+    }
+    return $status;
+}, 10, 2);
+```
+**Reference**
+
+`apply_filters('fluentform/token_based_spam_protection_status', $status, $formId);`
+
+This filter is located in the FluentForm\App\Modules\Form\TokenBasedSpamProtection -> isEnabled method.
+
+</explain-block>
+
+<explain-block title="fluentform/token_protection_name">
+
+This filter allows you to modify the name of the token protection field. This can be useful for customizing the field name or implementing additional obfuscation.
+
+
+**Parameters**
+
+- `$tokenInputName` (string) The default name of the token input field 
+- `$formId` (int) The ID of the form
+
+**Usage**
+
+```php
+add_filter('fluentform/token_protection_name', function ($tokenInputName, $formId) {
+    // Modify the token input name
+    return 'custom_protection_field_' . md5($formId);
+}, 10, 2);
+```
+**Reference**
+
+`apply_filters('fluentform/token_protection_name', $tokenInputName, $formId);`
+
+This filter is located in the FluentForm\App\Modules\Form\TokenBasedSpamProtection -> getFieldName method.
+
+</explain-block>
+
 
 
