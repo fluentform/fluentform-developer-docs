@@ -186,7 +186,7 @@ You can modify uploaded file using the filter.
 add_filter('fluentform/file_uploaded', function ($uploadFile, $formData, $form) {
     // Do your stuff here
     
-    return $args;
+    return $uploadFile;
 }, 10, 3);
 
 ```
