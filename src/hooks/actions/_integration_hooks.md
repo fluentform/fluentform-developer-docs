@@ -6,7 +6,7 @@
 This is a smart background action to process jobs like integration data pushing by schedule time.
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/maybe_scheduled_jobs' ,function () {
    // Do your stuff here
 }, 10, 0);
@@ -33,7 +33,7 @@ This action fires after completing form integration data pushing process.
 - `$form` (object) Form Object
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/global_notify_completed' ,function ($insertId, $form) {
    // Do your stuff here
 }, 10, 2);
@@ -47,43 +47,6 @@ This action is located in `fluentform/app/Services/Integrations/GlobalNotificati
 
 </explain-block>
 
-------------------------------------------------
-
-<explain-block title="fluentform/after_submission_api_response_{$status}">
-
-**Description**
-
-This action fires when creating log base on integration API response.
-
-**Parameters**
-- `$form`        (object) Form Object
-- `$entryId`     (int)    Submission Id
-- `$data`        (array)  Integration Date
-- `$feed`        (array)  Integration feed value
-- `$response`    (array)  Api call response
-- `$message`     (string) Response message
-
-**Usage:**
-```php 
-add_action('fluentform/after_submission_api_response_{$status}', function ($form, $entryId, $data, $feed, $response, $message) {
-   // Do your stuff here
-}, 10, 6);
-```
-**Note:** `{$status}` is dynamic status. Replace `{$status}` with one of bellow statuses.
-- `success` When response success
-- `failed`  When response failed
-- `completed`  When response complete
-
-**Reference**
-
-`do_action('fluentform/after_submission_api_response_{$status}', $form, $entryId, $data, $feed, $response, $message);`
-
-This action is located in `fluentform/app/Helpers/IntegrationManagerHelper.php`
-
-</explain-block>
-
-------------------------------------------------
-
 <explain-block title="fluentform/save_global_integration_settings_{$settingsKey}">
 
 **Description**
@@ -94,7 +57,7 @@ This action runs when saving a global integration settings with the settings key
 - `$integration`   (array) Integration Settings
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/save_global_integration_settings_{$settingsKey}', function ($integration) {
    // Do your stuff here
 }, 10, 1);
@@ -109,7 +72,6 @@ This action is located in `fluentform/app/Http/Controllers/GlobalIntegrationCont
 
 </explain-block>
 
-------------------------------------------------
 
 <explain-block title="fluentform/integration_action_result">
 
@@ -123,7 +85,7 @@ This action runs after completing an integration process.
 - `$note` (string) Note
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/integration_action_result', function ($feed, $status, $note) {
    // Do your stuff here
 }, 10, 3);
@@ -138,7 +100,6 @@ This action is located in `fluentformpro/src/Integrations/**/Bootstrap.php`
 
 </explain-block>
 
-------------------------------------------------
 
 <explain-block title="fluentform/user_registration_before_start">
 
@@ -152,7 +113,7 @@ This action runs before register user. Do your stuff before user is registering 
 - `$form`  (object) Form
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/user_registration_before_start', function ($feed, $submission, $form) {
    // Do your stuff here
 }, 10, 3);
@@ -167,7 +128,6 @@ This action is located in `fluentformpro/src/Integrations/UserRegistration/UserR
 
 </explain-block>
 
-------------------------------------------------
 
 <explain-block title="fluentform/created_user">
 
@@ -182,7 +142,7 @@ This action runs after user created. Do your stuff after user is created by flue
 - `$form`  (object) Form
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/created_user', function ($userId, $feed, $submission, $form) {
    // Do your stuff here
 }, 10, 4);
@@ -197,7 +157,6 @@ This action is located in `fluentformpro/src/Integrations/UserRegistration/UserR
 
 </explain-block>
 
-------------------------------------------------
 
 <explain-block title="fluentform/user_registration_completed">
 
@@ -212,7 +171,7 @@ This action runs after user registration completed. Do your stuff after user is 
 - `$form`  (object) Form
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/user_registration_completed', function ($userId, $feed, $submission, $form) {
    // Do your stuff here
 }, 10, 4);
@@ -227,7 +186,6 @@ This action is located in `fluentformpro/src/Integrations/UserRegistration/UserR
 
 </explain-block>
 
-------------------------------------------------
 
 <explain-block title="fluentform/user_update_completed">
 
@@ -242,7 +200,7 @@ This action runs after user update completed. Do your stuff after user is update
 - `$form`  (object) Form
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/user_update_completed', function ($userId, $feed, $submission, $form) {
    // Do your stuff here
 }, 10, 4);
