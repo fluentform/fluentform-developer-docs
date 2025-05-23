@@ -11,7 +11,7 @@ This action runs before a submission is inserting
 - `$form` Form Object
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/before_insert_submission', function($insertData, $data, $form) {
    // Do whatever you want before inserting a submission
 }, 10, 3);
@@ -25,13 +25,12 @@ This action is located in `fluentform/app/Services/Form/SubmissionHandlerService
 
 </explain-block>
 
-------------------------------------------------
 
 <explain-block title="fluentform/submission_inserted">
 
 **Description**
 
-This action runs after a submission was inserted 
+This action runs after a submission was inserted
 
 **Parameters**
 - `$submissionId` Submission ID
@@ -39,7 +38,7 @@ This action runs after a submission was inserted
 - `$form` Form Object
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/submission_inserted', function($submissionId, $formData, $form) {
    // Do whatever you want with the new submission
 }, 10, 3);
@@ -59,7 +58,7 @@ This action is located in `fluentform/app/Services/Form/SubmissionHandlerService
 
 **Description**
 
-This action runs after all the actions are completed regarding the form submission and before the submission confirmation message. 
+This action runs after all the actions are completed regarding the form submission and before the submission confirmation message.
 
 **Parameters**
 - `$submissionId` Submission ID
@@ -67,7 +66,7 @@ This action runs after all the actions are completed regarding the form submissi
 - `$form` Form Object
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/before_submission_confirmation', function($submissionId, $formData, $form) {
    // Do whatever you want here
 }, 10, 3);
@@ -93,7 +92,7 @@ This action runs during the confirmation process of double opt-in. Using this ac
 - `$_REQUEST` (array)  Global PHP Request
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/entry_confirmation', function($_REQUEST) {
    // Do whatever you want here
 }, 10);
@@ -121,8 +120,8 @@ This action fires after form submission and before processing the form’s addit
 - `$form` Form Object
 
 **Usage:**
-```php 
-add_action('fluentform/before_form_actions_processing', function($submissionId, $formData, $form){  
+```php
+add_action('fluentform/before_form_actions_processing', function($submissionId, $formData, $form){
      // Do your stuff here
 }, 10, 3)
 ```
@@ -135,7 +134,6 @@ This action is located in `fluentform/app/Services/Form/SubmissionHandlerService
 
 </explain-block>
 
-------------------------------------------------
 
 <explain-block title="fluentform/before_insert_payment_form">
 
@@ -149,7 +147,7 @@ If the form has payment then this action will be fired before submission. You ca
 - `$form` Form Object
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/before_insert_payment_form', function ($insertData, $formRawData, $form){
    // Do your stuff here
 }, 10, 3);
@@ -177,7 +175,7 @@ This action runs after a submission was inserted
 - `$form`     (object) Form Object
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/submission_inserted_{$form_type}_form', function ($submissionId, $formData, $form){
    // Do whatever you want with the new submission base on specifiy form type
 }, 10, 3);
@@ -192,7 +190,6 @@ This action is located in `fluentform/app/Services/Form/SubmissionHandlerService
 
 </explain-block>
 
----------------------------------------------------
 
 <explain-block title="fluentform/notify_on_form_submit">
 
@@ -206,7 +203,7 @@ This action runs after a submission was inserted
 - `$form`     (object) Form Object
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/notify_on_form_submit', function ($submissionId, $formData, $form){
    // Do whatever you want with the new submission base on specifiy form type
 }, 10, 3);
@@ -233,7 +230,7 @@ This action runs after a submission user changed
 - `$user`     (object)   User
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/submission_user_changed', function ($submission, $user){
    // Do your stuff
 }, 10, 2);
@@ -260,7 +257,7 @@ This action runs before deleting a submission.
 - `$formId`     (int)   Form ID
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/before_deleting_entries', function ($submissionIds, $formId){
    // Do your stuff
 }, 10, 2);
@@ -287,7 +284,7 @@ This action runs after deleting a submission.
 - `$formId`     (int)   Form ID
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/after_deleting_submissions', function ($submissionIds, $formId){
    // Do your stuff
 }, 10, 2);
@@ -314,7 +311,7 @@ This action runs after submission note saved.
 - `$submissionMeta`     (object)   Submission meta
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/submission_note_stored', function ($submissionMetaId, $submissionMeta){
    // Do your stuff
 }, 10, 2);
@@ -337,7 +334,7 @@ This action is located in `fluentform/app/Services/Submission/SubmissionService.
 This action for adding log on FluentForm log table.  You should do_action and pass log data for adding log.
 
 **Usage:**
-```php 
+```php
 do_action('fluentform/log_data', [
     'parent_source_id' => $submission->form_id,
     'source_type'      => 'submission_item',
@@ -351,10 +348,10 @@ do_action('fluentform/log_data', [
 
 **Data**
 - `parent_source_id` (int) Form ID
-- `source_type` (string) Source type 
-- `source_id` (int) Submission ID 
+- `source_type` (string) Source type
+- `source_id` (int) Submission ID
 - `component` (sort string) Component title
-- `status` (string) Status 
+- `status` (string) Status
   - `info` For informative log
   - `pending` For pending log
   - `error` For error log

@@ -24,7 +24,6 @@ This hook is located in `fluentform/app/Modules/Component/Component.php`.
 
 </explain-block>
 
-----------------------------------------
 
 <explain-block title="fluentform/before_editor_start">
 
@@ -48,7 +47,6 @@ This hook is located in `fluentform/app/Views/admin/form/editor.php`.
 
 </explain-block>
 
-----------------------------------------
 
 <explain-block title="fluentform/after_editor_start">
 
@@ -120,7 +118,6 @@ This hook is located in `fluentform/app/views/admin/all_entries.php`.
 
 </explain-block>
 
-------------------------------------------------
 
 <explain-block title="fluentform/admin_nave_menu_{$itemKey}">
 
@@ -146,7 +143,6 @@ This action is located in `fluentform/app/Modules/Registerer/AdminBar.php`
 
 </explain-block>
 
-------------------------------------------------
 
 <explain-block title="fluentform/before_no_permission">
 
@@ -171,7 +167,6 @@ This action is located in `fluentform/app/Views/admin/no_permission.php`
 
 </explain-block>
 
-------------------------------------------------
 
 <explain-block title="fluentform/after_no_permission">
 

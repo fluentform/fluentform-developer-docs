@@ -6,11 +6,11 @@
 This action fires after the new form is created. If you want to do certain task after a form creation then you can catch this action hook and do your staff.
 
 **parameters**
-- `$formId` (int) Form Id 
+- `$formId` (int) Form Id
 - `$data` (array) Form Data
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/inserted_new_form', function($formId, $data) {
    // Do your stuff when form is created
 }, 10, 2);
@@ -24,7 +24,6 @@ This action is located in `fluentform/app/Services/Form/FormService.php`
 
 </explain-block>
 
------------------------------------
 
 
 <explain-block title="fluentform/form_element_start">
@@ -37,7 +36,7 @@ This action runs before rendering the input elements of the form. If you need to
 - `$form` (object) Form Object
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/form_element_start', function($formId, $data) {
    // Do your stuff when form element start
 }, 10, 1);
@@ -51,7 +50,6 @@ This action is located in `fluentform/app/Services/FormBuilder/FormBuilder.php -
 
 </explain-block>
 
------------------------------------
 
 <explain-block title="fluentform/form_duplicated">
 
@@ -63,7 +61,7 @@ After a form is duplicated this action is fired.
 - `$newFormId` (int) Form Id
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/form_duplicated', function($form$newFormId) {
    // Do your stuff when form is duplicated
 }, 10, 1);
@@ -77,7 +75,6 @@ This action is located in `fluentform/app/Services/Form/FormService.php`
 
 </explain-block>
 
------------------------------------
 
 <explain-block title="oxygen_add_plus_fluentform_form">
 
@@ -86,7 +83,7 @@ This action is located in `fluentform/app/Services/Form/FormService.php`
 This action runs when register Fluent Forms Oxygen widget sections.
 
 **Usage:**
-```php 
+```php
 add_action('oxygen_add_plus_fluentform_form', function() {
    // Do your stuff when register oxyget plus widget
 }, 10, 0);
@@ -112,7 +109,7 @@ This action fires when loading the form asset.
 - `$formId`  (int)  Form Id
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/load_form_assets', function($formId) {
    // Do your stuff when load form assets
 }, 10, 1);
@@ -139,7 +136,7 @@ This action run when a custom style is applied to the form . You can also push y
 - `$formId`         (int)     Form Id
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/init_custom_stylesheet', function($selectedStyle, $formId) {
    // Do your stuffs here
    // enque style
@@ -506,7 +503,6 @@ This hook is located in `fluentform/app/Views/admin/form/form_wrapper.php`.
 
 </explain-block>
 
-------------------------------------------------
 
 <explain-block title="fluentform/after_form_screen_wrapper">
 
@@ -674,7 +670,6 @@ This hook is located in `fluentform/app/Views/admin/docs/index.php`.
 
 </explain-block>
 
-------------------------------------------------
 
 <explain-block title="fluentform/after_documentation_wrapper">
 
@@ -715,7 +710,7 @@ This action is triggered when a spam attempt is caught. You can use this to log 
 add_action('fluentform/spam_attempt_caught', function ($reason) {
     // Log spam attempt
     error_log("Spam attempt caught: " . $reason);
-    
+
     // Notify admin
     wp_mail('admin@example.com', 'Spam Attempt Detected', "A spam attempt was caught. Reason: " . $reason);
 }, 10, 1);

@@ -6,7 +6,7 @@
 This action runs when add Fluent Forms admin menu
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/admin_nav_menu_{$item_key}', function() {
    // Do your stuff when add fluentform admin menu
 }, 10, 0);
@@ -35,9 +35,9 @@ This action runs after saving the form from admin panel. You can hook into this 
 - $allSettings (array) Form All Settings
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/after_save_form_settings', function($formId, $allSettings) {
-   // Do your stuff when 
+   // Do your stuff when
 }, 10, 2);
 ```
 
@@ -58,9 +58,9 @@ This action is located in `fluentform/app/Services/Settings/SettingsService.php`
 Before rendering the form global settings page this hook is available.
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/before_global_settings_wrapper', function() {
-   // Do your stuff when 
+   // Do your stuff when
 }, 10, 0);
 ```
 
@@ -81,9 +81,9 @@ This action is located in `fluentform/app/Views/admin/settings/index.php`
 After rendering the form settings page this hook is available.
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/after_global_settings_wrapper', function() {
-   // Do your stuff when 
+   // Do your stuff when
 }, 10, 0);
 ```
 
@@ -107,9 +107,9 @@ This action fires before fluentform plugin rendered.
 - `$form_id` (int) Form ID
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/before_form_settings_app', function($form_id) {
-   // Do your stuff when 
+   // Do your stuff when
 }, 10, 1);
 ```
 
@@ -134,9 +134,9 @@ This action fires after fluentform plugin is loaded.
 - `$form_id` (int) Form ID
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/after_form_settings_app', function($form_id) {
-   // Do your stuff when 
+   // Do your stuff when
 }, 10, 1);
 ```
 
@@ -157,9 +157,9 @@ This action is located in `fluentform/app/Views/admin/form/settings.php`
 This action fires on each global settings component before rendering the page.
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/before_global_settings_option_render', function() {
-   // Do your stuff when 
+   // Do your stuff when
 }, 10, 0);
 ```
 
@@ -180,9 +180,9 @@ This action is located in `fluentform/app/Views/admin/settings/settings.php`
 This hook is available before rendering the global settings option page. Fore example Custom CSS/JS page.
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/after_global_settings_option_render', function() {
-   // Do your stuff when 
+   // Do your stuff when
 }, 10, 0);
 ```
 
@@ -206,7 +206,7 @@ This hook runs before rendering the settings page container.
 - `$form_id` (int) Form ID
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/form_settings_container_{$current_route}', function($form_id) {
    // Do your stuff when add fluentform admin menu
 }, 10, 1);
@@ -222,7 +222,6 @@ This action is located in `fluentform/app/Views/admin/form/settings_wrapper.php`
 
 </explain-block>
 
-------------------------------------------
 
 <explain-block title="fluentform/global_settings_component_{$current_component}">
 
@@ -231,7 +230,7 @@ This action is located in `fluentform/app/Views/admin/form/settings_wrapper.php`
 This action fires on each global settings component. For example reCaptcha
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/global_settings_component_{$current_component}', function() {
    // Do your stuff when add fluentform admin menu
 }, 10, 0);
@@ -256,7 +255,7 @@ This action is located in `fluentform/app/Views/admin/settings/index.php`
 This action fires before tool settings render. Do your stuff before tool settings rendered.
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/before_tools_wrapper', function() {
    // Do your stuff here
 }, 10, 0);
@@ -279,7 +278,7 @@ This action is located in `fluentform/app/Views/admin/tools/index.php`
 This action fires after tool settings render. Do your stuff after tool settings rendered.
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/after_tools_wrapper', function() {
    // Do your stuff here
 }, 10, 0);
@@ -302,7 +301,7 @@ This action is located in `fluentform/app/Views/admin/tools/index.php`
 This action fires before tool setting body render. Do your stuff before tool settings body rendered.
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/before_tools_container', function() {
    // Do your stuff here
 }, 10, 0);
@@ -325,7 +324,7 @@ This action is located in `fluentform/app/Views/admin/tools/index.php`
 This action fires after tool settings body render. Do your stuff after tool settings body rendered.
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/after_tools_container', function() {
    // Do your stuff here
 }, 10, 0);
@@ -339,7 +338,6 @@ This action is located in `fluentform/app/Views/admin/tools/index.php`
 
 </explain-block>
 
-------------------------------------------
 
 <explain-block title="fluentform/email_template_after_footer">
 
@@ -353,7 +351,7 @@ This action fire after email template footer rendered.
 - `$notification` (array) Email Notification
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/email_template_after_footer', function($form, $notification) {
    // Do your stuff here
 }, 10, 2);
@@ -376,7 +374,7 @@ This action is located in `fluentform/app/Views/email/template/footer.php`
 This action fire when register schedule task event.
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/do_scheduled_tasks', function() {
    // Do your stuff here
 }, 10, 0);
@@ -399,7 +397,7 @@ This action is located in `fluentform/app/Hooks/Handlers/ActivationHandler.php -
 This action fire when register email report schedule task event.
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/do_email_report_scheduled_tasks', function() {
    // Do your stuff here
 }, 10, 0);
@@ -427,7 +425,7 @@ This action fire when process email report.
 - `$emailResult` (bool|mixed) wp_mail response
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/email_summary_details', function($emailData, $data, $emailResult) {
    // Do your stuff here
 }, 10, 3);
@@ -459,7 +457,7 @@ This action fire when store global settings.
 - `$attributes` (array) Request params
 
 **Usage:**
-```php 
+```php
 add_action('fluentform/saving_global_settings_with_key_method', function($attributes) {
    // Do your stuff here
 }, 10, 1);
