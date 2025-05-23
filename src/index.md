@@ -23,9 +23,9 @@ pageClass: docs-home
   </div>
   <div>
     <ul>
+      <li><a href="./submission-lifecycle/">Submission Lifecycle</a></li>
       <li><a href="./database/">Database Schema</a></li>
       <li><a href="./database/models/">Database Model Basics</a></li>
-      <li><a href="./submission-lifecycle/">Submission Lifecycle</a></li>
     </ul>
   </div>
 </section>
@@ -49,7 +49,7 @@ pageClass: docs-home
 <section id="home-components" class="home-content">
   <div>
     <h2>Fluent Forms APIs</h2>
-    <p>Fluent Forms APIs are designed in a way that allows for easy extending, allowing you to build custom handler in just a few 
+    <p>Fluent Forms APIs are designed in a way that allows for easy extending, allowing you to build custom handler in just a few
     hours(Not in days), and giving you full control of your data.</p>
 </div>
   <div>
