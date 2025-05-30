@@ -1262,3 +1262,37 @@ add_filter('fluentform/submission_resources', function ($resources) {
 This filter is located in Fluentform\app\Services\Submission\SubmissionService -> resources($attributes)
 
 </explain-block>
+
+<explain-block title="fluentform/format_{$element}_response_as_html">
+
+This filter allows you to determine whether a specific form element's response should be formatted as HTML. The `{$element}` in the filter name is dynamically replaced with the actual element type (supported elements: `select`, `input_checkbox`, `input_radio`, `address`, `select_country`, `gdpr_agreement`, `terms_and_condition`, `dynamic_field` and `multi_payment_component`).
+
+**Parameters**
+
+- `$isHtml` (boolean) Whether to format the response as HTML
+- `$response` (mixed) The form field response value
+- `$field` (array) The form field configuration
+
+**Usage**
+
+```php
+// Example for select element
+add_filter('fluentform/format_select_response_as_html', function($isHtml, $response, $field) {
+    // Always format select fields as HTML
+    return true;
+}, 10, 3);
+
+// Example for checkbox element
+add_filter('fluentform/format_input_checkbox_response_as_html', function($isHtml, $response, $field) {
+    // Custom logic to determine HTML formatting
+    return $isHtml;
+}, 10, 3);
+```
+
+**Reference**
+
+`apply_filters("fluentform/format_{$element}_response_as_html", $isHtml, $response, $field);`
+
+This filter is located in `FluentForm\app\Hooks\filters.php` within the response rendering filter for various elements.
+
+</explain-block>

@@ -256,6 +256,32 @@ This filter is located in FluentForm\App\Services\Integration\MailChimp\MailChim
 
 </explain-block>
 
+<explain-block title="fluentform/mailchimp_api_timeout">
+
+This filter allows you to modify the timeout value for MailChimp API requests.
+
+**Parameters**
+
+- `$timeout` (int) The default timeout value in seconds
+
+**Usage**
+
+```php
+add_filter('fluentform/mailchimp_api_timeout', function ($timeout) {
+   // Do your stuff here
+   // Increase timeout for slow connections
+   return 60; // 60 seconds
+}, 10, 1);
+```
+
+**Reference**
+
+`apply_filters('fluentform/mailchimp_api_timeout', $timeout);`
+
+This filter is located in `FluentForm\App\Services\Integrations\MailChimp\MailChimp` -> `makeRequest()`
+
+</explain-block>
+
 <explain-block title="'fluentform/get_integration_values_' . $integrationName">
 
 You can modify integration mapped values and settings using the filter.
