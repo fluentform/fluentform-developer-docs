@@ -469,6 +469,39 @@ This filter is located in FluentForm\App\Services\Form\FormValidationService -> 
 
 </explain-block>
 
+<explain-block title="fluentform/disable_captcha">
+
+You can disable specific captcha validation using this filter. This is useful when you want to bypass captcha validation in certain scenarios.
+
+**Parameters**
+
+- `$isDisabled` (boolean) Whether captcha validation is disabled
+- `$form` (object) Form Object
+- `$captchaType` (string) The type of captcha ('recaptcha', 'hcaptcha', 'turnstile')
+
+**Usage**
+
+```php
+add_filter('fluentform/disable_captcha', function($isDisabled, $form, $captchaType) {
+   // Disable reCAPTCHA for a specific form
+   if ($captchaType === 'recaptcha' && $form->id === 123) {
+      return true;
+   }
+   
+   return $isDisabled;
+}, 10, 3);
+```
+
+**Reference**
+
+`apply_filters('fluentform/disable_captcha', false, $this->form, 'recaptcha');`
+`apply_filters('fluentform/disable_captcha', false, $this->form, 'hcaptcha');`
+`apply_filters('fluentform/disable_captcha', false, $this->form, 'turnstile');`
+
+This filter is located in `FluentForm\App\Services\Form\FormValidationService` -> `validateReCaptcha()`, `validateHCaptcha()`, and `validateTurnstile()`
+
+</explain-block>
+
 <explain-block title="fluentform/has_hcaptcha">
 
 You can toggle Hcaptcha using this filter.
@@ -1735,5 +1768,26 @@ This filter is located in the FluentForm\App\Modules\Form\TokenBasedSpamProtecti
 
 </explain-block>
 
+<explain-block title="fluentform/double_optin_invalid_confirmation_url_message">
 
+This filter allows you to customize double optin invalid confirmation URL messages
 
+**Parameters**
+
+- `$message` (string) The default massage
+
+**Usage**
+
+```php
+add_filter('fluentform/double_optin_invalid_confirmation_url_message', function ($message) {
+    // Modify the message
+    return __('Sorry! Invalid Form Confirmation URL. Please contact the site admin.', 'fluentformpro');
+}, 10, 2);
+```
+**Reference**
+
+`apply_filters('fluentform/double_optin_invalid_confirmation_url_message', __('Sorry! Invalid Form Confirmation URL', 'fluentformpro'));`
+
+This filter is located in the `FluentFormPro\classes\DoubleOptin` -> `confirmSubmission` method.
+
+</explain-block>
