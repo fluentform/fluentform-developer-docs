@@ -1499,22 +1499,24 @@ This filter is located in FluentForm\app\Modules\Component\Component -> renderFo
 
 <explain-block title="fluentform/submission_confirmation">
 
-This filter hook is fired before form render. You can use this to change rendered form.
+This filter is available just before sending the success message to the user. You can use this filter hook to alter the form confirmation message and redirect settings dynamically.
 
 **Parameters**
 
 - `$returnData` (array) Submitted Data
 - `$form` (object) Form Object
 - `$confirmation` (array) Submission Confirmation Message
+- `$insertId` (int) Submission ID
+- `$formData` (array) Form Data
 
 **Usage**
 
 ```php
-add_filter('fluentform/submission_confirmation', function ($returnData, $form, $confirmation) {
+add_filter('fluentform/submission_confirmation', function ($returnData, $form, $confirmation, $insertId, $formData) {
     // Do your stuff here
     
     return $returnData;
-}, 10, 3);
+}, 10, 5);
 
 ```
 ```php
@@ -1526,7 +1528,7 @@ $returnData = [
 
 **Reference**
 
-`apply_filters('fluentform/submission_confirmation', $returnData, $form, $confirmation);`
+`apply_filters('fluentform/submission_confirmation', $returnData, $form, $confirmation, $insertId, $formData);`
 
 This filter is located in FluentForm\app\Services\Form\SubmissionHandlerService -> getReturnData($insertId, $form, $formData)
 
