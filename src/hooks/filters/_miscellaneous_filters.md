@@ -1501,6 +1501,62 @@ This filter is located in FluentFormPro\src\Components\PostSelectionField -> gen
 
 </explain-block>
 
+<explain-block title="fluentform/post_integrations_terms_args">
+
+You can modify the arguments used to retrieve taxonomy terms for hierarchical taxonomies in post integrations.
+
+**Parameters**
+
+- `$termsArgs` (array) Arguments passed to get_terms() function
+- `$data` (array) Field data and settings
+- `$form` (object) Form Object
+
+**Usage**
+
+```php
+add_filter('fluentform/post_integrations_terms_args', function ($termsArgs, $data, $form) {
+    // Modify the arguments for retrieving taxonomy terms
+    
+    // Only modify arguments for a specific form
+    if ($form->id === 123) {
+        // Show terms in descending order by name
+        $termsArgs['orderby'] = 'name';
+        $termsArgs['order'] = 'DESC';
+        
+        // Only show terms that have posts
+        $termsArgs['hide_empty'] = true;
+        
+        // Limit to parent terms only (no children)
+        $termsArgs['parent'] = 0;
+        
+        // Exclude specific term IDs
+        $termsArgs['exclude'] = [45, 67, 89];
+        
+        // Include only terms with specific IDs
+        // $termsArgs['include'] = [12, 34, 56];
+    }
+    
+    // For a specific taxonomy field
+    if (isset($data['taxonomy_settings']['name']) && $data['taxonomy_settings']['name'] === 'category') {
+        // Limit number of terms returned
+        $termsArgs['number'] = 10;
+        
+        // Only get terms that match a specific name pattern
+        $termsArgs['name__like'] = 'product';
+    }
+    
+    return $termsArgs;
+}, 10, 3);
+```
+
+**Reference**
+
+`apply_filters('fluentform/post_integrations_terms_args', $postTermsArgs, $data, $form);`
+
+This filter is located in FluentFormPro\src\Components\Post\Components\HierarchicalTaxonomy -> populateOptions()
+
+</explain-block>
+
 <explain-block title="fluentform/post_selection_types">
 
 You can modify post selection types using this filter.
