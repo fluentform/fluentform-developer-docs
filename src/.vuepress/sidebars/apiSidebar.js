@@ -34,4 +34,15 @@ module.exports = [
             },
         ]
     },
+    {
+        title: 'Extend Fields',
+        collapsable: false,
+        sidebarDepth: 1,
+        children: [
+            {
+                title: 'Custom Field with Custom Editor',
+                children: ['extending-fields/my-custom-element/']
+            }
+        ]
+    },
 ];
