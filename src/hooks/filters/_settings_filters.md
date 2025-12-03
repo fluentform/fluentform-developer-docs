@@ -755,38 +755,87 @@ This filter is located in FluentForm\App\Services\FormBuilder\Components\Text ->
 
 <explain-block title="fluentform/itl_options">
 
-You can modify international options for phone field using this filter.
+You can use this filter to modify the JavaScript options object that is passed to the intl-tel-input library for the phone field. This allows for deep customization of the field's behavior, validation, and appearance.
 
 **Parameters**
 
-- `$itlOptions` (array) International Options for Phone Field
-- `$data` (array) Phone Field
+- `$itlOptions` (array) The configuration options for the intl-tel-input library.
+- `$data` (array) (array) The configuration data for the specific phone field being rendered.
 - `$form` (object) Form Object
 
-**Usage**
-
-```php
-add_filter('fluentform/itl_options', function ($itlOptions, $data, $form) {
-    // Do your stuff here
-    
-    return $itlOptions;
-}, 10, 3);
-
-```
-
+The default configuration in Fluent Forms is:
 ```php
 $itlOptions = [
     'separateDialCode' => false,
     'nationalMode'     => true,
     'autoPlaceholder'  => 'aggressive',
     'formatOnDisplay'  => true,
+    'validationNumberTypes' => [
+        'MOBILE',
+        'FIXED_LINE_OR_MOBILE',
+        'FIXED_LINE',
+        'TOLL_FREE', //  >= Fluent Forms 6.1.10
+    ]
 ];
 ```
+
+**Common Use Cases & Examples**
+1. Expand Validation to Accept Voicemails, VoIP, etc.
+
+    By default, Fluent Forms validates against standard `MOBILE` and `FIXED_LINE` numbers. As of Fluent Forms 6.1.10, it also validates against `TOLL_FREE`. But you can expand this to include other types of validation numbers:
+
+   - Allowed Validation Number Types
+     - `FIXED_LINE` - A standard landline number.
+     - `MOBILE` - A mobile (cell) phone number.
+     - `FIXED_LINE_OR_MOBILE` - Used for regions where it's not possible to distinguish between fixed-line and mobile numbers from the number alone.
+     - `TOLL_FREE` - Numbers that are free for the caller to dial (e.g., 800, 888 in the US).
+     - `PREMIUM_RATE` - High-cost numbers for services, typically charged at a higher rate.
+     - `SHARED_COST` - The cost of the call is shared between the caller and the receiver.
+     - `VOIP` - Voice over IP numbers.
+     - `PERSONAL_NUMBER` - A location-independent "follow-me" number that can be routed to different physical phones.
+     - `PAGER` - A number for a paging service.
+     - `UAN` - A Universal Access Number, used by businesses to be reachable on a single number across a country.
+     - `VOICEMAIL` - A number that goes directly to a voicemail service.
+```php
+add_filter('fluentform/itl_options', function ($itlOptions) {
+    // A list of all possible validation types that support.
+    $itlOptions['validationNumberTypes'] = [
+        'MOBILE',
+        'FIXED_LINE_OR_MOBILE',
+        'FIXED_LINE',
+        'TOLL_FREE',
+        'VOIP'
+    ];
+    return $itlOptions;
+});
+```
+2. Display the Dial Code in a Separate Field.
+
+   For a different UI style, you can have the country dial code appear next to the main input field instead of inside it.
+```php
+add_filter('fluentform/itl_options', function ($itlOptions) {
+    // This splits the flag dropdown and the number input.
+    $itlOptions['separateDialCode'] = true;
+    return $itlOptions;
+});
+```
+
+3. Use Full-Screen Dropdown
+
+   To improve the user experience on screens, you can make the country dropdown open in a full-screen modal.
+```php
+add_filter('fluentform/itl_options', function ($itlOptions) {
+    // The default is false. Set to true to enable.
+    $itlOptions['useFullscreenPopup'] = true;
+    return $itlOptions;
+});
+```
+    
 **Reference**
 
 `apply_filters('fluentform/itl_options', $itlOptions, $data, $form);`
 
-This filter is located in FluentForm\App\Services\FluentConversational\Classes\Converter\Converter -> getPhoneFieldSettings($data, $form)
+This filter is located in `FluentForm\App\Services\FluentConversational\Classes\Converter\Converter -> getPhoneFieldSettings($data, $form)`, `FluentFormPro\Components\PhoneField.php:273`
 
 </explain-block>
 
