@@ -134,6 +134,10 @@ module.exports = {
                         link: '/api/classes/base-field-manager/'
                     },
                     {
+                        text: 'Extending Fields',
+                        link: '/api/extending-fields/my-custom-element/'
+                    },
+                    {
                         text: 'IntegrationManagerController',
                         link: '/api/classes/integration-manager-controller/'
                     },
