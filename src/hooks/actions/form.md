@@ -1,3 +1,8 @@
+# Form Hooks
+
+<Badge type="tip" vertical="top" text="Action Hooks" /> <Badge type="warning" vertical="top" text="27 Hooks" />
+
+These hooks fire during form lifecycle events — creation, rendering, deletion, and display.
 
 <explain-block title="fluentform/inserted_new_form">
 

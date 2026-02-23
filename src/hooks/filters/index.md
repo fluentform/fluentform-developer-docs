@@ -1,69 +1,33 @@
-# Fluent Forms Filter Hooks
+# Filter Hooks
 
-<Badge type="tip" vertical="top" text="Fluent Forms Core" /> <Badge type="warning" vertical="top" text="Intermediate" />
+<Badge type="tip" vertical="top" text="Fluent Forms Core" /> <Badge type="warning" vertical="top" text="331 Filters" />
 
-Fluent Forms has many interesting filer hooks that let developers change default settings and even extend Fluent Forms with new functionality.
+Fluent Forms provides filter hooks that let you modify data and behavior. Filters receive a value, let you change it, and return the modified result. They are organized by category below.
 
-## What are Filter Hooks
+## Categories
 
-A hook is a feature that allows developers to manipulate functionality without modifying core files. A hook can help developers inject some functions or edit default settings.
-  
-Filter hooks are used to return modified values for certain parameters, based on different factors.
+| Category | Filters | Description |
+|----------|---------|-------------|
+| [Submission](./submission/) | 44 | Modify submission data, responses, and entries |
+| [Form](./form/) | 49 | Modify form rendering, validation, and fields |
+| [Settings](./settings/) | 43 | Modify admin settings and permissions |
+| [Integration](./integration/) | 27 | Modify integration feeds and notifications |
+| [Miscellaneous](./miscellaneous/) | 57 | File uploads, analytics, permissions, shortcodes |
+| [Email](./email/) | 26 | Modify email notifications and templates |
+| [File Uploader](./file-uploader/) | 9 | Modify file upload validation and paths |
+| [Quiz](./quiz/) | 6 | Modify quiz results and scoring |
+| [User Registration](./user-registration/) | 10 | Modify user registration fields and roles |
+| [Webhook](./webhook/) | 5 | Modify webhook request arguments |
+| [Payment](./payment/) | 55 | Modify payment processing and gateway settings |
 
-## Available Filter Hooks
+## Quick Example
 
-### Submission Filters
-<hr />
+```php
+// Modify submission data before it's saved to the database
+add_filter('fluentform/insert_response_data', function ($formData, $formId, $inputConfigs) {
+    // Add a custom field value
+    $formData['custom_field'] = 'custom_value';
 
-!!!include(./src/hooks/filters/_submission_filters.md)!!!
-
-### Form Filters
-<hr />
-
-!!!include(./src/hooks/filters/_form_filters.md)!!!
-
-### Settings Filters
-<hr />
-
-!!!include(./src/hooks/filters/_settings_filters.md)!!!
-
-### Integration Filters
-<hr />
-
-!!!include(./src/hooks/filters/_integration_filters.md)!!!
-
-### Miscellaneous Filters
-<hr />
-
-!!!include(./src/hooks/filters/_miscellaneous_filters.md)!!!
-
-### Email Filters
-<hr />
-
-!!!include(./src/hooks/filters/_email_filters.md)!!!
-
-### File Uploader Filters
-<hr />
-
-!!!include(./src/hooks/filters/_file_uploader_filters.md)!!!
-
-### Quiz Filters
-<hr />
-
-!!!include(./src/hooks/filters/_quiz_filters.md)!!!
-
-### User Registration Filters
-<hr />
-
-!!!include(./src/hooks/filters/_user_registration_filters.md)!!!
-
-### Webhook Filters
-<hr />
-
-!!!include(./src/hooks/filters/_webhook_filters.md)!!!
-
-### Payment Filters
-<hr />
-
-!!!include(./src/hooks/filters/_payment_filters.md)!!!
-
+    return $formData;
+}, 10, 3);
+```

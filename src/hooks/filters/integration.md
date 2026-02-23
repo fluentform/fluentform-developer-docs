@@ -1,3 +1,9 @@
+# Integration Filters
+
+<Badge type="tip" vertical="top" text="Filter Hooks" /> <Badge type="warning" vertical="top" text="27 Filters" />
+
+These filters let you modify integration feeds, notification data, and third-party connections.
+
 <explain-block title="fluentform/global_notification_active_types">
 
 This filter returns the active notification feeds for the current form ID.

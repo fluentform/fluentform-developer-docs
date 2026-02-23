@@ -1,3 +1,8 @@
+# Conversational Form Hooks
+
+<Badge type="tip" vertical="top" text="Action Hooks" /> <Badge type="warning" vertical="top" text="2 Hooks" />
+
+These hooks fire during conversational form rendering.
 
 <explain-block title="fluentform/conversational_frame_head">
 

@@ -1,3 +1,8 @@
+# Payment Hooks
+
+<Badge type="tip" vertical="top" text="Action Hooks" /> <Badge type="warning" vertical="top" text="39 Hooks" />
+
+These hooks fire during payment processing — rendering, status changes, refunds, subscriptions, and webhooks.
 
 <explain-block title="fluentform/rendering_payment_form">
 

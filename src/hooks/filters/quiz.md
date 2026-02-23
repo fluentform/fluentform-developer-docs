@@ -1,3 +1,9 @@
+# Quiz Filters
+
+<Badge type="tip" vertical="top" text="Filter Hooks" /> <Badge type="warning" vertical="top" text="6 Filters" />
+
+These filters let you modify quiz results, scoring, and display.
+
 <explain-block title="fluentform/quiz_result_table_html">
 
 You can use this filter to modify quiz result table HTML.

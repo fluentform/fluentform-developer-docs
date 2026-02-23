@@ -1,3 +1,9 @@
+# Miscellaneous Filters
+
+<Badge type="tip" vertical="top" text="Filter Hooks" /> <Badge type="warning" vertical="top" text="57 Filters" />
+
+These filters cover file uploads, analytics, permissions, shortcodes, and other general-purpose hooks.
+
 <explain-block title="fluentform/file_upload_options">
 
 You can change Fluent Forms default file upload location by using this filter.

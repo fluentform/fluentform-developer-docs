@@ -1,3 +1,8 @@
+# Partial Submission Hooks
+
+<Badge type="tip" vertical="top" text="Action Hooks" /> <Badge type="warning" vertical="top" text="10 Hooks" />
+
+These hooks fire during partial/draft submission handling — step forms, save & resume, and draft entries.
 
 <explain-block title="fluentform/partial_submission_added">
 

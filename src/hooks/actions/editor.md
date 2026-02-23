@@ -1,3 +1,8 @@
+# Editor Hooks
+
+<Badge type="tip" vertical="top" text="Action Hooks" /> <Badge type="warning" vertical="top" text="8 Hooks" />
+
+These hooks fire during the form editor — initialization, asset loading, and element rendering.
 
 <explain-block title="fluentform/editor_init">
 

@@ -1,3 +1,8 @@
+# Submission Hooks
+
+<Badge type="tip" vertical="top" text="Action Hooks" /> <Badge type="warning" vertical="top" text="13 Hooks" />
+
+These hooks fire during form submission processing — before, during, and after a submission is saved.
 
 <explain-block title="fluentform/before_insert_submission">
 

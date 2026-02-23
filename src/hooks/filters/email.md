@@ -1,3 +1,9 @@
+# Email Filters
+
+<Badge type="tip" vertical="top" text="Filter Hooks" /> <Badge type="warning" vertical="top" text="26 Filters" />
+
+These filters let you modify email notifications, templates, headers, and delivery settings.
+
 <explain-block title="fluentform/email_summary_config">
 
 You can use this filter to modify email summary configuration.

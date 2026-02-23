@@ -1,3 +1,8 @@
+# Addon Hooks
+
+<Badge type="tip" vertical="top" text="Action Hooks" /> <Badge type="warning" vertical="top" text="2 Hooks" />
+
+These hooks fire during addon page rendering and management.
 
 <explain-block title="fluentform/addons_page_render_{$current_menu_item}">
 

@@ -1,3 +1,9 @@
+# Submission Filters
+
+<Badge type="tip" vertical="top" text="Filter Hooks" /> <Badge type="warning" vertical="top" text="44 Filters" />
+
+These filters let you modify submission data, responses, and entry display.
+
 <explain-block title="fluentform/insert_response_data">
 
 **Description**

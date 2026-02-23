@@ -1,3 +1,9 @@
+# File Uploader Filters
+
+<Badge type="tip" vertical="top" text="Filter Hooks" /> <Badge type="warning" vertical="top" text="9 Filters" />
+
+These filters let you modify file upload validation, paths, and processing.
+
 <explain-block title="fluentform/file_upload_validations">
 
 You can modify file upload validation rules and message using the filter.
