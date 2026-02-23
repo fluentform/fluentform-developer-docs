@@ -18,17 +18,6 @@ module.exports = [
             ]
         ]
     },
-    // {
-    //     title: 'Database Models',
-    //     collapsable: true,
-    //     sidebarDepth: -1,
-    //     children: [
-    //         [
-    //             '/database/models/campaign',
-    //             'Campaign Model'
-    //         ]
-    //     ]
-    // },
     {
         title: 'Fluent ORM',
         collapsable: true,
