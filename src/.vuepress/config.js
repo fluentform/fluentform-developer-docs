@@ -113,7 +113,7 @@ module.exports = {
                         link: '/global-functions/',
                     },
                     {
-                        text: 'Helpers Classes',
+                        text: 'Helper Classes',
                         link: '/helpers/',
                     },
                     {
@@ -230,7 +230,9 @@ module.exports = {
             },
         ],
         [ 'vuepress-plugin-sitemap1' ,
-            {}
+            {
+                hostname: 'https://developers.fluentforms.com'
+            }
         ]
     ]
 }

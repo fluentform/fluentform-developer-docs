@@ -54,9 +54,8 @@ pageClass: docs-home
 </div>
   <div>
     <ul>
-      <li><a href="api/classes/base-field-manager">Extend Form Field</a></li>
+      <li><a href="api/classes/base-field-manager">Extend Form Fields</a></li>
       <li><a href="api/extending-rest-api/">Extend REST API</a></li>
-      <li><a href="api/classes/base-field-manager">Extend Fields</a></li>
       <li><a href="api/classes/integration-manager-controller">Extend Integrations</a></li>
       <li><a href="api/classes/base-processor">Extend Payment Process</a></li>
       <li><a href="api/classes/base-payment-method">Extend Payment Method</a></li>
