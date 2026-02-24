@@ -1,3 +1,9 @@
+# Webhook Filters
+
+<Badge type="tip" vertical="top" text="Filter Hooks" /> <Badge type="warning" vertical="top" text="5 Filters" />
+
+These filters let you modify webhook request arguments and data.
+
 <explain-block title="fluentform/webhook_request_args">
 
 You can modify webhook request arguments using the filter.

@@ -1,3 +1,8 @@
+# Plugin Init Hooks
+
+<Badge type="tip" vertical="top" text="Action Hooks" /> <Badge type="warning" vertical="top" text="5 Hooks" />
+
+These hooks fire during Fluent Forms plugin initialization and loading.
 
 <explain-block title="fluentform/loaded">
 

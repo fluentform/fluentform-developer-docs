@@ -1,3 +1,9 @@
+# Settings Filters
+
+<Badge type="tip" vertical="top" text="Filter Hooks" /> <Badge type="warning" vertical="top" text="43 Filters" />
+
+These filters let you modify admin settings, global configuration, and permissions.
+
 <explain-block title="fluentform/is_admin_page">
 
 You can toggle the rendering page as an admin page by using this filter.

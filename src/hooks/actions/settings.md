@@ -1,3 +1,8 @@
+# Settings Hooks
+
+<Badge type="tip" vertical="top" text="Action Hooks" /> <Badge type="warning" vertical="top" text="19 Hooks" />
+
+These hooks fire during admin settings, navigation menus, and configuration screens.
 
 <explain-block title="fluentform/admin_nav_menu_{$item_key}">
 

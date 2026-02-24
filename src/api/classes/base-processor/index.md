@@ -2,7 +2,7 @@
 <Badge type="tip" vertical="top" text="PAYMENT API" /> <Badge type="tip" vertical="top" text="EXTEND PAYMENT PROCESSOR" />
 The Fluent Forms `BaseProcessor` class offers developers to process payment methods created from the [BasePaymentMethod](/api/classes/base-payment-method) class.
 
-The API Functions is automatically called when the form has payment the selected payment methods. The BaseFieldManager class is located at the pro version of fluetnforms plugin in `src/Payments/PaymentMethods/BaseProcessor.php`.
+The API Functions are automatically called when the form has the selected payment methods. The BaseProcessor class is located in the pro version of Fluent Forms plugin at `src/Payments/PaymentMethods/BaseProcessor.php`.
 
 **Notice: Please do not initiate this class directly. You should extend this class to add a new payment processor.**
 
@@ -127,7 +127,8 @@ public function changeSubmissionPaymentStatus($newStatus)
 ### changeTransactionStatus($transactionId, $newStatus)
 Use this method to update the status of the transaction.
 
-```php/*
+```php
+/*
 *@param $transactionId - Transaction ID 
 *@param $newStatus - New Status 
 */
@@ -137,14 +138,15 @@ public function changeTransactionStatus($transactionId, $newStatus)
 ### recalculatePaidTotal()
 Use this method to recalculate the current submission total amount. This method does not need to be created in your class you can call this method from the base class.
 
-```php/*
+```php
 public function recalculatePaidTotal()
 ```
 
 ### updateTransaction($transactionId, $data)
 This method updates transaction data.
 
-```php/*
+```php
+/*
 /*
 *@param $transactionId - Transaction ID 
 *@param $data - Transaction data array 
@@ -156,14 +158,15 @@ public function updateTransaction($transactionId, $data)
 ### handleSessionRedirectBack($data)
 This method handles the payment session redirect back.
 
-```php/*
+```php
 public function handleSessionRedirectBack($data)
 ```
 
 ### setMetaData()
 Submission metadata is saved using this method.
 
-```php/*
+```php
+/*
 /*
 * @param $name - Meta Name
 * @param @value - Meta Value
@@ -174,7 +177,7 @@ public function setMetaData($name, $value)
 ### getReturnData()
 This method will return submission data which will be used during the final payment processing.
 
-```php/*
+```php
 public function getReturnData()
 ```
 

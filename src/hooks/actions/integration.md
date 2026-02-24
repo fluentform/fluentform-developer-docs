@@ -1,3 +1,8 @@
+# Integration Hooks
+
+<Badge type="tip" vertical="top" text="Action Hooks" /> <Badge type="warning" vertical="top" text="8 Hooks" />
+
+These hooks fire during third-party integration processing — scheduled jobs, feed processing, and notifications.
 
 <explain-block title="fluentform/maybe_scheduled_jobs">
 

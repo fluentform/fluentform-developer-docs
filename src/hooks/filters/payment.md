@@ -1,3 +1,9 @@
+# Payment Filters
+
+<Badge type="tip" vertical="top" text="Filter Hooks" /> <Badge type="warning" vertical="top" text="55 Filters" />
+
+These filters let you modify payment processing, order items, statuses, receipts, and gateway-specific settings.
+
 <explain-block title="fluentform/payment_submission_data">
 
 You can use this filter to modify payment form submission data.
@@ -41,8 +47,8 @@ You can use this filter to modify payment order items data.
 ```php
 add_filter('fluentform/submission_order_items', function ($orderItems, $submissionData, $form) {
     // Do your stuff here
-    
-    return $submission;
+
+    return $orderItems;
 }, 10, 3);
 
 ```
@@ -99,8 +105,8 @@ You can use this filter to modify payment subscription items data.
 ```php
 add_filter('fluentform/submission_subscription_items', function ($subscriptionItems, $submissionData, $form) {
     // Do your stuff here
-    
-    return $submission;
+
+    return $subscriptionItems;
 }, 10, 3);
 
 ```
@@ -721,7 +727,8 @@ $paymentStatuses = [
     'failed'             => __('Failed', 'fluentformpro'),
     'refunded'           => __('Refunded', 'fluentformpro'),
     'partially-refunded' => __('Partial Refunded', 'fluentformpro'),
-    'cancelled'          => __('Cancelled', 'fluentformpro')
+    'cancelled'          => __('Cancelled', 'fluentformpro'),
+    'requires_review'    => __('Requires Review', 'fluentformpro')
 ];
 ```
 
@@ -729,7 +736,7 @@ $paymentStatuses = [
 
 `apply_filters('fluentform/available_payment_statuses', $paymentStatuses);`
 
-This filter is located in FluentFormPro\src\PaymentsHelper -> getPaymentStatuses()
+This filter is located in FluentFormPro\src\Payments\PaymentHelper -> getPaymentStatuses()
 
 </explain-block>
 
@@ -1107,7 +1114,7 @@ add_filter('fluentform/process_paypal_ipn_data', function ($encoded_data_array) 
 
 `apply_filters('fluentform/process_paypal_ipn_data', $encoded_data_array);`
 
-This filter is located in FluentFormPro\src\PaymentMethods\Stripe\API\Customer -> createCustomer($customerArgs, $formId)
+This filter is located in FluentFormPro\src\Payments\PaymentMethods\PayPal\API\IPN -> verifyIPN()
 
 </explain-block>
 
@@ -1488,8 +1495,8 @@ You can use this filter to modify payment arguments of Square payment method.
 ```php
 add_filter('fluentform/square_payment_args', function ($paymentArgs, $submission, $transaction, $form) {
     // Do your stuff here
-    
-    return $countries;
+
+    return $paymentArgs;
 }, 10, 4);
 
 ```

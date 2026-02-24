@@ -1,3 +1,9 @@
+# Form Filters
+
+<Badge type="tip" vertical="top" text="Filter Hooks" /> <Badge type="warning" vertical="top" text="49 Filters" />
+
+These filters let you modify form rendering, validation, fields, and form-level settings.
+
 <explain-block title="fluentform/is_form_renderable">
 
 You can check if the form is renderable using this filter.

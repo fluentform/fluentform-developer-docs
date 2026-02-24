@@ -1,3 +1,9 @@
+# User Registration Filters
+
+<Badge type="tip" vertical="top" text="Filter Hooks" /> <Badge type="warning" vertical="top" text="10 Filters" />
+
+These filters let you modify user registration fields, roles, and data mapping.
+
 <explain-block title="fluentform/user_registration_field_defaults">
 
 You can modify User Registration integration default fields using the filter.

@@ -1,3 +1,8 @@
+# Form Styler Hooks
+
+<Badge type="tip" vertical="top" text="Action Hooks" /> <Badge type="warning" vertical="top" text="2 Hooks" />
+
+These hooks fire during form styling and visual customization.
 
 <explain-block title="fluentform/form_styler">
 

@@ -7,12 +7,4 @@ module.exports = [
       ['', 'Basic Functions'],
     ]
   },
-  // {
-  //   title: 'Utility Functions',
-  //   collapsable: false,
-  //   sidebarDepth: -1,
-  //   children: [
-  //     'form-api-function',
-  //   ]
-  // }
 ];
