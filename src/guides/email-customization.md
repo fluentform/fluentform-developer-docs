@@ -1,0 +1,235 @@
+# Email & Notification Customization
+
+<Badge type="tip" vertical="top" text="Guide" /> <Badge type="warning" vertical="top" text="Intermediate" />
+
+Fluent Forms sends email notifications after form submissions. This guide covers how to customize email content, templates, headers, attachments, and recipients using filter hooks.
+
+[[toc]]
+
+## How Email Notifications Work
+
+When a form is submitted, Fluent Forms processes each notification feed configured for that form. The email pipeline is:
+
+1. Parse shortcodes in subject, body, and recipient fields
+2. Apply filters to customize content
+3. Wrap body in HTML template (header, body, footer, styles)
+4. Attach files if configured
+5. Send via `wp_mail()`
+
+## Changing the Email Recipient
+
+Use the `fluentform/email_to` filter to add, change, or conditionally route recipients:
+
+```php
+add_filter('fluentform/email_to', function ($address, $notification, $submittedData, $form) {
+    // Only modify for form #5
+    if ($form->id !== 5) {
+        return $address;
+    }
+
+    // Route based on a form field value
+    $department = $submittedData['department'] ?? '';
+
+    switch ($department) {
+        case 'sales':
+            return 'sales@example.com';
+        case 'support':
+            return 'support@example.com';
+        default:
+            return $address;
+    }
+}, 10, 4);
+```
+
+Multiple recipients can be comma-separated: `'admin@example.com, manager@example.com'`.
+
+## Customizing the Email Subject
+
+```php
+add_filter('fluentform/email_subject', function ($subject, $notification, $submittedData, $form) {
+    // Prepend form title
+    return '[' . $form->title . '] ' . $subject;
+}, 10, 4);
+```
+
+## Customizing the Email Body
+
+The `fluentform/email_body` filter runs after shortcodes are parsed but before the HTML template wraps the content:
+
+```php
+add_filter('fluentform/email_body', function ($emailBody, $notification, $submittedData, $form) {
+    // Append a custom footer message
+    $emailBody .= '<hr><p style="color: #999; font-size: 12px;">';
+    $emailBody .= 'This email was generated from ' . esc_html($form->title);
+    $emailBody .= ' on ' . current_time('F j, Y \a\t g:i A') . '</p>';
+
+    return $emailBody;
+}, 10, 4);
+```
+
+## Customizing Email Template Styles
+
+### Change Template Colors
+
+```php
+add_filter('fluentform/email_template_colors', function ($colors) {
+    return [
+        'background_color'      => '#f0f4f8',
+        'body_background_color' => '#ffffff',
+        'base_color'            => '#1a56db',
+        'text_color'            => '#333333',
+    ];
+});
+```
+
+### Add Custom CSS
+
+```php
+add_filter('fluentform/email_styles', function ($css, $form, $notification) {
+    $css .= '
+        h1, h2, h3 { color: #1a56db; }
+        table { border-collapse: collapse; width: 100%; }
+        td, th { padding: 8px 12px; border: 1px solid #e2e8f0; }
+    ';
+
+    return $css;
+}, 10, 3);
+```
+
+## Customizing Header and Footer
+
+### Custom Header
+
+```php
+add_filter('fluentform/email_header', function ($header, $form, $notification) {
+    // Replace the entire header
+    return '<div style="background: #1a56db; padding: 20px; text-align: center;">'
+         . '<img src="https://example.com/logo-white.png" alt="Logo" style="height: 40px;" />'
+         . '</div>';
+}, 10, 3);
+```
+
+### Custom Footer Text
+
+```php
+add_filter('fluentform/email_template_footer_text', function ($footerText, $form, $notification) {
+    return 'Acme Corp | 123 Main Street | contact@acme.com';
+}, 10, 3);
+```
+
+### Remove "Powered by" Credit
+
+```php
+add_filter('fluentform/email_template_footer_credit', function ($poweredBy, $form, $notification) {
+    return ''; // Remove credit
+}, 10, 3);
+```
+
+## Adding Email Attachments
+
+Attach files dynamically to notification emails:
+
+```php
+add_filter('fluentform/filter_email_attachments', function ($attachments, $notification, $form, $submittedData) {
+    // Attach a static file
+    $attachments[] = ABSPATH . 'wp-content/uploads/terms-and-conditions.pdf';
+
+    return $attachments;
+}, 10, 4);
+```
+
+## Sending Plain Text Emails
+
+Force plain text emails instead of HTML:
+
+```php
+add_filter('fluentform/send_plain_html_email', function ($isSendAsPlain, $form, $notification) {
+    // Send plain text for form #10
+    if ($form->id === 10) {
+        return true;
+    }
+
+    return $isSendAsPlain;
+}, 10, 3);
+```
+
+## Customizing Email Summary Reports
+
+Fluent Forms can send scheduled email summary reports. Customize them with these filters:
+
+```php
+// Change the subject
+add_filter('fluentform/email_summary_subject', function ($subject) {
+    return 'Weekly Form Summary - ' . get_bloginfo('name');
+});
+
+// Customize the body text
+add_filter('fluentform/email_summary_body_text', function ($text, $submissions) {
+    $count = count($submissions);
+    return "You received {$count} submissions this week. Here's the breakdown:";
+}, 10, 2);
+
+// Change the footer
+add_filter('fluentform/email_summary_footer_text', function ($footer) {
+    return 'Generated by Fluent Forms on ' . current_time('F j, Y');
+});
+```
+
+## Custom Email Headers
+
+Add reply-to, CC, or custom headers:
+
+```php
+add_filter('fluentform/email_template_header', function ($headers, $notification) {
+    // Add a Reply-To header from the submitted email
+    $headers[] = 'Reply-To: submitter@example.com';
+
+    // Add CC
+    $headers[] = 'Cc: manager@example.com';
+
+    return $headers;
+}, 10, 2);
+```
+
+## Complete Example: Branded Email Template
+
+```php
+add_action('fluentform/loaded', function () {
+
+    // Custom colors
+    add_filter('fluentform/email_template_colors', function () {
+        return [
+            'background_color'      => '#f8fafc',
+            'body_background_color' => '#ffffff',
+            'base_color'            => '#4f46e5',
+            'text_color'            => '#1e293b',
+        ];
+    });
+
+    // Custom header with logo
+    add_filter('fluentform/email_header', function ($header, $form, $notification) {
+        return '<div style="background: #4f46e5; padding: 24px; text-align: center;">'
+             . '<img src="' . plugins_url('assets/logo.png', __FILE__) . '" height="36" />'
+             . '</div>';
+    }, 10, 3);
+
+    // Custom footer
+    add_filter('fluentform/email_template_footer_text', function () {
+        return 'Acme Corp | <a href="https://acme.com">acme.com</a>';
+    });
+
+    // Remove powered by
+    add_filter('fluentform/email_template_footer_credit', '__return_empty_string');
+
+    // Add custom CSS
+    add_filter('fluentform/email_styles', function ($css) {
+        return $css . ' a { color: #4f46e5; } ';
+    });
+});
+```
+
+## Related Resources
+
+- [Email Filter Hooks](/hooks/filters/email/) — Full reference for all 26 email filters
+- [Submission Action Hooks](/hooks/actions/submission/) — Hooks for the submission process
+- [Global Functions](/global-functions/) — `fluentFormApi()` for accessing submission data

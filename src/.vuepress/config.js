@@ -101,8 +101,24 @@ module.exports = {
                         link: '/guides/custom-integration-tutorial/',
                     },
                     {
+                        text: 'Payment Gateway Development',
+                        link: '/guides/payment-gateway-tutorial/',
+                    },
+                    {
+                        text: 'Email Customization',
+                        link: '/guides/email-customization/',
+                    },
+                    {
                         text: 'Frontend JS Hooks',
                         link: '/guides/frontend-js-hooks/',
+                    },
+                    {
+                        text: 'Security Best Practices',
+                        link: '/guides/security/',
+                    },
+                    {
+                        text: 'Troubleshooting & FAQ',
+                        link: '/guides/troubleshooting/',
                     },
                 ],
             },

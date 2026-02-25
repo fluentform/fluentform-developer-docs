@@ -27,7 +27,11 @@ pageClass: docs-home
       <li><a href="./guides/prerequisites/">Prerequisites & Dev Environment</a></li>
       <li><a href="./guides/custom-field-tutorial/">Creating a Custom Field</a></li>
       <li><a href="./guides/custom-integration-tutorial/">Building a Custom Integration</a></li>
+      <li><a href="./guides/payment-gateway-tutorial/">Payment Gateway Development</a></li>
+      <li><a href="./guides/email-customization/">Email Customization</a></li>
       <li><a href="./guides/frontend-js-hooks/">Frontend JS Hooks</a></li>
+      <li><a href="./guides/security/">Security Best Practices</a></li>
+      <li><a href="./guides/troubleshooting/">Troubleshooting & FAQ</a></li>
     </ul>
   </div>
 </section>

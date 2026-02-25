@@ -1,23 +1,24 @@
 # Extend the REST API
 <Badge type="tip" vertical="top" text="Fluent Framework" />
-REST (representational state transfer) is a software architectural style that defines a set of constraints to be used for creating Web services. 
-RESTful Web services allow the requesting systems to access and manipulate Web resources through a standardized interface.
-In the context of a WordPress plugin, a REST API allows you to create custom endpoints that can be accessed via HTTP requests. These endpoints can be used to perform various tasks, 
-such as retrieving data from the WordPress database, creating new posts, updating user information, etc.
-For example, you might create a custom REST API endpoint that allows users to retrieve a list of posts from a specific category. To do this, you would create an endpoint URL (e.g. `/wp-json/fluentform/v1/posts`) 
-and define a callback function that retrieves the posts from the database and returns them in a format 
-that can be easily consumed by other systems (e.g. JSON).
+
+Fluent Forms includes a built-in REST API router that lets you register custom endpoints under the `fluentform/v1` namespace. You can define routes, controllers, and policies to build secure APIs for your extensions.
+
+[[toc]]
+
+## API Base URL
+
+All Fluent Forms REST API endpoints are available at:
+
+```
+https://yourdomain.com/wp-json/fluentform/v1/
+```
 
 ## Registering a Custom Endpoint
-Fluent Forms uses WordPress REST API. So you can use any authorization method that supports WordPress.
 
-[//]: # (You may take a look at built-in [REST API Section]&#40;https://rest-api.fluentform.com/&#41;.)
+Register routes inside the `fluentform/loaded` hook using the application router:
 
-Fluent Forms enables you to add custom endpoints to its REST API from your plugin, by registering routes,
-policies, and controllers in an easy and convenient way. 
-Let's go through some examples of how you might set up a WordPress plugin to extend the Fluent Forms plugin using routers and controllers along with policies.
+### Routing
 
-## Routing
 ```php
 add_action( 'fluentform/loaded', function( $app ) {
     $app->router->prefix( 'my-prefix' )->withPolicy( 'MyPlugin\Policies\MyPolicy' )->group( function( $router ) {
@@ -27,35 +28,32 @@ add_action( 'fluentform/loaded', function( $app ) {
 });
 
 ```
-The above code registers a route that will be accessible at `https://yourdomain.com/wp-json/fluentform/v1/my-prefix/`.
-- **API Base URL**: _`https://yourdomain.com/wp-json/fluentform/v1/`_
+The above code registers a route accessible at `https://yourdomain.com/wp-json/fluentform/v1/my-prefix/`.
 
-**Note:** _Make sure to autoload your classes. Otherwise, you may get an error like this:
-`Class \MyPlugin\Policies\MyPolicy does not exist`. You need to autoload your classes before the `fluentform/loaded` action is fired._
+::: warning
+Make sure to autoload your classes before the `fluentform/loaded` action fires. Otherwise you'll get a `Class does not exist` error. See [Autoloading](#autoloading) below.
+:::
 
-This code uses the `add_action` function to register a callback function that will be called when the `fluentform/loaded` action is triggered.
-The callback function sets up a route using the Fluent Forms router, which is passed to the function as an argument.
-The route is defined using the `prefix` and `group` methods of the router. The `prefix` method sets a prefix for the route, which will be added to the beginning of the route's URL. 
-The `withPolicy` method sets a policy class that will be used to authorize the request. We will discuss policies in more detail later in this article.
-The `group` method creates a group of routes that share the same prefix and policy.
-Inside the group, the `get` method is used to define a route for a GET request to the URL `/my-prefix/`.
-The route is handled by the `index` method of the MyController class in the `MyPlugin\Controllers` namespace.
-Note that group and prefix methods are optional. You can also define routes without them.
+The `prefix` and `group` methods are optional. You can also define routes directly:
+
 ```php
  $app->router->post( '/your-url-path/', 'MyPlugin\Controllers\MyController@create');
 ```
+
 ### Route Parameters
-You can also define route parameters. For example, if you want to define a route that handles a GET request to the URL `/show/{id}`, 
-you can do it like this:
+
+Define dynamic URL segments with type constraints:
+
 ```php
  $app->router->get('/show/{id}', 'MyPlugin\Controllers\MyController@show')->int('id');
 ```
 The `int` method tells the router that the `id` parameter should be an integer. You may chain multiple methods to define multiple parameters.
-The `alpha` accepts only alphabetic characters.
+The `alpha` method accepts only alphabetic characters.
+
 ```php
  /* in routes */
  $app->router->get('/show/{id}/{name}', 'MyPlugin\Controllers\MyController@show')->int('id')->alpha('name');
- 
+
 /*
 * Route parameters can be directly accessed in the controller method
 */
@@ -66,8 +64,10 @@ public function show($id, $name)
 
 ```
 
-### Available Router methods 
-The router allows you to define routes for the following HTTP verb:
+### Available Router Methods
+
+The router supports all standard HTTP verbs:
+
 ```php
 $router->get( $uri, $callback);
 $router->post( $uri, $callback);
@@ -78,9 +78,9 @@ $router->any( $uri, $callback); // responds to any HTTP verb
 ```
 
 ## Controllers
-Fluent Forms provides a base controller class that can be extended to create your own controllers. 
-The base controller class provides a number of useful methods for working with the request and response objects.
-Let's look at an example of a controller class that extends the base controller class:
+
+Extend the base controller class for structured request handling:
+
 ```php
 <?php
 
@@ -90,26 +90,31 @@ use FluentForm\Framework\Http\Controller;
 
 class MyController extends Controller
 {
-    
+
     public function index()
     {
         // Your controller logic goes here
-        // must return something 
+        // must return something
     }
 }
 ```
-#### Controller Methods
 
-The base controller class provides the following methods with brief descriptions of what each method does:
-- `send`: This method is used to send a response with data and a status code.
-- `sendSuccess`: This method is used to send a success response with data and a status code.
-- `sendError`: This method is used to send an error response with data and a status code
-- `request`: This method returns the request object.
-- `response`: This method returns the response object.
+### Controller Methods
 
-Let's look at the example of sendSuccess method:
+The base controller class provides these response helpers:
+
+| Method | Description |
+|--------|-------------|
+| `$this->send($data, $code)` | Send a response with data and status code |
+| `$this->sendSuccess($data, $code)` | Send a success JSON response |
+| `$this->sendError($data, $code)` | Send an error JSON response |
+| `$this->request` | Access the request object |
+| `$this->response` | Access the response object |
+
+### Request and Response Examples
+
 ```php
-// send user data as json
+// Return a success response
 public function index()
 {
     $data = [
@@ -118,9 +123,8 @@ public function index()
     ];
     return $this->sendSuccess($data, 200);
 }
-/*
- * the following method takes the request object and returns a response object
- */
+
+// Access request data
 public function create()
 {
     $data = $this->request->all();
@@ -129,16 +133,85 @@ public function create()
 }
 ```
 
+### Reading Request Parameters
 
+```php
+public function show($id)
+{
+    // Get a specific parameter
+    $page = $this->request->get('page', 1);
+    $perPage = $this->request->get('per_page', 10);
 
+    // Get all parameters
+    $all = $this->request->all();
+
+    // Check if parameter exists
+    if ($this->request->has('search')) {
+        $search = sanitize_text_field($this->request->get('search'));
+    }
+}
+```
+
+### Error Responses
+
+```php
+public function update($id)
+{
+    $form = \FluentForm\App\Models\Form::find($id);
+
+    if (!$form) {
+        return $this->sendError([
+            'message' => 'Form not found.',
+        ], 404);
+    }
+
+    // Validation
+    $title = $this->request->get('title');
+    if (empty($title)) {
+        return $this->sendError([
+            'message' => 'Validation failed.',
+            'errors'  => [
+                'title' => ['The title field is required.'],
+            ],
+        ], 422);
+    }
+
+    // Process update...
+    return $this->sendSuccess(['message' => 'Updated successfully.'], 200);
+}
+```
+
+### Pagination Pattern
+
+```php
+public function index()
+{
+    $page    = absint($this->request->get('page', 1));
+    $perPage = absint($this->request->get('per_page', 10));
+    $perPage = min($perPage, 100); // Cap at 100
+
+    $query = wpFluent()->table('fluentform_submissions')
+        ->where('form_id', $this->request->get('form_id'))
+        ->orderBy('id', 'DESC');
+
+    $total = $query->count();
+    $items = $query->offset(($page - 1) * $perPage)
+        ->limit($perPage)
+        ->get();
+
+    return $this->sendSuccess([
+        'data'  => $items,
+        'total' => $total,
+        'page'  => $page,
+        'per_page' => $perPage,
+        'last_page' => ceil($total / $perPage),
+    ], 200);
+}
+```
 
 ## Policies
-Policies are classes that are used to authorize requests to routes. 
-The `verifyRequest` method is used to check if the current user has permission to access a route or method.
-It returns a boolean value indicating whether the user has permission or not. To authorize it must return true.
-You can customize the behavior of this method by checking for specific permissions or conditions. 
-You may check for a specific capability, or check if the user is logged in, or check if the user is an administrator, or any other condition you like.
-Let's look at an example of a policy class:
+
+Policies authorize requests to routes. The `verifyRequest` method must return `true` to allow access:
 
 ```php
 <?php
@@ -148,54 +221,126 @@ namespace MyPlugin\Policies;
 use FluentForm\Framework\Foundation\Policy;
 use FluentForm\Framework\Request\Request;
 
-/**
- * MyPolicy is a custom policy class for the MyPlugin plugin.
- * It extends the base Policy class from the Fluent Forms framework foundation
- * additional functionality for handling authorization requests.
- */
 class MyPolicy extends Policy
 {
     /**
-     * @param \FluentForm\Framework\Request\Request $request The request object containing information about the current request.
+     * @param \FluentForm\Framework\Request\Request $request
      * @return bool
      */
     public function verifyRequest(Request $request)
     {
-        return true;
-        //return $this->currentUserCan('fluentform_manage_contacts');
+        return current_user_can('fluentform_forms_manager');
     }
 }
 
 ```
 
+### Common Authorization Patterns
+
+```php
+// Allow any logged-in user
+public function verifyRequest(Request $request)
+{
+    return is_user_logged_in();
+}
+
+// Allow only admins
+public function verifyRequest(Request $request)
+{
+    return current_user_can('manage_options');
+}
+
+// Allow specific Fluent Forms capabilities
+public function verifyRequest(Request $request)
+{
+    return current_user_can('fluentform_settings_manager');
+}
+
+// Method-specific permissions
+public function verifyRequest(Request $request)
+{
+    $method = $request->method();
+
+    // Read access for viewers, write access for managers
+    if ($method === 'GET') {
+        return current_user_can('fluentform_entries_viewer');
+    }
+
+    return current_user_can('fluentform_forms_manager');
+}
+```
+
+### Public Endpoints
+
+For endpoints that don't require authentication, return `true`:
+
+```php
+public function verifyRequest(Request $request)
+{
+    return true;
+}
+```
+
+::: warning
+Be cautious with public endpoints. Always validate and sanitize input, and never expose sensitive data without proper authorization.
+:::
+
+## Autoloading
+
+Your classes must be loadable before the `fluentform/loaded` action fires.
+
+**Option 1: Manual requires** (simple plugins)
+
+```php
+require_once __DIR__ . '/Controllers/MyController.php';
+require_once __DIR__ . '/Policies/MyPolicy.php';
+
+add_action('fluentform/loaded', function ($app) {
+    // Routes...
+});
+```
+
+**Option 2: Composer autoloading** (recommended for larger plugins)
+
+```json
+{
+    "autoload": {
+        "psr-4": {
+            "MyPlugin\\": "src/"
+        }
+    }
+}
+```
+
+```php
+require_once __DIR__ . '/vendor/autoload.php';
+
+add_action('fluentform/loaded', function ($app) {
+    // Routes...
+});
+```
 
 ## Directory Structure
-Your directory structure may look something like this:
-(Note that, the directory structure shown here is just an example. You can organize your files however you like.)
+
+A typical plugin with custom REST endpoints:
 
 ```
 my-plugin/
 ├── my-plugin.php
+├── Controllers/
+│   └── MyController.php
 ├── Policies/
 │   └── MyPolicy.php
-└── Controllers/
-    └── MyController.php
-
+└── composer.json (optional)
 ```
 
-The my-plugin directory is the root directory for your plugin. It contains the following files and directories:
+## Complete Example: Form Submission via REST API
 
-- `my-plugin.php`: This is the entry point for your plugin. It contains the code that run your Application when the plugin is activated.
-- `Policies/`: This directory contains the `MyPolicy` class, which is a custom policy class for your plugin. It extends the base Policy class from the Fluent Forms plugin and provides additional functionality for handling authorization requests.
-- `Controllers/`: This directory contains the `MyController` class, which is a custom controller class for your plugin. It extends the base Controller class from the Fluent Forms plugin and provides additional functionality for handling requests.
-
-# Examples
-
-Here is an example of how to configure REST api service for form submission
+Here is an example of how to configure a REST API endpoint for form submission:
 
 ```php
 
-// Add this code to the functions.php file or the code snippet:
+// Add this code to your plugin file:
 add_action('fluentform/loaded', function ($app) {
     $app->router->post('/test-submit', function () use ($app) {
     try {
@@ -216,7 +361,7 @@ add_action('fluentform/loaded', function ($app) {
     });
 });
 
-// Use this JSON Format for submit the forms with specific entries
+// Use this JSON format to submit forms:
 {
     "form_id": "5",
     "data": {
@@ -231,3 +376,9 @@ add_action('fluentform/loaded', function ($app) {
 }
 
 ```
+
+## Related Resources
+
+- [Security Best Practices](/guides/security/) — Authorization and input validation patterns
+- [Global Functions](/global-functions/) — `wpFluentForm()`, `wpFluent()`, `fluentFormApi()`
+- [Database Schema](/database/) — Table structures for querying data

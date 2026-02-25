@@ -4,13 +4,17 @@
 
 Fluent Forms integrates with [WP-CLI](https://wp-cli.org/), enabling you to run certain Fluent Forms tasks via the command line interface, without using a web browser.
 
+[[toc]]
+
 ## What is WordPress CLI?
 
 WP-CLI is a command line interface for [WordPress](https://wordpress.org/). It offers an alternative to the WordPress admin bar. Using the command line makes it easier for developers, agencies and hosting providers to run actions with fewer clicks, run them remotely, and even perform complex scripts based on certain conditions.
 
-## What is Fluent Forms CLI?
+## Requirements
 
-Fluent Forms CLI is a set of commands integrated into WP-CLI to allow developers to run certain Fluent Forms tasks in a command line.
+- [WP-CLI](https://wp-cli.org/) installed and configured
+- SSH access to your server (or a local development environment)
+- Fluent Forms plugin activated
 
 ## Syntax
 
@@ -20,36 +24,105 @@ CLI commands syntax:
 wp fluentform <command> [--argument]
 ```
 
+For help on any command:
+
+```bash
+wp help fluentform <command>
+```
+
 ## Available Commands
 
-Currently, the following Fluent Forms commands are available:
-
 ### `wp fluentform stats`
-It will return overall Fluent Forms stats like forms, submissions
 
-### `wp fluentform activate_license`
-Activate Fluent Forms Pro license key via command line
+Returns overall Fluent Forms statistics including form count, submission count, and other summary data.
+
+```bash
+wp fluentform stats
+```
+
+**Example Output:**
+
+```
++-------------------+-------+
+| Metric            | Count |
++-------------------+-------+
+| Total Forms       | 24    |
+| Total Submissions | 1,847 |
+| Unread Entries    | 12    |
++-------------------+-------+
+```
+
+---
+
+### `wp fluentform activate_license` <Badge type="error" vertical="middle" text="Pro" />
+
+Activate your Fluent Forms Pro license key via the command line. Useful for automated deployments and staging environment setup.
 
 **Arguments**
-- `key` Your Fluent Forms Pro License Key
+- `--key` (required) Your Fluent Forms Pro License Key
 
-**Example**
 ```bash
 wp fluentform activate_license --key=YOUR_LICENSE_KEY
 ```
 
-### `wp fluentform license_status`
-See Fluent Forms Pro License Status
+**Example Output:**
 
-**Example**
+```
+Success: License activated successfully.
+```
+
+**Common Errors:**
+
+| Error | Cause |
+|-------|-------|
+| `Invalid license key` | The key is incorrect or expired |
+| `License limit reached` | All activations for your license are in use |
+| `Could not connect` | Server cannot reach the licensing API |
+
+---
+
+### `wp fluentform license_status` <Badge type="error" vertical="middle" text="Pro" />
+
+Check the current Fluent Forms Pro license status. Useful for verifying deployments.
+
 ```bash
 wp fluentform license_status
 ```
 
-## Help
+**Example Output:**
 
-For information about an individual command, use the following format:
+```
++----------------+----------------------------+
+| Property       | Value                      |
++----------------+----------------------------+
+| Status         | Active                     |
+| License Key    | ****-****-****-ABCD        |
+| Expires        | 2026-12-31                 |
+| Activations    | 2 / 5                      |
++----------------+----------------------------+
+```
+
+## Usage in Scripts
+
+You can combine Fluent Forms CLI with shell scripts for automation:
 
 ```bash
-wp help fluentform <command>
+#!/bin/bash
+# Deploy script: activate license on new environment
+
+wp plugin activate fluentform
+wp plugin activate fluentformpro
+
+wp fluentform activate_license --key=$FF_LICENSE_KEY
+
+echo "Fluent Forms setup complete"
+wp fluentform stats
+```
+
+## Multisite
+
+On WordPress multisite, use the `--url` flag to target a specific site:
+
+```bash
+wp fluentform stats --url=subsite.example.com
 ```
