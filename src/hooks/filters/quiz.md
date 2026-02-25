@@ -1,6 +1,6 @@
 # Quiz Filters
 
-<Badge type="tip" vertical="top" text="Filter Hooks" /> <Badge type="warning" vertical="top" text="6 Filters" />
+<Badge type="tip" vertical="top" text="Filter Hooks" /> <Badge type="warning" vertical="top" text="6 Filters" /> <Badge type="error" vertical="top" text="Pro" />
 
 These filters let you modify quiz results, scoring, and display.
 

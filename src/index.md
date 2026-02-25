@@ -16,6 +16,22 @@ pageClass: docs-home
     </a></p>
 </section>
 
+<section id="home-guides" class="home-content">
+  <div>
+    <h2>Guides</h2>
+    <p>Step-by-step tutorials to get you building Fluent Forms extensions quickly.</p>
+  </div>
+  <div>
+    <ul>
+      <li><a href="./guides/quick-start/">Quick Start</a></li>
+      <li><a href="./guides/prerequisites/">Prerequisites & Dev Environment</a></li>
+      <li><a href="./guides/custom-field-tutorial/">Creating a Custom Field</a></li>
+      <li><a href="./guides/custom-integration-tutorial/">Building a Custom Integration</a></li>
+      <li><a href="./guides/frontend-js-hooks/">Frontend JS Hooks</a></li>
+    </ul>
+  </div>
+</section>
+
 <section id="home-get-started" class="home-content">
   <div>
     <h2>Architecture</h2>

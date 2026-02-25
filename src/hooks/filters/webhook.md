@@ -1,6 +1,6 @@
 # Webhook Filters
 
-<Badge type="tip" vertical="top" text="Filter Hooks" /> <Badge type="warning" vertical="top" text="5 Filters" />
+<Badge type="tip" vertical="top" text="Filter Hooks" /> <Badge type="warning" vertical="top" text="5 Filters" /> <Badge type="error" vertical="top" text="Pro" />
 
 These filters let you modify webhook request arguments and data.
 

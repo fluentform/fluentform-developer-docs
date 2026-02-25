@@ -1,6 +1,6 @@
 # Form Styler Hooks
 
-<Badge type="tip" vertical="top" text="Action Hooks" /> <Badge type="warning" vertical="top" text="2 Hooks" />
+<Badge type="tip" vertical="top" text="Action Hooks" /> <Badge type="warning" vertical="top" text="2 Hooks" /> <Badge type="error" vertical="top" text="Pro" />
 
 These hooks fire during form styling and visual customization.
 

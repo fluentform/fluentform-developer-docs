@@ -1,5 +1,5 @@
 # Base Processor
-<Badge type="tip" vertical="top" text="PAYMENT API" /> <Badge type="tip" vertical="top" text="EXTEND PAYMENT PROCESSOR" />
+<Badge type="tip" vertical="top" text="PAYMENT API" /> <Badge type="tip" vertical="top" text="EXTEND PAYMENT PROCESSOR" /> <Badge type="error" vertical="top" text="Pro" />
 The Fluent Forms `BaseProcessor` class offers developers to process payment methods created from the [BasePaymentMethod](/api/classes/base-payment-method) class.
 
 The API Functions are automatically called when the form has the selected payment methods. The BaseProcessor class is located in the pro version of Fluent Forms plugin at `src/Payments/PaymentMethods/BaseProcessor.php`.

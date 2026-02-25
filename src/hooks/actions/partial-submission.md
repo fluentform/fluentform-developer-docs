@@ -1,6 +1,6 @@
 # Partial Submission Hooks
 
-<Badge type="tip" vertical="top" text="Action Hooks" /> <Badge type="warning" vertical="top" text="10 Hooks" />
+<Badge type="tip" vertical="top" text="Action Hooks" /> <Badge type="warning" vertical="top" text="10 Hooks" /> <Badge type="error" vertical="top" text="Pro" />
 
 These hooks fire during partial/draft submission handling — step forms, save & resume, and draft entries.
 

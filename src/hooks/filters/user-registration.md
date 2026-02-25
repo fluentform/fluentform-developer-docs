@@ -1,6 +1,6 @@
 # User Registration Filters
 
-<Badge type="tip" vertical="top" text="Filter Hooks" /> <Badge type="warning" vertical="top" text="10 Filters" />
+<Badge type="tip" vertical="top" text="Filter Hooks" /> <Badge type="warning" vertical="top" text="10 Filters" /> <Badge type="error" vertical="top" text="Pro" />
 
 These filters let you modify user registration fields, roles, and data mapping.
 

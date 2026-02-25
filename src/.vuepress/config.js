@@ -5,6 +5,7 @@ const hooksSidebar = require('./sidebars/hooks');
 const helpersSidebar = require('./sidebars/helpers');
 const apiSidebar = require('./sidebars/apiSidebar');
 const submissionLifecycleSidebar = require('./sidebars/submissionLifecycleSidebar');
+const guidesSidebar = require('./sidebars/guides');
 
 const path = require('path');
 
@@ -79,6 +80,31 @@ module.exports = {
             {
                 text: 'Get Started',
                 link: '/getting-started/',
+            },
+            {
+                text: 'Guides',
+                items: [
+                    {
+                        text: 'Quick Start',
+                        link: '/guides/quick-start/',
+                    },
+                    {
+                        text: 'Prerequisites & Setup',
+                        link: '/guides/prerequisites/',
+                    },
+                    {
+                        text: 'Creating a Custom Field',
+                        link: '/guides/custom-field-tutorial/',
+                    },
+                    {
+                        text: 'Building an Integration',
+                        link: '/guides/custom-integration-tutorial/',
+                    },
+                    {
+                        text: 'Frontend JS Hooks',
+                        link: '/guides/frontend-js-hooks/',
+                    },
+                ],
             },
             {
                 text: 'Architecture',
@@ -158,6 +184,7 @@ module.exports = {
         ],
         sidebar: {
 
+            '/guides/': guidesSidebar,
             '/database/': dbSchemaSidebar,
             '/global-functions/': globalFunctionsSidebar,
             '/hooks/': hooksSidebar,

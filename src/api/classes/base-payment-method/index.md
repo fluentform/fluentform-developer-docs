@@ -1,5 +1,5 @@
 # Base Payment Method
-<Badge type="tip" vertical="top" text="PAYMENT API" /> <Badge type="tip" vertical="top" text="EXTEND PAYMENT METHOD" />
+<Badge type="tip" vertical="top" text="PAYMENT API" /> <Badge type="tip" vertical="top" text="EXTEND PAYMENT METHOD" /> <Badge type="error" vertical="top" text="Pro" />
 The Fluent Forms `BasePaymentMethod` Class provides developers with a simple way to add new Payment methods easily. The [BaseProcessor](/api/classes/base-processor) Class is also required for the payment method background processing. The `BasePaymentMethod` class mainly works for displaying and storing the payment method settings, while the [BaseProcessor](/api/classes/base-processor) class process and finalize the payments.
 
 The API Functions are automatically included when Fluent Forms Pro Booted. The BaseFieldManager class is located in `src/Payments/PaymentMethods/BasePaymentMethod.php`.

@@ -1,6 +1,6 @@
 # Payment Hooks
 
-<Badge type="tip" vertical="top" text="Action Hooks" /> <Badge type="warning" vertical="top" text="39 Hooks" />
+<Badge type="tip" vertical="top" text="Action Hooks" /> <Badge type="warning" vertical="top" text="39 Hooks" /> <Badge type="error" vertical="top" text="Pro" />
 
 These hooks fire during payment processing — rendering, status changes, refunds, subscriptions, and webhooks.
 

@@ -1,5 +1,5 @@
 # PDF Template Manager
-<Badge type="tip" vertical="top" text="PDF API" /> <Badge type="tip" vertical="top" text="EXTEND PDF TEMPLATES" />
+<Badge type="tip" vertical="top" text="PDF API" /> <Badge type="tip" vertical="top" text="EXTEND PDF TEMPLATES" /> <Badge type="error" vertical="top" text="Pro" />
 [Fluent Forms PDF](https://wordpress.org/plugins/fluentforms-pdf/) extension’s TemplateManager class allows developers to create custom PDF templates in an easy way.
 
 You will need to extend the class `TemplateManager` and push the class using the filter hook `fluentform/pdf_templates` to create a new template. Please follow this documentation and create your own PDF template extension Plugin.
