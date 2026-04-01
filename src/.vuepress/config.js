@@ -152,6 +152,15 @@ module.exports = {
                 ],
             },
             {
+                text: 'Upgrade Guide',
+                items: [
+                    {
+                        text: 'v6.2.0',
+                        link: '/upgrade-guide/6.2.0/',
+                    }
+                ],
+            },
+            {
                 text: 'Blog',
                 link: 'https://fluentforms.com/blog/',
             },
