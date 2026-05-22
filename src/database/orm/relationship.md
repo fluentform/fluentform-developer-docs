@@ -2,7 +2,6 @@
 
 <Badge type="tip" vertical="top" text="Fluent Framework" /> <Badge type="warning" vertical="top" text="ORM" />
 
-
 ## Introduction
 
 Database tables are often related to one another. For example, a form may have many submissions, or submission could be related to the user who submit it. Fluent ORM makes managing and working with these relationships easy, and supports several types of relationships:
@@ -13,7 +12,6 @@ Database tables are often related to one another. For example, a form may have m
 - [`Has Many Through`](./relationship/#has-many-through)
 - [`Polymorphic Relations`](./relationship/#polymorphic-relations)
 - [`Many To Many Polymorphic Relations`](./relationship/#many-to-many-polymorphic-relations)
-
 
 ## Defining Relationships
 
@@ -545,7 +543,6 @@ $user->forms()->where('status', 'published')->get();
 ```
 You are able to use any of the query builder methods on the relationship, so be sure to explore the <a :href="$withBase('/database/query-builder')">query builders</a> documentation to learn about all the methods that are available to you.
 
-
 ### Relationship Methods Vs. Dynamic Properties
 If you do not need to add additional constraints to an Fluent ORM relationship query, you may access the relationship as if it were a property. For example, continuing to use our `User` and `Form` example models, we may access all of a user's forms like so:
 ```php
@@ -556,7 +553,6 @@ foreach ($user->forms as $form) {
 }
 ```
 Dynamic properties are "lazy loading", meaning they will only load their relationship data when you actually access them. Eager loading provides a significant reduction in SQL queries that must be executed to load a model's relations.
-
 
 ### Querying Relationship Existence
 When accessing the records for a model, you may wish to limit your results based on the existence of a relationship. For example, imagine you want to retrieve all forms that have at least one submission. To do so, you may pass the name of the relationship to the `has` and `orHas` methods:
@@ -582,7 +578,6 @@ $forms = FluentForm\App\Models\Form::whereHas('submissions', function ($query) {
 })->get();
 ```
 
-
 ### Querying Relationship Absence
 
 When accessing the records for a model, you may wish to limit your results based on the absence of a relationship. For example, imagine you want to retrieve all forms that don't have any submissions. To do so, you may pass the name of the relationship to the `doesntHave` and `orDoesntHave` methods:
@@ -601,7 +596,6 @@ $forms = FluentForm\App\Models\Form::whereDoesntHave('submissions.user_id', func
     $query->where('banned', 1);
 })->get();
 ```
-
 
 ### Counting Related Models
 If you want to count the number of results from a relationship without actually loading them you may use the `withCount` method, which will place a `{relation}_count` column on your resulting models. For example:
@@ -634,7 +628,6 @@ echo $forms[0]->submissions_count;
  
 echo $forms[0]->pending_submissions_count;
 ```
-
 
 ### Eager Loading
 When accessing Fluent ORM relationships as properties, the relationship data is "lazy loaded". This means the relationship data is not actually loaded until you first access the property. However, Fluent ORM can "eager load" relationships at the time you query the parent model. Eager loading alleviates the N + 1 query problem. To illustrate the N + 1 query problem, consider a Book model that is related to Author:
@@ -712,7 +705,6 @@ $users = FluentForm\App\Models\User::with(['forms' => function ($query) {
     $query->orderBy('created_at', 'desc');
 }])->get();
 ```
-
 
 ## Inserting & Updating Related Models
 
@@ -841,7 +833,6 @@ $user = FluentForm\App\Models\User::find(1);
  
 $user->roles()->updateExistingPivot($roleId, $attributes);
 ```
-
 
 ## Touching Parent Timestamps
 

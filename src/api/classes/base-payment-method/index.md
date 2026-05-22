@@ -34,6 +34,22 @@ class MyCustomPaymentMethod extends BasePaymentMethod
      }
 ```
 
+### getGlobalFields()
+This method will return all the admin settings for the current payment method. You can add your own settings also here. In the end of this page you will see an example with the settings format.
+
+```php
+abstract public function getGlobalFields();
+```
+
+### getGlobalSettings()
+This method should return the saved data from the database. It will be based on the settings that were provided by [getGlobalFields()](/api/classes/base-payment-method/#getglobalfields) method. You can get your settings like this `get_option(‘fluentform_payment_settings_{method_key}’, [])`;
+
+```php
+abstract public function getGlobalSettings();
+```
+
+## Further read
+
 ### init()
 This is the main function that will run all the required actions for this payment settings and processing. These hooks will be called dynamically during the payment processing & settings after the payment method setup is completed.
 ```php
@@ -52,6 +68,22 @@ This is the main function that will run all the required actions for this paymen
             [$this, 'pushPaymentMethodToForm']
         );
     }
+```
+
+### modifyTransaction($transaction)
+This method modifies a transaction record with the payment method dashboard entry url. Use this to link the transaction with your payment method’s dashboard transaction page using the `$transaction->charge_id` charge id. The `$transaction` parameter is available with the [fluentform/transaction_data_{$key}](/hooks/filters/#fluentform_transaction_data___key_) hook.
+
+```php
+/*
+* @param $transaction - Transaction Data array
+*/
+public function modifyTransaction($transaction)
+{
+   if ($transaction->charge_id) {
+        $transaction->action_url =  'https://dashboard.mypaymentsitedemo.com/app/payments/'.$transaction->charge_id;
+    }
+    return $transaction;
+}
 ```
 
 ### pushPaymentMethodToForm($methods)
@@ -79,38 +111,6 @@ public function pushPaymentMethodToForm($methods)
     return $methods;
 }
 ```
-
-### modifyTransaction($transaction)
-This method modifies a transaction record with the payment method dashboard entry url. Use this to link the transaction with your payment method’s dashboard transaction page using the `$transaction->charge_id` charge id. The `$transaction` parameter is available with the [fluentform/transaction_data_{$key}](/hooks/filters/#fluentform_transaction_data___key_) hook.
-
-```php
-/*
-* @param $transaction - Transaction Data array
-*/
-public function modifyTransaction($transaction)
-{
-   if ($transaction->charge_id) {
-        $transaction->action_url =  'https://dashboard.mypaymentsitedemo.com/app/payments/'.$transaction->charge_id;
-    }
-    return $transaction;
-}
-```
-
-### getGlobalFields()
-This method will return all the admin settings for the current payment method. You can add your own settings also here. In the end of this page you will see an example with the settings format.
-
-```php
-abstract public function getGlobalFields();
-```
-
-### getGlobalSettings()
-This method should return the saved data from the database. It will be based on the settings that were provided by [getGlobalFields()](/api/classes/base-payment-method/#getglobalfields) method. You can get your settings like this `get_option(‘fluentform_payment_settings_{method_key}’, [])`;
-
-```php
-abstract public function getGlobalSettings();
-```
-
-## Further read
 
 ### Validate settings of payment method
 If you want to validate the payment admin settings use this hook
@@ -234,3 +234,4 @@ class MyCustomPaymentMethod extends BasePaymentMethod
 It’s highly recommended to explore our source files and try to understand the procedure. Once you understand it’s very easy to implement your own custom payment method.
 
 If you have any questions please feel free to reach to our [support team](https://wpmanageninja.com/support-tickets/) or ask questions in our [facebook community group](https://www.facebook.com/groups/fluentforms/)
+

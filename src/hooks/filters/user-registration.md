@@ -4,87 +4,27 @@
 
 These filters let you modify user registration fields, roles, and data mapping.
 
-<explain-block title="fluentform/user_registration_field_defaults">
+<explain-block title="fluentform/user_registration_bypass_login">
 
-You can modify User Registration integration default fields using the filter.
+<Badge type="tip" vertical="top" text="Pro" />
 
 **Parameters**
 
-- `$fields` (array) Default Integration Fields
-- `$formId` (int) Form ID
+- `$value` — see source
 
 **Usage**
 
 ```php
-add_filter('fluentform/user_registration_field_defaults', function ($fields, $formId) {
-    // Do your stuff here
-    
-    return $fields;
-}, 10, 2);
-
+add_filter('fluentform/user_registration_bypass_login', function ($value) {
+    return $value;
+}, 10, 1);
 ```
 
 **Reference**
 
-`apply_filters('fluentform/user_registration_field_defaults', $fields, $formId);`
+`$isBypassLogin = apply_filters('fluentform/user_registration_bypass_login', false);`
 
-This filter is located in FluentFormPro\src\Integrations\UserRegistration\Bootstrap -> getIntegrationDefaults($settings, $formId = null)
-
-</explain-block>
-
-<explain-block title="fluentform/user_registration_feed_fields">
-
-You can modify User Registration feed fields using the filter.
-
-**Parameters**
-
-- `$fields` (array) Form Fields
-- `$formId` (int) Form ID
-
-**Usage**
-
-```php
-add_filter('fluentform/user_registration_feed_fields', function ($fields, $formId) {
-    // Do your stuff here
-    
-    return $fields;
-}, 10, 2);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/user_registration_feed_fields', $fieldSettings['fields'], $formId);`
-
-This filter is located in FluentFormPro\src\Integrations\UserRegistration\Bootstrap -> getSettingsFields($settings, $formId = null)
-
-</explain-block>
-
-<explain-block title="fluentform/user_update_feed_fields">
-
-You can modify User Update feed fields using the filter.
-
-**Parameters**
-
-- `$fields` (array) Form Fields
-- `$formId` (int) Form ID
-
-**Usage**
-
-```php
-add_filter('fluentform/user_update_feed_fields', function ($fields, $formId) {
-    // Do your stuff here
-    
-    return $fields;
-}, 10, 2);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/user_update_feed_fields', $fieldSettings['fields'], $formId);`
-
-This filter is located in FluentFormPro\src\Integrations\UserRegistration\Bootstrap -> getSettingsFields($settings, $formId = null)
+This filter is located in `src/Integrations/UserRegistration/UserRegistrationApi.php` (line 105).
 
 </explain-block>
 
@@ -144,60 +84,6 @@ This filter is located in FluentFormPro\src\Integrations\UserRegistration\UserRe
 
 </explain-block>
 
-<explain-block title="fluentform/user_registration_map_fields">
-
-You can modify User Registration field mapper using the filter.
-
-**Parameters**
-
-- `$fields` (array) Map Fields
-
-**Usage**
-
-```php
-add_filter('fluentform/user_registration_map_fields', function ($fields) {
-    // Do your stuff here
-    
-    return $fields;
-}, 10, 1);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/user_registration_map_fields', $fields);`
-
-This filter is located in FluentFormPro\src\Integrations\UserRegistration\UserRegistrationApi -> userRegistrationMapFields()
-
-</explain-block>
-
-<explain-block title="fluentform/user_update_map_fields">
-
-You can modify User Update field mapper using the filter.
-
-**Parameters**
-
-- `$fields` (array) Map Fields
-
-**Usage**
-
-```php
-add_filter('fluentform/user_update_map_fields', function ($fields) {
-    // Do your stuff here
-    
-    return $fields;
-}, 10, 1);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/user_update_map_fields', $fields);`
-
-This filter is located in FluentFormPro\src\Integrations\UserRegistration\UserUpdateFormHandler -> userUpdateMapFields()
-
-</explain-block>
-
 <explain-block title="fluentform/user_registration_feed_fields">
 
 You can modify user registration feed fields using the filter.
@@ -223,6 +109,61 @@ add_filter('fluentform/user_registration_feed_fields', function ($fields, $formI
 `apply_filters('fluentform/user_registration_feed_fields', $fieldSettings['fields'], $formId);`
 
 This filter is located in FluentFormPro\src\Integrations\UserRegistration\Bootstrap -> getSettingsFields($settings, $formId = null)
+
+</explain-block>
+
+<explain-block title="fluentform/user_registration_field_defaults">
+
+You can modify user registration default fields using the filter.
+
+**Parameters**
+
+- `$fields` (array) User Update Feed Fields
+- `$formId` (int) Form ID
+
+**Usage**
+
+```php
+add_filter('fluentform/user_registration_field_defaults', function ($fields, $formId) {
+    // Do your stuff here
+    
+    return $fields;
+}, 10, 2);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/user_registration_field_defaults', $fieldSettings['fields'], $formId);`
+
+This filter is located in FluentFormPro\src\Integrations\UserRegistration\Bootstrap -> getIntegrationDefaults($settings, $formId = null)
+
+</explain-block>
+
+<explain-block title="fluentform/user_registration_map_fields">
+
+You can modify User Registration field mapper using the filter.
+
+**Parameters**
+
+- `$fields` (array) Map Fields
+
+**Usage**
+
+```php
+add_filter('fluentform/user_registration_map_fields', function ($fields) {
+    // Do your stuff here
+    
+    return $fields;
+}, 10, 1);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/user_registration_map_fields', $fields);`
+
+This filter is located in FluentFormPro\src\Integrations\UserRegistration\UserRegistrationApi -> userRegistrationMapFields()
 
 </explain-block>
 
@@ -254,30 +195,29 @@ This filter is located in FluentFormPro\src\Integrations\UserRegistration\Bootst
 
 </explain-block>
 
-<explain-block title="fluentform/user_registration_field_defaults">
+<explain-block title="fluentform/user_update_map_fields">
 
-You can modify user registration default fields using the filter.
+You can modify User Update field mapper using the filter.
 
 **Parameters**
 
-- `$fields` (array) User Update Feed Fields
-- `$formId` (int) Form ID
+- `$fields` (array) Map Fields
 
 **Usage**
 
 ```php
-add_filter('fluentform/user_registration_field_defaults', function ($fields, $formId) {
+add_filter('fluentform/user_update_map_fields', function ($fields) {
     // Do your stuff here
     
     return $fields;
-}, 10, 2);
+}, 10, 1);
 
 ```
 
 **Reference**
 
-`apply_filters('fluentform/user_registration_field_defaults', $fieldSettings['fields'], $formId);`
+`apply_filters('fluentform/user_update_map_fields', $fields);`
 
-This filter is located in FluentFormPro\src\Integrations\UserRegistration\Bootstrap -> getIntegrationDefaults($settings, $formId = null)
+This filter is located in FluentFormPro\src\Integrations\UserRegistration\UserUpdateFormHandler -> userUpdateMapFields()
 
 </explain-block>

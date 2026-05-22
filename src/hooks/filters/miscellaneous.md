@@ -4,389 +4,25 @@
 
 These filters cover file uploads, analytics, permissions, shortcodes, and other general-purpose hooks.
 
-<explain-block title="fluentform/file_upload_options">
-
-You can change Fluent Forms default file upload location by using this filter.
+<explain-block title="fluentform/ajax_url">
 
 **Parameters**
 
-- `$locations` (array) File Upload Location
+- `$value` — see source
 
 **Usage**
 
 ```php
-add_filter('fluentform/file_upload_options', function ($locations){
-
-   // Do your stuff here
+add_filter('fluentform/ajax_url', function ($value) {
+    return $value;
 }, 10, 1);
 ```
 
 **Reference**
 
-`apply_filters('fluentform/file_upload_options', $locations);`
+`return apply_filters('fluentform/ajax_url', admin_url('admin-ajax.php'));`
 
-This filter is located in FluentForm\App\Helpers\Helper -> fileUploadLocations()
-
-</explain-block>
-
-<explain-block title="fluentform/skip_no_conflict">
-
-You can toggle the no conflict mode using this filter.
-
-**Parameters**
-
-- `$isConflict` (boolean) Whether no conflict mode is enabled
-
-**Usage**
-
-```php
-add_filter('fluentform/skip_no_conflict', function ($isSkip) {
-   // Do your stuff here
-   
-   return $isSkip;
-}, 10, 1);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/skip_no_conflict', $isSkip);`
-
-This filter is located in FluentForm\App\Hooks\actions.php
-
-</explain-block>
-
-<explain-block title="fluentform/permission_set">
-
-You can add or modify Fluentform Permission Set using this filter.
-
-**Parameters**
-
-- `$permissionSet` (array) Permission set
-
-**Usage**
-
-```php
-add_filter('fluentform/permission_set', function ($permissionSet) {
-   // Do your stuff here
-   
-   array_push($permissionSet, 'fluentform_dashboard_access');
-   return $permissionSet;
-}, 10, 1);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/permission_set', $data);`
-
-This filter is located in FluentForm\App\Modules\Acl -> getPermissionSet()
-
-</explain-block>
-
-<explain-block title="'fluentform/verify_user_permission_' . $permission">
-
-This filter verifies each permission.
-
-**Parameters**
-
-- `$allowed` (array) Form default Settings
-- `$formId` (int) Form ID
-
-**Usage**
-
-```php
-add_filter('fluentform/verify_user_permission_' . $permission, function ($allowed, $formId) {
-   // Do your stuff here
-
-   return $allowed;
-}, 10, 2);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/verify_user_permission_' . $permission, $allowed, $formId);`
-
-This filter is located in FluentForm\App\Modules\Acl -> hasPermission($permissions, $formId = false)
-
-</explain-block>
-
-<explain-block title="fluentform/current_user_capability">
-
-You can modify Current User Capability using this filter.
-
-**Parameters**
-
-- `$capability` (array) User Capabilities
-
-**Usage**
-
-```php
-add_filter('fluentform/current_user_capability', function ($capability) {
-   // Do your stuff here
-
-   return $capability;
-}, 10, 1);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/current_user_capability', static::$capability);`
-
-This filter is located in FluentForm\App\Modules\Acl -> getCurrentUserCapability()
-
-</explain-block>
-
-<explain-block title="fluentform/current_user_permissions">
-
-You can modify Current User Permission using this filter.
-
-**Parameters**
-
-- `$userPermissions` (array) Current User Permissions
-
-**Usage**
-
-```php
-add_filter('fluentform/current_user_permissions', function ($userPermissions) {
-   // Do your stuff here
-
-   return $userPermissions;
-}, 10, 1);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/current_user_permissions', $userPermissions);`
-
-This filter is located in FluentForm\App\Models\Form -> getUserPermissions($user = false)
-
-</explain-block>
-
-<explain-block title="fluentform/nonce_error">
-
-You can modify NONCE error message using this filter.
-
-**Parameters**
-
-- `$errorMessage` (string) Error Message
-
-**Usage**
-
-```php
-add_filter('fluentform/nonce_error', function ($errorMessage) {
-   // Do your stuff here
-
-   return $errorMessage;
-}, 10, 1);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/nonce_error', $message);`
-
-This filter is located in FluentForm\App\Services\Form\FormValidationService -> validateNonce()
-
-</explain-block>
-
-<explain-block title="fluentform/shortcode_defaults">
-
-This filter sets the defaults values for the shortcode.
-
-**Parameters**
-
-- `$defaults` (array) Default Shortcode Values
-- `$atts` (array) Shortcode Attributes
-
-**Usage**
-
-```php
-add_filter('fluentform/shortcode_defaults', function($defaults , $atts) {
-   // Do your stuff here
-
-   return $atts;
-}, 10, 2);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/shortcode_defaults', $data, $atts);`
-
-This filter is located in FluentForm\App\Modules\Component\Component -> addFluentFormShortCode()
-
-</explain-block>
-
-<explain-block title="fluentform/shortcode_feed_text">
-
-This filter returns the message of the shortcode for a feed.
-
-**Parameters**
-
-- `$feedText` (string) Shortcode Feed Text
-- `$form` (object) Form Object
-
-**Usage**
-
-```php
-add_filter('fluentform/shortcode_feed_text', function ($feedText, $form) {
-   // Do your stuff here
-
-   return $feedText;
-}, 10, 1);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/shortcode_feed_text', $feedText, $form);`
-
-This filter is located in FluentForm\App\Modules\Component\Component -> renderForm($atts)
-
-</explain-block>
-
-<explain-block title="fluentform/parse_default_value">
-
-You can modify form default shortcode value using this filter.
-
-**Parameters**
-
-- `$value` (string) Parseable Shortcode Value
-- `$form` (object) Form Object
-
-**Usage**
-
-```php
-add_filter('fluentform/parse_default_value', function($value, $form) {
-   // Do your stuff here
-
-   return $value;
-}, 10, 2);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/parse_default_value', $attrDefaultValues[$pattern], $form);`
-
-This filter is located in FluentForm\App\Modules\Component\Component -> replaceEditorSmartCodes($output, $form)
-
-
-</explain-block>
-
-<explain-block title="fluentform/parse_default_values">
-
-You can modify Shortcode's all parseable values using this filter.
-
-**Parameters**
-
-- `$attrDefaultValues` (array) Parseable All Shortcode Values
-
-**Usage**
-
-```php
-add_filter('fluentform/parse_default_values', function($attrDefaultValues) {
-   // Do your stuff here
-
-   return $attrDefaultValues;
-}, 10, 1);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/parse_default_values', $attrDefaultValues);`
-
-This filter is located in FluentForm\App\Modules\Component\Component -> replaceEditorSmartCodes($output, $form)
-
-</explain-block>
-
-<explain-block title="fluentform/akismet_fields">
-
-This filter is used in the Akismet handler.
-
-**Parameters**
-
-- `$info` (array) Akismet Data
-- `$data` (array) Form Data
-- `$form` (object) Form Object
-
-**Usage**
-
-```php
-add_filter('fluentform/akismet_fields', function ($info, $data, $form) {
-   // Do your stuff here
-
-   return $info;
-}, 10, 3);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/akismet_fields', $info, $data, $form);`
-
-This filter is located in FluentForm\App\Modules\AkismetHandler -> getAkismetFields($data, $form)
-
-</explain-block>
-
-<explain-block title="fluentform/find_shortcode_params">
-
-This filter returns Fluent Forms shortcode used in the site.
-
-**Parameters**
-
-- `$params` (array) Post Type
-
-**Usage**
-
-```php
-add_filter('fluentform/find_shortcode_params', function($params) {
-   // Do your stuff here
-
-   return $params;
-}, 10, 1);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/find_shortcode_params', $params);`
-
-This filter is located in FluentForm\App\Services\Form\FormService -> findShortCodePage($formId)
-
-</explain-block>
-
-<explain-block title="fluentform/will_parse_url_value">
-
-You can toggle redirect URL parsing in confirmation Message using the filter.
-
-**Parameters**
-
-- `$status` (boolean) Whether Parse the URL
-- `$form` (object) Form Object
-
-**Usage**
-
-```php
-add_filter('fluentform/will_parse_url_value', function($status, $form) {
-   // Do your stuff here
-
-   return $status;
-}, 10, 2);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/will_parse_url_value', $parseUrl, $form);`
-
-This filter is located in FluentForm\App\Services\Form\SubmissionHandlerServices -> getReturnData($insertId, $form,
-$formData)
+This filter is located in `app/Helpers/Helper.php` (line 1403).
 
 </explain-block>
 
@@ -419,6 +55,35 @@ This filter is located in FluentForm\App\Services\Form\FormValidationService -> 
 
 </explain-block>
 
+<explain-block title="fluentform/akismet_fields">
+
+This filter is used in the Akismet handler.
+
+**Parameters**
+
+- `$info` (array) Akismet Data
+- `$data` (array) Form Data
+- `$form` (object) Form Object
+
+**Usage**
+
+```php
+add_filter('fluentform/akismet_fields', function ($info, $data, $form) {
+   // Do your stuff here
+
+   return $info;
+}, 10, 3);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/akismet_fields', $info, $data, $form);`
+
+This filter is located in FluentForm\App\Modules\AkismetHandler -> getAkismetFields($data, $form)
+
+</explain-block>
+
 <explain-block title="fluentform/akismet_spam_result">
 
 You can toggle Akismet spam result using this filter.
@@ -448,260 +113,33 @@ This filter is located in FluentForm\App\Services\Form\FormValidationService -> 
 
 </explain-block>
 
-<explain-block title="fluentform/has_recaptcha">
+<explain-block title="fluentform/all_data_shortcode_html">
 
-You can toggle Recaptcha using this filter.
+You can use this filter to modify {all_data} shortcode as HTML.
 
 **Parameters**
 
-- `$status` (boolean) Whether Recaptcha is enabled
+- `$html` (string) HTML string
+- `$formFields` (array) Form Fields
+- `$inputLabels` (array) Input Labels
+- `$response` (object) Form Response
 
 **Usage**
 
 ```php
-add_filter('fluentform/has_recaptcha', function($status) {
-   // Do your stuff here
-
-   return $status;
-}, 10, 1);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/has_recaptcha', $hasAutoRecap);`
-
-This filter is located in FluentForm\App\Services\Form\FormValidationService -> validateReCaptcha()
-
-</explain-block>
-
-<explain-block title="fluentform/disable_captcha">
-
-You can disable specific captcha validation using this filter. This is useful when you want to bypass captcha validation in certain scenarios.
-
-**Parameters**
-
-- `$isDisabled` (boolean) Whether captcha validation is disabled
-- `$form` (object) Form Object
-- `$captchaType` (string) The type of captcha ('recaptcha', 'hcaptcha', 'turnstile')
-
-**Usage**
-
-```php
-add_filter('fluentform/disable_captcha', function($isDisabled, $form, $captchaType) {
-   // Disable reCAPTCHA for a specific form
-   if ($captchaType === 'recaptcha' && $form->id === 123) {
-      return true;
-   }
-   
-   return $isDisabled;
-}, 10, 3);
-```
-
-**Reference**
-
-`apply_filters('fluentform/disable_captcha', false, $this->form, 'recaptcha');`
-`apply_filters('fluentform/disable_captcha', false, $this->form, 'hcaptcha');`
-`apply_filters('fluentform/disable_captcha', false, $this->form, 'turnstile');`
-
-This filter is located in `FluentForm\App\Services\Form\FormValidationService` -> `validateReCaptcha()`, `validateHCaptcha()`, and `validateTurnstile()`
-
-</explain-block>
-
-<explain-block title="fluentform/has_hcaptcha">
-
-You can toggle Hcaptcha using this filter.
-
-**Parameters**
-
-- `$status` (boolean) Whether Hcaptcha is enabled
-
-**Usage**
-
-```php
-add_filter('fluentform/has_hcaptcha', function($status) {
-   // Do your stuff here
-
-   return $status;
-}, 10, 1);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/has_hcaptcha', $hasAutoHcap);`
-
-This filter is located in FluentForm\App\Services\Form\FormValidationService -> validateHCaptcha()
-
-</explain-block>
-
-<explain-block title="fluentform/has_turnstile">
-
-You can toggle Turnstile using this filter.
-
-**Parameters**
-
-- `$status` (boolean) Whether Turnstile is enabled
-
-**Usage**
-
-```php
-add_filter('fluentform/has_turnstile', function($status) {
-   // Do your stuff here
-
-   return $status;
-}, 10, 1);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/has_turnstile', $hasAutoTurnsTile);`
-
-This filter is located in FluentForm\App\Services\Form\FormValidationService -> validateTurnstile()
-
-</explain-block>
-
-<explain-block title="fluentform/recaptcha_v3_ref_score">
-
-You can set Recaptcha Reference Score using this filter. By default, score is set to 0.5.
-
-**Parameters**
-
-- `$score` Reference Score between 0 and 1
-
-**Usage**
-
-```php
-add_filter('fluentform/recaptcha_v3_ref_score', function($score) {
-   // Do your stuff here
-
-   return $score;
-}, 10, 1);
-
-```
-
-**Reference**
-
-`apply_filters('fluentforms/recaptcha_v3_ref_score', $value);`
-
-This filter is located in FluentForm\App\Modules\ReCaptcha\ReCaptcha -> validate($token, $secret = null, $version = '
-v2_visible')
-
-</explain-block>
-
-<explain-block title="'fluentform/editor_shortcode_callback_group_' . $group">
-
-You can modify shortcode group using the filter.
-
-**Parameters**
-
-- `$handler` (array) All Shortcode Group
-- `$form` (object) Form Object
-- `$handlerArray` (array) Shortcode Handlers Group
-
-**Usage**
-
-```php
-add_filter('fluentform/editor_shortcode_callback_group_' . $group, function ($handler, $form, $handlerArray) {
-   // Do your stuff here
-
-   return '{' . $handler . '}';
-}, 10, 3);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/editor_shortcode_callback_group_' . $group, '{' . $handler . '}', $form, $handlerArray);`
-
-This filter is located in FluentForm\App\Services\FormBuilder\EditorShortcodeParser -> filter($value, $form)
-
-</explain-block>
-
-<explain-block title="'fluentform/editor_shortcode_callback_' . $handler">
-
-You can modify shortcode handler using the filter.
-
-**Parameters**
-
-- `$handler` (array) Shortcode Handler Array
-- `$form` (object) Form Object
-
-**Usage**
-
-```php
-add_filter('fluentform/editor_shortcode_callback_' . $handler, function ($handler, $form) {
-   // Do your stuff here
-
-   return $handler;
-}, 10, 2);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/editor_shortcode_callback_' . $handler, $handler, $form);`
-
-This filter is located in FluentForm\App\Services\FormBuilder\EditorShortcodeParser -> filter($value, $form)
-
-</explain-block>
-
-<explain-block title="fluentform/editor_element_customization_settings">
-
-This filter returns the input element settings components in editor.
-
-**Parameters**
-
-- `$settings` (array) Element settings
-
-**Usage**
-
-```php
-add_filter('fluentform/editor_element_customization_settings', function ($settings) {
-    if ($customSettings = $this->getEditorCustomizationSettings()) {
-    $settings = array_merge($settings, $customSettings);
-    }
-
-    return $settings;
-}, 10, 1);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/editor_element_customization_settings', $element_customization_settings);`
-
-This filter is located in FluentForm\App\Services\FormBuilder\ElementCustomization
-
-</explain-block>
-
-<explain-block title="fluentform/html_attributes">
-
-You can use this filter to modify the form attributes before form render.
-
-**Parameters**
-
-- `$data` (array) Form HTML attributes
-- `$form` (object) Form Object
-
-**Usage**
-
-```php
-add_filter('fluentform/html_attributes', function ($data, $form) {
+add_filter('fluentform/all_data_shortcode_html', function ($html, $formFields, $inputLabels, $response) {
     // Do your stuff here
     
-    return $data;
-}, 10, 2);
+    return $html;
+}, 10, 1);
 
 ```
 
 **Reference**
 
-`apply_filters('fluentform/html_attributes', $data, $form);`
+`apply_filters('fluentform/all_data_shortcode_html',  __return_true());`
 
-This filter is located in FluentForm\App\Services\FormBuilder\FormBuilder -> build($form, $extraCssClass = '',
-$instanceCssClass = '', $atts = [])
+This filter is located in FluentForm\App\Services\FormBuilder\ShortcodeParser -> getOtherData($key)
 
 </explain-block>
 
@@ -759,146 +197,485 @@ This filter is located in FluentForm\App\Services\FormBuilder\ShortcodeParser ->
 
 </explain-block>
 
-<explain-block title="fluentform/all_data_shortcode_html">
+<explain-block title="fluentform/allow_legacy_token_decrypt">
 
-You can use this filter to modify {all_data} shortcode as HTML.
+<Badge type="warning" vertical="top" text="Added in 6.2.1" />
+
+Opt-in fallback that lets the Protector helper decrypt tokens issued under the pre-6.2.0 HMAC scheme. Useful if you upgraded to 6.2.x while live signed URLs (save-and-resume links, share links, payment-callback tokens) issued under the old scheme are still in the wild and you need them to keep validating during the transition.
 
 **Parameters**
 
-- `$html` (string) HTML string
-- `$formFields` (array) Form Fields
-- `$inputLabels` (array) Input Labels
-- `$response` (object) Form Response
+- `$allow` (bool) Default `false`. Return `true` to attempt legacy token decryption when modern decryption fails.
 
 **Usage**
 
 ```php
-add_filter('fluentform/all_data_shortcode_html', function ($html, $formFields, $inputLabels, $response) {
+add_filter('fluentform/allow_legacy_token_decrypt', '__return_true');
+```
+
+**Reference**
+
+`apply_filters('fluentform/allow_legacy_token_decrypt', false);`
+
+This filter is located in `FluentForm\App\Helpers\Protector`.
+
+</explain-block>
+
+<explain-block title="fluentform/allowed_html_tags">
+
+You can use this filter to add HTML attributes for sanitization.
+
+**Parameters**
+
+- `$tags` (array) HTML Attributes
+
+**Usage**
+
+```php
+add_filter('fluentform/allowed_html_tags', function ($tags) {
     // Do your stuff here
     
-    return $html;
+    return $tags;
 }, 10, 1);
 
 ```
 
 **Reference**
 
-`apply_filters('fluentform/all_data_shortcode_html',  __return_true());`
+`apply_filters('fluentform/allowed_html_tags', $tags);`
 
-This filter is located in FluentForm\App\Services\FormBuilder\ShortcodeParser -> getOtherData($key)
+This filter is located in FluentForm\boot\globals.php -> fluentform_sanitize_html($html)
 
 </explain-block>
 
-<explain-block title="fluentform/shortcode_parser_callback_pdf.download_link.public">
+<explain-block title="fluentform/backend_sanitized_values">
 
-You can use this filter to modify the public PDF download link.
+You can use this filter to add inputs values for sanitization.
 
 **Parameters**
 
-- `$key` (string) Key Name
-- `$instance` (object) Shortcode Parser Instance
+- `$inputs` (array) Form Inputs
 
 **Usage**
 
 ```php
-add_filter('fluentform/shortcode_parser_callback_pdf.download_link.public', function ($key, $instance) {
+add_filter('fluentform/backend_sanitized_values', function ($inputs) {
     // Do your stuff here
     
-    return $key;
+    return $inputs;
+}, 10, 1);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/backend_sanitized_values', $inputs);`
+
+This filter is located in FluentForm\boot\globals.php -> fluentform_backend_sanitizer($inputs, $sanitizeMap = [])
+
+</explain-block>
+
+<explain-block title="fluentform/cleanup_days_count">
+
+You can use this filter to set days count for cleanup old data through scheduler.
+
+**Parameters**
+
+- `$days` (int) Days Count, By default 60
+
+**Usage**
+
+```php
+add_filter('fluentform/cleanup_days_count', function ($days) {
+    // Do your stuff here
+    
+    return $days;
+}, 10, 1);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/cleanup_days_count', $days);`
+
+This filter is located in FluentForm\App\Services\Scheduler\Scheduler -> cleanUpOldData()
+
+</explain-block>
+
+<explain-block title="fluentform/conditional_shortcode_defaults">
+
+You can use this filter to modify shortcode default.
+
+**Parameters**
+
+- `$default` (array) Shortcode Default
+- `$atts` (array) Shortcode Attributes
+
+**Usage**
+
+```php
+add_filter('fluentform/conditional_shortcode_defaults', function ($default, $atts) {
+    // Do your stuff here
+    
+    return $default;
+}, 10, 2);
+
+```
+```php
+$default = [
+    'field' => '',
+    'is'    => '',
+    'to'    => ''
+];
+```
+
+**Reference**
+
+`apply_filters('fluentform/conditional_shortcode_defaults', $default, $atts);`
+
+This filter is located in FluentFormPro\src\classes\ConditionalContent -> handle($atts, $content)
+
+</explain-block>
+
+<explain-block title="fluentform/current_user_allowed_forms">
+
+<Badge type="tip" vertical="top" text="Pro" />
+
+**Parameters**
+
+- `$value` — see source
+
+**Usage**
+
+```php
+add_filter('fluentform/current_user_allowed_forms', function ($value) {
+    return $value;
+}, 10, 1);
+```
+
+**Reference**
+
+`$allowFormIds = apply_filters('fluentform/current_user_allowed_forms', false);`
+
+This filter is located in `src/Payments/Classes/PaymentEntries.php` (line 73).
+
+</explain-block>
+
+<explain-block title="fluentform/current_user_capability">
+
+You can modify Current User Capability using this filter.
+
+**Parameters**
+
+- `$capability` (array) User Capabilities
+
+**Usage**
+
+```php
+add_filter('fluentform/current_user_capability', function ($capability) {
+   // Do your stuff here
+
+   return $capability;
+}, 10, 1);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/current_user_capability', static::$capability);`
+
+This filter is located in FluentForm\App\Modules\Acl -> getCurrentUserCapability()
+
+</explain-block>
+
+<explain-block title="fluentform/current_user_permissions">
+
+You can modify Current User Permission using this filter.
+
+**Parameters**
+
+- `$userPermissions` (array) Current User Permissions
+
+**Usage**
+
+```php
+add_filter('fluentform/current_user_permissions', function ($userPermissions) {
+   // Do your stuff here
+
+   return $userPermissions;
+}, 10, 1);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/current_user_permissions', $userPermissions);`
+
+This filter is located in FluentForm\App\Models\Form -> getUserPermissions($user = false)
+
+</explain-block>
+
+<explain-block title="fluentform/disable_attachment_delete">
+
+You can toggle double option confirmation file attachment by using this filter.
+
+**Parameters**
+
+- `$status` (boolean) Whether the attachment is disabled
+- `$formId` (int) Form ID
+
+**Usage**
+
+```php
+add_filter('fluentform/disable_attachment_delete', function ($status, $formId) {
+    // Do your stuff here
+    
+    return $status;
 }, 10, 2);
 
 ```
 
 **Reference**
 
-`apply_filters('fluentform/shortcode_parser_callback_pdf.download_link.public', $key, $instance);`
+`apply_filters('fluentform/disable_attachment_delete', $status, $entry->form_id));`
 
-This filter is located in FluentForm\App\Services\FormBuilder -> getOtherData($key)
+This filter is located in FluentFormPro\src\classes\DoubleOption -> deleteAssociateFiles($entry)
 
 </explain-block>
 
-<explain-block title="fluentform/shortcode_parser_callback_random_string">
+<explain-block title="fluentform/disable_captcha">
 
-You can use this filter to modify the any shortcode with random string.
+You can disable specific captcha validation using this filter. This is useful when you want to bypass captcha validation in certain scenarios.
 
 **Parameters**
 
-- `$value` (string) Name of the Shortcode after .
-- `$prefix` (string) Prefix of the Shortcode before .
-- `$instance` (object) Shortcode Parser Instance
+- `$isDisabled` (boolean) Whether captcha validation is disabled
+- `$form` (object) Form Object
+- `$captchaType` (string) The type of captcha ('recaptcha', 'hcaptcha', 'turnstile')
 
 **Usage**
 
 ```php
-add_filter('fluentform/shortcode_parser_callback_random_string', function ($value, $prefix, $instance) {
+add_filter('fluentform/disable_captcha', function($isDisabled, $form, $captchaType) {
+   // Disable reCAPTCHA for a specific form
+   if ($captchaType === 'recaptcha' && $form->id === 123) {
+      return true;
+   }
+   
+   return $isDisabled;
+}, 10, 3);
+```
+
+**Reference**
+
+`apply_filters('fluentform/disable_captcha', false, $this->form, 'recaptcha');`
+`apply_filters('fluentform/disable_captcha', false, $this->form, 'hcaptcha');`
+`apply_filters('fluentform/disable_captcha', false, $this->form, 'turnstile');`
+
+This filter is located in `FluentForm\App\Services\Form\FormValidationService` -> `validateReCaptcha()`, `validateHCaptcha()`, and `validateTurnstile()`
+
+</explain-block>
+
+<explain-block title="fluentform/disable_fields_sanitize">
+
+You can use this filter to toggle disable fields sanitization.
+
+**Parameters**
+
+- `$status` (boolean) Whether disabled fields sanitization is enabled
+
+**Usage**
+
+```php
+add_filter('fluentform/disable_fields_sanitize', function ($status) {
     // Do your stuff here
     
-    return $value;
-}, 10, 3);
+    return $status;
+}, 10, 1);
 
 ```
 
 **Reference**
 
-`apply_filters('fluentform/shortcode_parser_callback_random_string', $value, $prefix, static::getInstance());`
+`apply_filters('fluentform/disable_fields_sanitize', $status);`
 
-This filter is located in FluentForm\App\Services\FormBuilder -> getOtherData($key)
+This filter is located in FluentForm\boot\globals.php -> fluentformCanUnfilteredHTML()
 
 </explain-block>
 
-<explain-block title="'fluentform/smartcode_group_' . $group">
-
-You can use this filter to modify the smartcode with a specific group.
+<explain-block title="fluentform/disable_input_mode">
 
 **Parameters**
 
-- `$property` (string) Smartcode Name
-- `$instance` (object) Shortcode Parser Instance
+- `$value` — see source
 
 **Usage**
 
 ```php
-add_filter('fluentform/smartcode_group_' . $group, function ($property, $instance) {
+add_filter('fluentform/disable_input_mode', function ($value) {
+    return $value;
+}, 10, 1);
+```
+
+**Reference**
+
+`$isDisable = apply_filters('fluentform/disable_input_mode', false);`
+
+This filter is located in `app/Services/FormBuilder/Components/Text.php` (line 60).
+
+</explain-block>
+
+<explain-block title="fluentform/disabled_components">
+
+You can use this filter to modify disabled components.
+
+**Parameters**
+
+- `$disabled` (array) Disabled Components
+
+**Usage**
+
+```php
+add_filter('fluentform/disabled_components', function ($disabled) {
     // Do your stuff here
     
-    return $value;
+    return $disabled;
+}, 10, 1);
+
+```
+
+```php
+$disabled['ratings'] = [
+    'disabled'    => true,
+    'title'       => __('Ratings', 'fluentform'),
+    'description' => __('Ratings is not available with the free version. Please upgrade to pro to get all the advanced features.', 'fluentform'),
+    'image'       => '',
+    'video'       => 'https://www.youtube.com/embed/YGdkNspMaEs',
+];
+$disabled['tabular_grid'] = [
+    'disabled'    => true,
+    'title'       => __('Checkable Grid', 'fluentform'),
+    'description' => __('Checkable Grid is not available with the free version. Please upgrade to pro to get all the advanced features.', 'fluentform'),
+    'image'       => '',
+    'video'       => 'https://www.youtube.com/embed/ayI3TzXXANA',
+];
+```
+
+**Reference**
+
+`apply_filters('fluentform/disabled_components', $disabled);`
+
+This filter is located in FluentForm\app\Services\Form\FormServices -> getDisabledComponents()
+
+</explain-block>
+
+<explain-block title="fluentform/double_optin_invalid_confirmation_url_message">
+
+This filter allows you to customize double optin invalid confirmation URL messages
+
+**Parameters**
+
+- `$message` (string) The default massage
+
+**Usage**
+
+```php
+add_filter('fluentform/double_optin_invalid_confirmation_url_message', function ($message) {
+    // Modify the message
+    return __('Sorry! Invalid Form Confirmation URL. Please contact the site admin.', 'fluentformpro');
+}, 10, 2);
+```
+**Reference**
+
+`apply_filters('fluentform/double_optin_invalid_confirmation_url_message', __('Sorry! Invalid Form Confirmation URL', 'fluentformpro'));`
+
+This filter is located in the `FluentFormPro\classes\DoubleOptin` -> `confirmSubmission` method.
+
+</explain-block>
+
+<explain-block title="fluentform/editor_element_customization_settings">
+
+This filter returns the input element settings components in editor.
+
+**Parameters**
+
+- `$settings` (array) Element settings
+
+**Usage**
+
+```php
+add_filter('fluentform/editor_element_customization_settings', function ($settings) {
+    if ($customSettings = $this->getEditorCustomizationSettings()) {
+    $settings = array_merge($settings, $customSettings);
+    }
+
+    return $settings;
+}, 10, 1);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/editor_element_customization_settings', $element_customization_settings);`
+
+This filter is located in FluentForm\App\Services\FormBuilder\ElementCustomization
+
+</explain-block>
+
+<explain-block title="'fluentform/editor_shortcode_callback_' . $handler">
+
+You can modify shortcode handler using the filter.
+
+**Parameters**
+
+- `$handler` (array) Shortcode Handler Array
+- `$form` (object) Form Object
+
+**Usage**
+
+```php
+add_filter('fluentform/editor_shortcode_callback_' . $handler, function ($handler, $form) {
+   // Do your stuff here
+
+   return $handler;
 }, 10, 2);
 
 ```
 
 **Reference**
 
-`apply_filters('fluentform/smartcode_group_' . $group, $property, static::getInstance());`
+`apply_filters('fluentform/editor_shortcode_callback_' . $handler, $handler, $form);`
 
-This filter is located in FluentForm\App\Services\FormBuilder -> getOtherData($key)
+This filter is located in FluentForm\App\Services\FormBuilder\EditorShortcodeParser -> filter($value, $form)
 
 </explain-block>
 
-<explain-block title="'fluentform/shortcode_parser_callback_' . $key">
+<explain-block title="'fluentform/editor_shortcode_callback_group_' . $group">
 
-You can use this filter to modify the any shortcode with matching key.
+You can modify shortcode group using the filter.
 
 **Parameters**
 
-- `$key` (string) Key Name
-- `$instance` (object) Shortcode Parser Instance
+- `$handler` (array) All Shortcode Group
+- `$form` (object) Form Object
+- `$handlerArray` (array) Shortcode Handlers Group
 
 **Usage**
 
 ```php
-add_filter('fluentform/shortcode_parser_callback_' . $key, function ($key, $instance) {
-    // Do your stuff here
-    
-    return $key;
+add_filter('fluentform/editor_shortcode_callback_group_' . $group, function ($handler, $form, $handlerArray) {
+   // Do your stuff here
+
+   return '{' . $handler . '}';
 }, 10, 3);
 
 ```
 
 **Reference**
 
-`apply_filters('fluentform/shortcode_parser_callback_' . $key, static::getInstance());`
+`apply_filters('fluentform/editor_shortcode_callback_group_' . $group, '{' . $handler . '}', $form, $handlerArray);`
 
-This filter is located in FluentForm\App\Services\FormBuilder -> getOtherData($key)
+This filter is located in FluentForm\App\Services\FormBuilder\EditorShortcodeParser -> filter($value, $form)
 
 </explain-block>
 
@@ -1128,99 +905,399 @@ This filter is located in FluentForm\App\Services\FormBuilder\ValidationRuleSett
 
 </explain-block>
 
-<explain-block title="fluentform/cleanup_days_count">
+<explain-block title="fluentform/email_exists_validation_message">
 
-You can use this filter to set days count for cleanup old data through scheduler.
+Change User registration existing email validation message
 
 **Parameters**
-
-- `$days` (int) Days Count, By default 60
+- `validationMsg` (string) Message
+- `$form` (object) Form Object
+- `$feed` (array) Integraion Feed Data
+- `$email` (string) Email 
 
 **Usage**
 
 ```php
-add_filter('fluentform/cleanup_days_count', function ($days) {
-    // Do your stuff here
-    
-    return $days;
+add_filter('fluentform/email_exists_validation_message', function($validationMsg) {
+    $validationMsg = "This email is already registered. Please choose another one.";
+    return $validationMsg;
 }, 10, 1);
 
 ```
 
 **Reference**
 
-`apply_filters('fluentform/cleanup_days_count', $days);`
+`apply_filters('fluentform/email_exists_validation_message', $validationMsg, $form, $feed, $email);`
 
-This filter is located in FluentForm\App\Services\Scheduler\Scheduler -> cleanUpOldData()
+This filter is located in fluentformpro/src/Integrations/UserRegistration/UserRegistrationApi.php
 
 </explain-block>
 
-<explain-block title="fluentform/allowed_html_tags">
-
-You can use this filter to add HTML attributes for sanitization.
+<explain-block title="fluentform/exclude_js_slugs_from_dequeue">
 
 **Parameters**
 
-- `$tags` (array) HTML Attributes
+- `$args` — see source
 
 **Usage**
 
 ```php
-add_filter('fluentform/allowed_html_tags', function ($tags) {
-    // Do your stuff here
-    
-    return $tags;
+add_filter('fluentform/exclude_js_slugs_from_dequeue', function ($args) {
+    return $args;
+}, 10, 1);
+```
+
+**Reference**
+
+`$excludeSlugs = apply_filters('fluentform/exclude_js_slugs_from_dequeue', ['fluentform']);`
+
+This filter is located in `app/Hooks/actions.php` (line 195).
+
+</explain-block>
+
+<explain-block title="fluentform/extractor_parser_custom_fields">
+
+**Parameters**
+
+- `$customFields` — see source
+- `$this` — see source
+
+**Usage**
+
+```php
+add_filter('fluentform/extractor_parser_custom_fields', function ($customFields, $this) {
+    return $customFields;
+}, 10, 2);
+```
+
+**Reference**
+
+`$customFields = apply_filters('fluentform/extractor_parser_custom_fields', $customFields, $this->field);`
+
+This filter is located in `app/Services/Parser/Extractor.php` (line 401).
+
+</explain-block>
+
+<explain-block title="fluentform/file_upload_options">
+
+You can change Fluent Forms default file upload location by using this filter.
+
+**Parameters**
+
+- `$locations` (array) File Upload Location
+
+**Usage**
+
+```php
+add_filter('fluentform/file_upload_options', function ($locations){
+
+   // Do your stuff here
+}, 10, 1);
+```
+
+**Reference**
+
+`apply_filters('fluentform/file_upload_options', $locations);`
+
+This filter is located in FluentForm\App\Helpers\Helper -> fileUploadLocations()
+
+</explain-block>
+
+<explain-block title="fluentform/find_shortcode_builder_meta_keys">
+
+<Badge type="warning" vertical="top" text="Added in 6.2.x" />
+
+Extend the list of post-meta keys the admin "Find" feature scans when locating which posts/pages embed a given form. Use this when your page builder stores form shortcodes inside a custom meta key that Fluent Forms does not know about.
+
+**Parameters**
+
+- `$metaKeys` (array) Default list of meta keys searched
+
+**Usage**
+
+```php
+add_filter('fluentform/find_shortcode_builder_meta_keys', function ($metaKeys) {
+    $metaKeys[] = '_my_builder_content';
+    return $metaKeys;
+}, 10, 1);
+```
+
+**Reference**
+
+`apply_filters('fluentform/find_shortcode_builder_meta_keys', $metaKeys);`
+
+This filter is located in `FluentForm\App\Services\Form\FormService`.
+
+</explain-block>
+
+<explain-block title="fluentform/find_shortcode_excluded_post_types">
+
+<Badge type="warning" vertical="top" text="Added in 6.2.x" />
+
+Exclude additional post types from the admin "Find" feature scan. Useful for skipping large or irrelevant post types that slow down the search.
+
+**Parameters**
+
+- `$excludedPostTypes` (array) Default excluded post types
+
+**Usage**
+
+```php
+add_filter('fluentform/find_shortcode_excluded_post_types', function ($excluded) {
+    $excluded[] = 'product_variation';
+    return $excluded;
+}, 10, 1);
+```
+
+**Reference**
+
+`apply_filters('fluentform/find_shortcode_excluded_post_types', $excludedPostTypes);`
+
+This filter is located in `FluentForm\App\Services\Form\FormService`.
+
+</explain-block>
+
+<explain-block title="fluentform/find_shortcode_params">
+
+This filter returns Fluent Forms shortcode used in the site.
+
+**Parameters**
+
+- `$params` (array) Post Type
+
+**Usage**
+
+```php
+add_filter('fluentform/find_shortcode_params', function($params) {
+   // Do your stuff here
+
+   return $params;
 }, 10, 1);
 
 ```
 
 **Reference**
 
-`apply_filters('fluentform/allowed_html_tags', $tags);`
+`apply_filters('fluentform/find_shortcode_params', $params);`
 
-This filter is located in FluentForm\boot\globals.php -> fluentform_sanitize_html($html)
+This filter is located in FluentForm\App\Services\Form\FormService -> findShortCodePage($formId)
 
 </explain-block>
 
-<explain-block title="fluentform/backend_sanitized_values">
+<explain-block title="fluentform/generated_protection_token">
 
-You can use this filter to add inputs values for sanitization.
+This filter allows you to modify the generated protection token.
 
 **Parameters**
 
-- `$inputs` (array) Form Inputs
+- `$token` (string) The encrypted token
+- `$formId` (int) The ID of the form
+- `$timeStamp` (int) The current timestamp
 
 **Usage**
 
 ```php
-add_filter('fluentform/backend_sanitized_values', function ($inputs) {
-    // Do your stuff here
-    
-    return $inputs;
+add_filter('fluentform/generated_protection_token', function ($token, $formId, $timeStamp) {
+    // Modify the token
+    return $token;
+}, 10, 3);
+```
+**Reference**
+
+`apply_filters('fluentform/generated_protection_token', Protector::encrypt($data), $formId, $timeStamp);`
+
+This filter is located in the FluentForm\App\Modules\Form\TokenBasedSpamProtection -> generateToken method.
+
+</explain-block>
+
+<explain-block title="fluentform/get_global_message_">
+
+**Parameters**
+
+- See source
+
+**Usage**
+
+```php
+add_filter('fluentform/get_global_message_', function ($value) {
+    return $value;
+}, 10, 1);
+```
+
+**Reference**
+
+`$rule['message'] = apply_filters('fluentform/get_global_message_' . $ruleName, $rule['message']);;`
+
+This filter is located in `app/Services/FluentConversational/Classes/Converter/Converter.php` (line 1384).
+
+</explain-block>
+
+<explain-block title="fluentform/global_search_active">
+
+**Parameters**
+
+- `$value` — see source
+
+**Usage**
+
+```php
+add_filter('fluentform/global_search_active', function ($value) {
+    return $value;
+}, 10, 1);
+```
+
+**Reference**
+
+`'global_search_active' => apply_filters('fluentform/global_search_active', 'yes'),`
+
+This filter is located in `app/Hooks/actions.php` (line 762).
+
+</explain-block>
+
+<explain-block title="fluentform/global_search_links">
+
+**Parameters**
+
+- `$links` — see source
+
+**Usage**
+
+```php
+add_filter('fluentform/global_search_links', function ($links) {
+    return $links;
+}, 10, 1);
+```
+
+**Reference**
+
+`"links" => apply_filters('fluentform/global_search_links', $links),`
+
+This filter is located in `app/Services/GlobalSearchService.php` (line 503).
+
+</explain-block>
+
+<explain-block title="fluentform/has_hcaptcha">
+
+You can toggle Hcaptcha using this filter.
+
+**Parameters**
+
+- `$status` (boolean) Whether Hcaptcha is enabled
+
+**Usage**
+
+```php
+add_filter('fluentform/has_hcaptcha', function($status) {
+   // Do your stuff here
+
+   return $status;
 }, 10, 1);
 
 ```
 
 **Reference**
 
-`apply_filters('fluentform/backend_sanitized_values', $inputs);`
+`apply_filters('fluentform/has_hcaptcha', $hasAutoHcap);`
 
-This filter is located in FluentForm\boot\globals.php -> fluentform_backend_sanitizer($inputs, $sanitizeMap = [])
+This filter is located in FluentForm\App\Services\Form\FormValidationService -> validateHCaptcha()
 
 </explain-block>
 
-<explain-block title="fluentform/disable_fields_sanitize">
+<explain-block title="fluentform/has_recaptcha">
 
-You can use this filter to toggle disable fields sanitization.
+You can toggle Recaptcha using this filter.
 
 **Parameters**
 
-- `$status` (boolean) Whether disabled fields sanitization is enabled
+- `$status` (boolean) Whether Recaptcha is enabled
 
 **Usage**
 
 ```php
-add_filter('fluentform/disable_fields_sanitize', function ($status) {
+add_filter('fluentform/has_recaptcha', function($status) {
+   // Do your stuff here
+
+   return $status;
+}, 10, 1);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/has_recaptcha', $hasAutoRecap);`
+
+This filter is located in FluentForm\App\Services\Form\FormValidationService -> validateReCaptcha()
+
+</explain-block>
+
+<explain-block title="fluentform/has_turnstile">
+
+You can toggle Turnstile using this filter.
+
+**Parameters**
+
+- `$status` (boolean) Whether Turnstile is enabled
+
+**Usage**
+
+```php
+add_filter('fluentform/has_turnstile', function($status) {
+   // Do your stuff here
+
+   return $status;
+}, 10, 1);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/has_turnstile', $hasAutoTurnsTile);`
+
+This filter is located in FluentForm\App\Services\Form\FormValidationService -> validateTurnstile()
+
+</explain-block>
+
+<explain-block title="fluentform/html_attributes">
+
+You can use this filter to modify the form attributes before form render.
+
+**Parameters**
+
+- `$data` (array) Form HTML attributes
+- `$form` (object) Form Object
+
+**Usage**
+
+```php
+add_filter('fluentform/html_attributes', function ($data, $form) {
+    // Do your stuff here
+    
+    return $data;
+}, 10, 2);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/html_attributes', $data, $form);`
+
+This filter is located in FluentForm\App\Services\FormBuilder\FormBuilder -> build($form, $extraCssClass = '',
+$instanceCssClass = '', $atts = [])
+
+</explain-block>
+
+<explain-block title="fluentform/https_local_ssl_verify">
+
+You can use this to toggle the local SSL verification for async requests.
+
+**Parameters**
+
+- `$status` (boolean) Whether local SSL verification is enabled
+
+**Usage**
+
+```php
+add_filter('fluentform/https_local_ssl_verify', function ($status) {
     // Do your stuff here
     
     return $status;
@@ -1230,84 +1307,151 @@ add_filter('fluentform/disable_fields_sanitize', function ($status) {
 
 **Reference**
 
-`apply_filters('fluentform/disable_fields_sanitize', $status);`
+`apply_filters('fluentform/https_local_ssl_verify', false);`
 
-This filter is located in FluentForm\boot\globals.php -> fluentformCanUnfilteredHTML()
+This filter is located in FluentForm\app\Services\WPAsync\FluentFormAsyncRequest -> dispatchAjax($data = [])
 
 </explain-block>
 
-<explain-block title="fluentform/disabled_components">
-
-You can use this filter to modify disabled components.
+<explain-block title="fluentform/info_shortcode_defaults">
 
 **Parameters**
 
-- `$disabled` (array) Disabled Components
+- `$data` — see source
+- `$atts` — see source
 
 **Usage**
 
 ```php
-add_filter('fluentform/disabled_components', function ($disabled) {
-    // Do your stuff here
-    
-    return $disabled;
+add_filter('fluentform/info_shortcode_defaults', function ($data, $atts) {
+    return $data;
+}, 10, 2);
+```
+
+**Reference**
+
+`$shortcodeDefaults = apply_filters('fluentform/info_shortcode_defaults', $data, $atts);`
+
+This filter is located in `app/Modules/Component/Component.php` (line 1334).
+
+</explain-block>
+
+<explain-block title="fluentform/input_label_shortcode">
+
+**Parameters**
+
+- `$inputLabel` — see source
+- `$key` — see source
+- `$value` — see source
+
+**Usage**
+
+```php
+add_filter('fluentform/input_label_shortcode', function ($inputLabel, $key, $value) {
+    return $inputLabel;
+}, 10, 3);
+```
+
+**Reference**
+
+`return apply_filters('fluentform/input_label_shortcode', $inputLabel, $key, static::getForm());`
+
+This filter is located in `app/Services/FormBuilder/ShortCodeParser.php` (line 294).
+
+</explain-block>
+
+<explain-block title="fluentform/load_form_instance_js_var_immediately">
+
+**Parameters**
+
+- `$value` — see source
+
+**Usage**
+
+```php
+add_filter('fluentform/load_form_instance_js_var_immediately', function ($value) {
+    return $value;
+}, 10, 1);
+```
+
+**Reference**
+
+`$otherScriptsRenderImmediately = apply_filters('fluentform/load_form_instance_js_var_immediately', false);`
+
+This filter is located in `app/Modules/Component/Component.php` (line 769).
+
+</explain-block>
+
+<explain-block title="fluentform/mask_input_mode">
+
+**Parameters**
+
+- `$inputMode` — see source
+- `$data` — see source
+- `$form` — see source
+
+**Usage**
+
+```php
+add_filter('fluentform/mask_input_mode', function ($inputMode, $data, $form) {
+    return $inputMode;
+}, 10, 3);
+```
+
+**Reference**
+
+`$inputMode = apply_filters('fluentform/mask_input_mode', $inputMode, $data, $form);`
+
+This filter is located in `app/Services/FormBuilder/Components/Text.php` (line 71).
+
+</explain-block>
+
+<explain-block title="fluentform/moment_date_time_format">
+
+**Parameters**
+
+- `$format` — see source
+
+**Usage**
+
+```php
+add_filter('fluentform/moment_date_time_format', function ($format) {
+    return $format;
+}, 10, 1);
+```
+
+**Reference**
+
+`return apply_filters('fluentform/moment_date_time_format', $format);`
+
+This filter is located in `app/Helpers/Helper.php` (line 1458).
+
+</explain-block>
+
+<explain-block title="fluentform/nonce_error">
+
+You can modify NONCE error message using this filter.
+
+**Parameters**
+
+- `$errorMessage` (string) Error Message
+
+**Usage**
+
+```php
+add_filter('fluentform/nonce_error', function ($errorMessage) {
+   // Do your stuff here
+
+   return $errorMessage;
 }, 10, 1);
 
 ```
 
-```php
-$disabled['ratings'] = [
-    'disabled'    => true,
-    'title'       => __('Ratings', 'fluentform'),
-    'description' => __('Ratings is not available with the free version. Please upgrade to pro to get all the advanced features.', 'fluentform'),
-    'image'       => '',
-    'video'       => 'https://www.youtube.com/embed/YGdkNspMaEs',
-];
-$disabled['tabular_grid'] = [
-    'disabled'    => true,
-    'title'       => __('Checkable Grid', 'fluentform'),
-    'description' => __('Checkable Grid is not available with the free version. Please upgrade to pro to get all the advanced features.', 'fluentform'),
-    'image'       => '',
-    'video'       => 'https://www.youtube.com/embed/ayI3TzXXANA',
-];
-```
-
 **Reference**
 
-`apply_filters('fluentform/disabled_components', $disabled);`
+`apply_filters('fluentform/nonce_error', $message);`
 
-This filter is located in FluentForm\app\Services\Form\FormServices -> getDisabledComponents()
-
-</explain-block>
-
-<explain-block title="fluentform/validation_error">
-
-This filter hook is fired before form render. You can use this to change rendered form.
-
-**Parameters**
-
-- `$errors` (array) Validation Errors
-- `$formData` (array) Form Data
-- `$form` (object) Form Object
-- `$fields` (array) Form Fields
-
-**Usage**
-
-```php
-add_filter('fluentform/validation_error', function ($errors, $formData, $form, $fields) {
-    // Do your stuff here
-    
-    return $returnData;
-}, 10, 4);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/validation_error', $errors, $this->form, $fields, $this->formData);`
-
-This filter is located in FluentForm\app\Services\Form\SubmissionHandlerService -> getReturnData($insertId, $form,
-$formData)
+This filter is located in FluentForm\App\Services\Form\FormValidationService -> validateNonce()
 
 </explain-block>
 
@@ -1339,171 +1483,136 @@ This filter is located in FluentForm\app\Services\Form\FormValidationService -> 
 
 </explain-block>
 
-<explain-block title="fluentform/https_local_ssl_verify">
-
-You can use this to toggle the local SSL verification for async requests.
+<explain-block title="fluentform/number_input_mode">
 
 **Parameters**
 
-- `$status` (boolean) Whether local SSL verification is enabled
+- `$inputMode` — see source
+- `$data` — see source
+- `$form` — see source
 
 **Usage**
 
 ```php
-add_filter('fluentform/https_local_ssl_verify', function ($status) {
-    // Do your stuff here
-    
-    return $status;
-}, 10, 1);
-
+add_filter('fluentform/number_input_mode', function ($inputMode, $data, $form) {
+    return $inputMode;
+}, 10, 3);
 ```
 
 **Reference**
 
-`apply_filters('fluentform/https_local_ssl_verify', false);`
+`$inputMode = apply_filters('fluentform/number_input_mode', $inputMode, $data, $form);`
 
-This filter is located in FluentForm\app\Services\WPAsync\FluentFormAsyncRequest -> dispatchAjax($data = [])
+This filter is located in `app/Services/FormBuilder/Components/Text.php` (line 126).
 
 </explain-block>
 
-<explain-block title="fluentform/conditional_shortcode_defaults">
+<explain-block title="fluentform/parse_default_value">
 
-You can use this filter to modify shortcode default.
+You can modify form default shortcode value using this filter.
 
 **Parameters**
 
-- `$default` (array) Shortcode Default
-- `$atts` (array) Shortcode Attributes
+- `$value` (string) Parseable Shortcode Value
+- `$form` (object) Form Object
 
 **Usage**
 
 ```php
-add_filter('fluentform/conditional_shortcode_defaults', function ($default, $atts) {
-    // Do your stuff here
-    
-    return $default;
-}, 10, 2);
+add_filter('fluentform/parse_default_value', function($value, $form) {
+   // Do your stuff here
 
-```
-```php
-$default = [
-    'field' => '',
-    'is'    => '',
-    'to'    => ''
-];
-```
-
-**Reference**
-
-`apply_filters('fluentform/conditional_shortcode_defaults', $default, $atts);`
-
-This filter is located in FluentFormPro\src\classes\ConditionalContent -> handle($atts, $content)
-
-</explain-block>
-
-<explain-block title="fluentform/disable_attachment_delete">
-
-You can toggle double option confirmation file attachment by using this filter.
-
-**Parameters**
-
-- `$status` (boolean) Whether the attachment is disabled
-- `$formId` (int) Form ID
-
-**Usage**
-
-```php
-add_filter('fluentform/disable_attachment_delete', function ($status, $formId) {
-    // Do your stuff here
-    
-    return $status;
+   return $value;
 }, 10, 2);
 
 ```
 
 **Reference**
 
-`apply_filters('fluentform/disable_attachment_delete', $status, $entry->form_id));`
+`apply_filters('fluentform/parse_default_value', $attrDefaultValues[$pattern], $form);`
 
-This filter is located in FluentFormPro\src\classes\DoubleOption -> deleteAssociateFiles($entry)
+This filter is located in FluentForm\App\Modules\Component\Component -> replaceEditorSmartCodes($output, $form)
 
 </explain-block>
 
-<explain-block title="fluentform/style_presets">
+<explain-block title="fluentform/parse_default_values">
 
-You can modify form styler by using this filter.
+You can modify Shortcode's all parseable values using this filter.
 
 **Parameters**
 
-- `$presets` (array) Form Styler Presets
+- `$attrDefaultValues` (array) Parseable All Shortcode Values
 
 **Usage**
 
 ```php
-add_filter('fluentform/style_presets', function ($presets) {
-    // Do your stuff here
-    
-    return $presets;
-}, 10, 1);
+add_filter('fluentform/parse_default_values', function($attrDefaultValues) {
+   // Do your stuff here
 
-```
-```php
-$presets = [
-    '' => [
-        'label' => __('Default', ''),
-        'src' => ''
-    ],
-    'ffs_modern_b' => [
-        'label' => __('Modern (Bold)', ''),
-        'src' => FLUENTFORMPRO_DIR_URL . 'public/css/skin_modern_bold.css'
-    ],
-    'ffs_modern_l' => [
-        'label' => __('Modern (Light)', ''),
-        'src' => FLUENTFORMPRO_DIR_URL . 'public/css/skin_modern_light.css'
-    ],
-    'ffs_classic' => [
-        'label' => __('Classic', ''),
-        'src' => FLUENTFORMPRO_DIR_URL . 'public/css/skin_classic.css'
-    ],
-    'ffs_bootstrap' => [
-        'label' => __('Bootstrap Style', ''),
-        'src' => FLUENTFORMPRO_DIR_URL . 'public/css/skin_bootstrap.css'
-    ],
-];
-```
-
-**Reference**
-
-`apply_filters('fluentform/style_presets', $presets);`
-
-This filter is located in FluentFormPro\src\classes\FormStyler -> getPresets()
-
-</explain-block>
-
-<explain-block title="fluentform/post_type_selection_types_args">
-
-You can modify post type args using this filter.
-
-**Parameters**
-
-- `$args` (array) Post Type Args
-
-**Usage**
-
-```php
-add_filter('fluentform/post_type_selection_types_args', function ($args) {
-    // Do your stuff here
-    
-    return $args;
+   return $attrDefaultValues;
 }, 10, 1);
 
 ```
 
 **Reference**
 
-`apply_filters('fluentform/post_type_selection_types_args', $args);`
+`apply_filters('fluentform/parse_default_values', $attrDefaultValues);`
 
-This filter is located in FluentFormPro\src\Components\PostSelectionField -> generalEditorElement()
+This filter is located in FluentForm\App\Modules\Component\Component -> replaceEditorSmartCodes($output, $form)
+
+</explain-block>
+
+<explain-block title="fluentform/pdf_html_format">
+
+You can set HTML formatted value on PDF header, body or footer using this filter.
+
+**Parameters**
+
+- `$feed` (array) PDF parts (header, body or footer)
+
+**Usage**
+
+```php
+add_filter('fluentform/pdf_html_format', function($feed) {
+    $feed[] = 'body';
+    return $feed;
+}, 10, 1);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/pdf_html_format', []);`
+
+This filter is located in FluentForm\app\Hooks\Filters.php
+
+</explain-block>
+
+<explain-block title="fluentform/permission_set">
+
+You can add or modify Fluentform Permission Set using this filter.
+
+**Parameters**
+
+- `$permissionSet` (array) Permission set
+
+**Usage**
+
+```php
+add_filter('fluentform/permission_set', function ($permissionSet) {
+   // Do your stuff here
+   
+   array_push($permissionSet, 'fluentform_dashboard_access');
+   return $permissionSet;
+}, 10, 1);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/permission_set', $data);`
+
+This filter is located in FluentForm\App\Modules\Acl -> getPermissionSet()
 
 </explain-block>
 
@@ -1590,58 +1699,382 @@ This filter is located in FluentFormPro\src\Components\PostSelectionField -> gen
 
 </explain-block>
 
-<explain-block title="fluentform/pdf_html_format">
+<explain-block title="fluentform/post_type_selection_types_args">
 
-You can set HTML formatted value on PDF header, body or footer using this filter.
+You can modify post type args using this filter.
 
 **Parameters**
 
-- `$feed` (array) PDF parts (header, body or footer)
+- `$args` (array) Post Type Args
 
 **Usage**
 
 ```php
-add_filter('fluentform/pdf_html_format', function($feed) {
-    $feed[] = 'body';
-    return $feed;
+add_filter('fluentform/post_type_selection_types_args', function ($args) {
+    // Do your stuff here
+    
+    return $args;
 }, 10, 1);
 
 ```
 
 **Reference**
 
-`apply_filters('fluentform/pdf_html_format', []);`
+`apply_filters('fluentform/post_type_selection_types_args', $args);`
 
-This filter is located in FluentForm\app\Hooks\Filters.php
+This filter is located in FluentFormPro\src\Components\PostSelectionField -> generalEditorElement()
 
 </explain-block>
 
+<explain-block title="fluentform/pretty_url_base_slug">
 
-<explain-block title="fluentform/email_exists_validation_message">
+<Badge type="tip" vertical="top" text="Pro" /> <Badge type="warning" vertical="top" text="Added in 6.2.3" />
 
-Change User registration existing email validation message
+Change the base URL slug used by Pro's Pretty URL feature for Landing Pages and Conversational Form share pages. Default is `form`, producing URLs like `https://site.com/form/my-form/`.
 
 **Parameters**
-- `validationMsg` (string) Message
-- `$form` (object) Form Object
-- `$feed` (array) Integraion Feed Data
-- `$email` (string) Email 
+
+- `$baseSlug` (string) Default `'form'`
 
 **Usage**
 
 ```php
-add_filter('fluentform/email_exists_validation_message', function($validationMsg) {
-    $validationMsg = "This email is already registered. Please choose another one.";
-    return $validationMsg;
+add_filter('fluentform/pretty_url_base_slug', function ($baseSlug) {
+    return 'apply'; // → https://site.com/apply/my-form/
+}, 10, 1);
+```
+
+::: warning Flush rewrite rules
+After changing the base slug, visit Settings → Permalinks once (or call `flush_rewrite_rules()`) so WordPress picks up the new rewrite.
+:::
+
+**Reference**
+
+`apply_filters('fluentform/pretty_url_base_slug', 'form');`
+
+This filter is located in `FluentFormPro\classes\SharePage\FormPrettyUrlService`.
+
+</explain-block>
+
+<explain-block title="fluentform/recaptcha_v3_ref_score">
+
+You can set Recaptcha Reference Score using this filter. By default, score is set to 0.5.
+
+**Parameters**
+
+- `$score` Reference Score between 0 and 1
+
+**Usage**
+
+```php
+add_filter('fluentform/recaptcha_v3_ref_score', function($score) {
+   // Do your stuff here
+
+   return $score;
 }, 10, 1);
 
 ```
 
 **Reference**
 
-`apply_filters('fluentform/email_exists_validation_message', $validationMsg, $form, $feed, $email);`
+`apply_filters('fluentforms/recaptcha_v3_ref_score', $value);`
 
-This filter is located in fluentformpro/src/Integrations/UserRegistration/UserRegistrationApi.php
+This filter is located in FluentForm\App\Modules\ReCaptcha\ReCaptcha -> validate($token, $secret = null, $version = '
+v2_visible')
+
+</explain-block>
+
+<explain-block title="fluentform/shortcode_defaults">
+
+This filter sets the defaults values for the shortcode.
+
+**Parameters**
+
+- `$defaults` (array) Default Shortcode Values
+- `$atts` (array) Shortcode Attributes
+
+**Usage**
+
+```php
+add_filter('fluentform/shortcode_defaults', function($defaults , $atts) {
+   // Do your stuff here
+
+   return $atts;
+}, 10, 2);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/shortcode_defaults', $data, $atts);`
+
+This filter is located in FluentForm\App\Modules\Component\Component -> addFluentFormShortCode()
+
+</explain-block>
+
+<explain-block title="fluentform/shortcode_feed_text">
+
+This filter returns the message of the shortcode for a feed.
+
+**Parameters**
+
+- `$feedText` (string) Shortcode Feed Text
+- `$form` (object) Form Object
+
+**Usage**
+
+```php
+add_filter('fluentform/shortcode_feed_text', function ($feedText, $form) {
+   // Do your stuff here
+
+   return $feedText;
+}, 10, 1);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/shortcode_feed_text', $feedText, $form);`
+
+This filter is located in FluentForm\App\Modules\Component\Component -> renderForm($atts)
+
+</explain-block>
+
+<explain-block title="'fluentform/shortcode_parser_callback_' . $key">
+
+You can use this filter to modify the any shortcode with matching key.
+
+**Parameters**
+
+- `$key` (string) Key Name
+- `$instance` (object) Shortcode Parser Instance
+
+**Usage**
+
+```php
+add_filter('fluentform/shortcode_parser_callback_' . $key, function ($key, $instance) {
+    // Do your stuff here
+    
+    return $key;
+}, 10, 3);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/shortcode_parser_callback_' . $key, static::getInstance());`
+
+This filter is located in FluentForm\App\Services\FormBuilder -> getOtherData($key)
+
+</explain-block>
+
+<explain-block title="fluentform/shortcode_parser_callback_pdf.download_link.public">
+
+You can use this filter to modify the public PDF download link.
+
+**Parameters**
+
+- `$key` (string) Key Name
+- `$instance` (object) Shortcode Parser Instance
+
+**Usage**
+
+```php
+add_filter('fluentform/shortcode_parser_callback_pdf.download_link.public', function ($key, $instance) {
+    // Do your stuff here
+    
+    return $key;
+}, 10, 2);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/shortcode_parser_callback_pdf.download_link.public', $key, $instance);`
+
+This filter is located in FluentForm\App\Services\FormBuilder -> getOtherData($key)
+
+</explain-block>
+
+<explain-block title="fluentform/shortcode_parser_callback_random_string">
+
+You can use this filter to modify the any shortcode with random string.
+
+**Parameters**
+
+- `$value` (string) Name of the Shortcode after .
+- `$prefix` (string) Prefix of the Shortcode before .
+- `$instance` (object) Shortcode Parser Instance
+
+**Usage**
+
+```php
+add_filter('fluentform/shortcode_parser_callback_random_string', function ($value, $prefix, $instance) {
+    // Do your stuff here
+    
+    return $value;
+}, 10, 3);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/shortcode_parser_callback_random_string', $value, $prefix, static::getInstance());`
+
+This filter is located in FluentForm\App\Services\FormBuilder -> getOtherData($key)
+
+</explain-block>
+
+<explain-block title="fluentform/show_hide_elements_debounce_time">
+
+**Parameters**
+
+- `$value` — see source
+
+**Usage**
+
+```php
+add_filter('fluentform/show_hide_elements_debounce_time', function ($value) {
+    return $value;
+}, 10, 1);
+```
+
+**Reference**
+
+`'debounce_time'    => apply_filters('fluentform/show_hide_elements_debounce_time', 300),`
+
+This filter is located in `app/Modules/Component/Component.php` (line 740).
+
+</explain-block>
+
+<explain-block title="fluentform/skip_no_conflict">
+
+You can toggle the no conflict mode using this filter.
+
+**Parameters**
+
+- `$isConflict` (boolean) Whether no conflict mode is enabled
+
+**Usage**
+
+```php
+add_filter('fluentform/skip_no_conflict', function ($isSkip) {
+   // Do your stuff here
+   
+   return $isSkip;
+}, 10, 1);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/skip_no_conflict', $isSkip);`
+
+This filter is located in FluentForm\App\Hooks\actions.php
+
+</explain-block>
+
+<explain-block title="fluentform/skip_validation_inputs_with_options">
+
+**Parameters**
+
+- `$value` — see source
+- `$fieldType` — see source
+- `$form` — see source
+- `$formData` — see source
+
+**Usage**
+
+```php
+add_filter('fluentform/skip_validation_inputs_with_options', function ($value, $fieldType, $form, $formData) {
+    return $value;
+}, 10, 4);
+```
+
+**Reference**
+
+`$skipValidationInputsWithOptions = apply_filters('fluentform/skip_validation_inputs_with_options', false, $fieldType, $form, $formData);`
+
+This filter is located in `app/Helpers/Helper.php` (line 1237).
+
+</explain-block>
+
+<explain-block title="'fluentform/smartcode_group_' . $group">
+
+You can use this filter to modify the smartcode with a specific group.
+
+**Parameters**
+
+- `$property` (string) Smartcode Name
+- `$instance` (object) Shortcode Parser Instance
+
+**Usage**
+
+```php
+add_filter('fluentform/smartcode_group_' . $group, function ($property, $instance) {
+    // Do your stuff here
+    
+    return $value;
+}, 10, 2);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/smartcode_group_' . $group, $property, static::getInstance());`
+
+This filter is located in FluentForm\App\Services\FormBuilder -> getOtherData($key)
+
+</explain-block>
+
+<explain-block title="fluentform/style_presets">
+
+You can modify form styler by using this filter.
+
+**Parameters**
+
+- `$presets` (array) Form Styler Presets
+
+**Usage**
+
+```php
+add_filter('fluentform/style_presets', function ($presets) {
+    // Do your stuff here
+    
+    return $presets;
+}, 10, 1);
+
+```
+```php
+$presets = [
+    '' => [
+        'label' => __('Default', ''),
+        'src' => ''
+    ],
+    'ffs_modern_b' => [
+        'label' => __('Modern (Bold)', ''),
+        'src' => FLUENTFORMPRO_DIR_URL . 'public/css/skin_modern_bold.css'
+    ],
+    'ffs_modern_l' => [
+        'label' => __('Modern (Light)', ''),
+        'src' => FLUENTFORMPRO_DIR_URL . 'public/css/skin_modern_light.css'
+    ],
+    'ffs_classic' => [
+        'label' => __('Classic', ''),
+        'src' => FLUENTFORMPRO_DIR_URL . 'public/css/skin_classic.css'
+    ],
+    'ffs_bootstrap' => [
+        'label' => __('Bootstrap Style', ''),
+        'src' => FLUENTFORMPRO_DIR_URL . 'public/css/skin_bootstrap.css'
+    ],
+];
+```
+
+**Reference**
+
+`apply_filters('fluentform/style_presets', $presets);`
+
+This filter is located in FluentFormPro\src\classes\FormStyler -> getPresets()
 
 </explain-block>
 
@@ -1669,29 +2102,31 @@ This filter is located in the FluentForm\App\Modules\Form\TokenBasedSpamProtecti
 
 </explain-block>
 
-<explain-block title="fluentform/generated_protection_token">
+<explain-block title="fluentform/token_based_spam_protection_status">
 
-This filter allows you to modify the generated protection token.
+This filter allows you to modify the status of token-based spam protection for a specific form. You can use this to enable or disable protection for certain forms based on custom logic.
 
 **Parameters**
 
-- `$token` (string) The encrypted token
-- `$formId` (int) The ID of the form
-- `$timeStamp` (int) The current timestamp
+- `$status` (bool) The current status of token-based protection 
+- `$formId` (int|false) The ID of the form, or false if not specific to a form
 
 **Usage**
 
 ```php
-add_filter('fluentform/generated_protection_token', function ($token, $formId, $timeStamp) {
-    // Modify the token
-    return $token;
-}, 10, 3);
+add_filter('fluentform/token_based_spam_protection_status', function ($status, $formId) {
+    // Disable protection for a specific form
+    if ($formId === 123) {
+        return false;
+    }
+    return $status;
+}, 10, 2);
 ```
 **Reference**
 
-`apply_filters('fluentform/generated_protection_token', Protector::encrypt($data), $formId, $timeStamp);`
+`apply_filters('fluentform/token_based_spam_protection_status', $status, $formId);`
 
-This filter is located in the FluentForm\App\Modules\Form\TokenBasedSpamProtection -> generateToken method.
+This filter is located in the FluentForm\App\Modules\Form\TokenBasedSpamProtection -> isEnabled method.
 
 </explain-block>
 
@@ -1717,33 +2152,6 @@ add_filter('fluentform/token_based_validation_error_message', function ($errorMe
 `apply_filters('fluentform/token_based_validation_error_message', __('Suspicious activity detected. Form submission blocked', 'fluentform'), $formId);`
 
 This filter is located in the FluentForm\App\Modules\Form\TokenBasedSpamProtection -> verify method.
-
-</explain-block>
-
-<explain-block title="fluentform/token_expiration_time">
-
-This filter allows you to modify the expiration time for the protection token. If the protection token expires, form submission will fail. Adjust this value based on your security requirements and expected user behavior.
-
-**Parameters**
-
-- `$expirationTime` (int) The default expiration time in seconds 
-- `$formId` (int) The ID of the form
-
-**Usage**
-
-```php
-add_filter('fluentform/token_expiration_time', function ($expirationTime, $formId) {
-    // Modify the expiration time
-    // Default is (3600s = 1 hour)
-    $expirationTime = 1800; // 30 minutes
-    return $expirationTime;
-}, 10, 2);
-```
-**Reference**
-
-`apply_filters('fluentform/token_expiration_time', 3600, $formId);`
-
-This filter is located in the FluentForm\App\Modules\Form\TokenBasedSpamProtection -> validateToken method.
 
 </explain-block>
 
@@ -1775,39 +2183,36 @@ This filter is located in the FluentForm\App\Modules\Form\TokenBasedSpamProtecti
 
 </explain-block>
 
-<explain-block title="fluentform/token_based_spam_protection_status">
+<explain-block title="fluentform/token_expiration_time">
 
-This filter allows you to modify the status of token-based spam protection for a specific form. You can use this to enable or disable protection for certain forms based on custom logic.
-
+This filter allows you to modify the expiration time for the protection token. If the protection token expires, form submission will fail. Adjust this value based on your security requirements and expected user behavior.
 
 **Parameters**
 
-- `$status` (bool) The current status of token-based protection 
-- `$formId` (int|false) The ID of the form, or false if not specific to a form
+- `$expirationTime` (int) The default expiration time in seconds 
+- `$formId` (int) The ID of the form
 
 **Usage**
 
 ```php
-add_filter('fluentform/token_based_spam_protection_status', function ($status, $formId) {
-    // Disable protection for a specific form
-    if ($formId === 123) {
-        return false;
-    }
-    return $status;
+add_filter('fluentform/token_expiration_time', function ($expirationTime, $formId) {
+    // Modify the expiration time
+    // Default is (3600s = 1 hour)
+    $expirationTime = 1800; // 30 minutes
+    return $expirationTime;
 }, 10, 2);
 ```
 **Reference**
 
-`apply_filters('fluentform/token_based_spam_protection_status', $status, $formId);`
+`apply_filters('fluentform/token_expiration_time', 3600, $formId);`
 
-This filter is located in the FluentForm\App\Modules\Form\TokenBasedSpamProtection -> isEnabled method.
+This filter is located in the FluentForm\App\Modules\Form\TokenBasedSpamProtection -> validateToken method.
 
 </explain-block>
 
 <explain-block title="fluentform/token_protection_name">
 
 This filter allows you to modify the name of the token protection field. This can be useful for customizing the field name or implementing additional obfuscation.
-
 
 **Parameters**
 
@@ -1830,26 +2235,160 @@ This filter is located in the FluentForm\App\Modules\Form\TokenBasedSpamProtecti
 
 </explain-block>
 
-<explain-block title="fluentform/double_optin_invalid_confirmation_url_message">
+<explain-block title="fluentform/validation_error">
 
-This filter allows you to customize double optin invalid confirmation URL messages
+This filter hook is fired before form render. You can use this to change rendered form.
 
 **Parameters**
 
-- `$message` (string) The default massage
+- `$errors` (array) Validation Errors
+- `$formData` (array) Form Data
+- `$form` (object) Form Object
+- `$fields` (array) Form Fields
 
 **Usage**
 
 ```php
-add_filter('fluentform/double_optin_invalid_confirmation_url_message', function ($message) {
-    // Modify the message
-    return __('Sorry! Invalid Form Confirmation URL. Please contact the site admin.', 'fluentformpro');
-}, 10, 2);
+add_filter('fluentform/validation_error', function ($errors, $formData, $form, $fields) {
+    // Do your stuff here
+    
+    return $returnData;
+}, 10, 4);
+
 ```
+
 **Reference**
 
-`apply_filters('fluentform/double_optin_invalid_confirmation_url_message', __('Sorry! Invalid Form Confirmation URL', 'fluentformpro'));`
+`apply_filters('fluentform/validation_error', $errors, $this->form, $fields, $this->formData);`
 
-This filter is located in the `FluentFormPro\classes\DoubleOptin` -> `confirmSubmission` method.
+This filter is located in FluentForm\app\Services\Form\SubmissionHandlerService -> getReturnData($insertId, $form,
+$formData)
+
+</explain-block>
+
+<explain-block title="fluentform/validation_message_unique_">
+
+**Parameters**
+
+- See source
+
+**Usage**
+
+```php
+add_filter('fluentform/validation_message_unique_', function ($value) {
+    return $value;
+}, 10, 1);
+```
+
+**Reference**
+
+`'unique' => apply_filters('fluentform/validation_message_unique_' . $typeName,`
+
+This filter is located in `app/Helpers/Helper.php` (line 583).
+
+</explain-block>
+
+<explain-block title="fluentform/validation_post_update_errors">
+
+**Parameters**
+
+- `$errors` — see source
+- `$formData` — see source
+- `$this` — see source
+- `$fields` — see source
+
+**Usage**
+
+```php
+add_filter('fluentform/validation_post_update_errors', function ($errors, $formData, $this, $fields) {
+    return $errors;
+}, 10, 4);
+```
+
+**Reference**
+
+`$errors = apply_filters('fluentform/validation_post_update_errors', $errors, $formData, $this->form, $fields);`
+
+This filter is located in `app/Services/Form/FormValidationService.php` (line 208).
+
+</explain-block>
+
+<explain-block title="'fluentform/verify_user_permission_' . $permission">
+
+This filter verifies each permission.
+
+**Parameters**
+
+- `$allowed` (array) Form default Settings
+- `$formId` (int) Form ID
+
+**Usage**
+
+```php
+add_filter('fluentform/verify_user_permission_' . $permission, function ($allowed, $formId) {
+   // Do your stuff here
+
+   return $allowed;
+}, 10, 2);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/verify_user_permission_' . $permission, $allowed, $formId);`
+
+This filter is located in FluentForm\App\Modules\Acl -> hasPermission($permissions, $formId = false)
+
+</explain-block>
+
+<explain-block title="fluentform/white_listed_fields">
+
+**Parameters**
+
+- `$whiteListedFields` — see source
+- `$formId` — see source
+
+**Usage**
+
+```php
+add_filter('fluentform/white_listed_fields', function ($whiteListedFields, $formId) {
+    return $whiteListedFields;
+}, 10, 2);
+```
+
+**Reference**
+
+`return apply_filters('fluentform/white_listed_fields', $whiteListedFields, $formId);`
+
+This filter is located in `app/Helpers/Helper.php` (line 1374).
+
+</explain-block>
+
+<explain-block title="fluentform/will_parse_url_value">
+
+You can toggle redirect URL parsing in confirmation Message using the filter.
+
+**Parameters**
+
+- `$status` (boolean) Whether Parse the URL
+- `$form` (object) Form Object
+
+**Usage**
+
+```php
+add_filter('fluentform/will_parse_url_value', function($status, $form) {
+   // Do your stuff here
+
+   return $status;
+}, 10, 2);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/will_parse_url_value', $parseUrl, $form);`
+
+This filter is located in FluentForm\App\Services\Form\SubmissionHandlerServices -> getReturnData($insertId, $form,
+$formData)
 
 </explain-block>

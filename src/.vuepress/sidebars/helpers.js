@@ -6,6 +6,7 @@ module.exports = [
         children: [
             ['/helpers/', 'Helper'],
             ['/helpers/protector', 'Protector Helper'],
+            ['/helpers/integration-manager-helper', 'Integration Manager Helper'],
         ]
     },
     {

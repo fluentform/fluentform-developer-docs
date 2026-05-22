@@ -260,9 +260,27 @@ table.nowrap
       background #0976ff
       color white
 
-.warning
-  padding 10px 15px
-  background #ffff66
+p.warning, div.warning
+  padding 12px 16px
+  background #fffbeb
+  border-left 4px solid #f59e0b
+  color #78350f
+  border-radius 4px
+  margin 1rem 0
+  code
+    background #fef3c7
+    color #78350f
+
+p.info, div.info
+  padding 12px 16px
+  background #ecfdf5
+  border-left 4px solid #10b981
+  color #064e3b
+  border-radius 4px
+  margin 1rem 0
+  code
+    background #d1fae5
+    color #064e3b
 
 .listed_internals ul li
   margin-bottom 10px
@@ -335,3 +353,376 @@ details.custom-block.details
     transition: background-color .1s ease;
     box-sizing: border-box;
     border-bottom: 1px solid #389d70;
+
+// ==========================================================================
+// Dark mode — toggled by the floating ThemeToggle component
+// (adds the `ff-dark` class to <html>). Flat fully-qualified selectors only
+// to avoid Stylus nesting quirks. Light theme styles above stay untouched.
+// ==========================================================================
+.ff-dark
+  background-color #0f172a
+
+.ff-dark body
+  background-color #0f172a
+  color #e5e7eb
+
+.ff-dark #app .navbar
+  background-color #111827
+  border-bottom-color #1f2937
+
+.ff-dark #app .navbar .site-name,
+.ff-dark #app .navbar .repo-link
+  color #f3f4f6
+
+.ff-dark #app .navbar .links,
+.ff-dark #app .navbar .links .nav-links
+  background-color transparent
+
+.ff-dark #app .navbar .links a
+  color #f3f4f6
+
+.ff-dark #app .navbar .links .nav-item > a
+  color #d1d5db
+
+.ff-dark #app .navbar .links .nav-item > a:hover,
+.ff-dark #app .navbar .links .nav-item > a.router-link-active
+  color #ffffff
+
+.ff-dark #app .dropdown-wrapper .dropdown-title,
+.ff-dark #app .dropdown-wrapper .mobile-dropdown-title
+  color #f3f4f6
+
+.ff-dark #app .dropdown-wrapper .dropdown-title:hover
+  color #ffffff
+
+.ff-dark #app .nav-dropdown
+  background-color #1f2937
+  border-color #374151
+
+.ff-dark #app .nav-dropdown .dropdown-item h4
+  color #f3f4f6
+  border-color #374151
+
+.ff-dark #app .nav-dropdown .dropdown-item a
+  color #d1d5db
+
+.ff-dark #app .nav-dropdown .dropdown-item a:hover,
+.ff-dark #app .nav-dropdown .dropdown-item a:focus
+  color #ffffff
+  background-color #374151
+
+.ff-dark #app .nav-dropdown .dropdown-item a.router-link-active
+  color #60a5fa
+
+.ff-dark #app .navbar .links .search-box input
+  background-color #1f2937
+  color #f3f4f6
+  border-color #374151
+
+.ff-dark #app .navbar .links .search-box input::placeholder
+  color #9ca3af
+
+// ---- Sidebar (LEFT MENU) ----
+.ff-dark .sidebar
+  background-color #111827
+  border-right-color #1f2937
+
+.ff-dark .sidebar .sidebar-heading,
+.ff-dark .sidebar .sidebar-link
+  color #d1d5db
+
+.ff-dark .sidebar a.sidebar-link:hover,
+.ff-dark .sidebar a.sidebar-link.active
+  background-color #1f2937
+  color #ffffff
+
+.ff-dark .sidebar .sidebar-heading.open,
+.ff-dark .sidebar .sidebar-heading.active
+  color #f9fafb
+
+// ---- Main content ----
+.ff-dark .theme-default-content
+  color #e5e7eb
+
+.ff-dark .theme-default-content h1,
+.ff-dark .theme-default-content h2,
+.ff-dark .theme-default-content h3,
+.ff-dark .theme-default-content h4,
+.ff-dark .theme-default-content h5,
+.ff-dark .theme-default-content h6
+  color #f9fafb
+  border-bottom-color #1f2937
+
+.ff-dark .theme-default-content a
+  color #60a5fa
+
+.ff-dark .theme-default-content a:hover
+  color #93c5fd
+
+.ff-dark .theme-default-content code
+  background-color #1f2937
+  color #f3f4f6
+
+.ff-dark .theme-default-content blockquote
+  border-left-color #374151
+  color #9ca3af
+
+.ff-dark .theme-default-content table tr:nth-child(2n)
+  background-color #111827
+
+.ff-dark .theme-default-content table th,
+.ff-dark .theme-default-content table td
+  border-color #1f2937
+
+.ff-dark .theme-default-content hr
+  border-color #1f2937
+
+.ff-dark div[class*="language-"],
+.ff-dark pre
+  background-color #0b1220 !important
+
+.ff-dark div[class*="language-"]::before
+  color #6b7280
+
+// ---- Custom blocks ----
+.ff-dark .custom-block.tip
+  background-color #064e3b
+  border-color #10b981
+  color #d1fae5
+
+.ff-dark .custom-block.warning
+  background-color #78350f
+  border-color #f59e0b
+  color #fef3c7
+
+.ff-dark .custom-block.danger
+  background-color #7f1d1d
+  border-color #ef4444
+  color #fee2e2
+
+.ff-dark p.info,
+.ff-dark div.info
+  background #064e3b
+  border-left-color #10b981
+  color #d1fae5
+
+.ff-dark p.info code,
+.ff-dark div.info code
+  background #10b981
+  color #064e3b
+
+.ff-dark p.warning,
+.ff-dark div.warning
+  background #78350f
+  border-left-color #f59e0b
+  color #fef3c7
+
+.ff-dark p.warning code,
+.ff-dark div.warning code
+  background #f59e0b
+  color #78350f
+
+// ---- Schema / hook explain tables ----
+.ff-dark table.nowrap
+  background-color #111827
+  color #e5e7eb
+
+.ff-dark table.nowrap thead
+  background-color #1e40af
+
+.ff-dark table.nowrap tbody tr.odd
+  background-color #0b1220
+
+.ff-dark table.nowrap th,
+.ff-dark table.nowrap td
+  border-color #1f2937
+
+.ff-dark .hook_explain
+  background-color #111827
+  border-color #1f2937
+
+.ff-dark .hook_explain .explain_header
+  background-color #1f2937
+  color #f3f4f6
+
+.ff-dark .hook_explain .hook_body
+  background-color #0b1220
+  border-color #1f2937
+
+// Higher specificity overrides for ExplainBlock importance variants
+.ff-dark .hook_explain.is-important
+  border-left-color #60a5fa
+
+.ff-dark .hook_explain.is-important .explain_header
+  background-color #0b2545
+  color #dbeafe
+
+.ff-dark .hook_explain.is-common
+  border-left-color #34d399
+
+.ff-dark .hook_explain.is-common .explain_header
+  background-color #064e3b
+  color #d1fae5
+
+.ff-dark details.custom-block.details
+  background-color #111827
+  border-color #1f2937
+
+.ff-dark details.custom-block.details summary
+  background-color #1f2937
+  color #f3f4f6
+
+// ---- Home page ----
+.ff-dark div.docs-home #home-hero
+  background-color #0b1220
+  color #f9fafb
+
+.ff-dark div.docs-home .home-content
+  background-color #0f172a
+  color #e5e7eb
+
+// ---- Badges ----
+.ff-dark .badge.tip
+  background-color #047857
+
+.ff-dark .badge.warning
+  background-color #b45309
+
+.ff-dark .badge.error
+  background-color #b91c1c
+
+.ff-dark .listed_internals ul li code
+  background-color #4c1d95
+  color #f3f4f6
+
+// ---- Page nav / edit footer ----
+.ff-dark .page-edit,
+.ff-dark .page-nav,
+.ff-dark .last-updated
+  color #9ca3af
+  border-color #1f2937
+
+.ff-dark .page-edit a,
+.ff-dark .page-nav a,
+.ff-dark .last-updated a
+  color #60a5fa
+
+
+// ==========================================================================
+// Algolia DocSearch (legacy v2) — VuePress' default theme has rules with
+// 3-4 class specificity AND uses !important in places. Match its selector
+// chains exactly and use !important where needed to override.
+// Doc structure refs:
+//   .algolia-search-wrapper > .algolia-autocomplete > .ds-dropdown-menu
+//     > [class^="ds-dataset-"]                       (inner panel bg)
+//       > .algolia-docsearch-suggestion              (row)
+//         > .algolia-docsearch-suggestion--category-header
+//         > .algolia-docsearch-suggestion--subcategory-column
+//         > .algolia-docsearch-suggestion--content
+//           > .algolia-docsearch-suggestion--title
+//           > .algolia-docsearch-suggestion--text
+// ==========================================================================
+
+// Outer dropdown panel — softer, raised shadow, smoother radius
+.ff-dark .algolia-search-wrapper .algolia-autocomplete .ds-dropdown-menu
+  background-color #1e293b !important
+  border 1px solid #334155 !important
+  border-radius 8px !important
+  box-shadow 0 10px 28px -4px rgba(0, 0, 0, 0.55), 0 4px 12px -2px rgba(0, 0, 0, 0.35) !important
+
+.ff-dark .algolia-search-wrapper .algolia-autocomplete .ds-dropdown-menu:before
+  background-color #1e293b !important
+  border-color #334155 !important
+
+// Inner dataset wrapper
+.ff-dark .algolia-search-wrapper .algolia-autocomplete .ds-dropdown-menu [class^="ds-dataset-"]
+  background #1e293b !important
+  border none !important
+  border-radius 6px !important
+  padding 4px !important
+
+// Listbox (detached portal fallback)
+.ff-dark [id^="algolia-autocomplete-listbox-"]
+  background-color #1e293b !important
+  color #e2e8f0 !important
+
+// Each suggestion row — subtle separator
+.ff-dark .algolia-search-wrapper .algolia-autocomplete .algolia-docsearch-suggestion
+  background-color transparent !important
+  color #e2e8f0 !important
+  border-bottom 1px solid rgba(51, 65, 85, 0.6) !important
+  transition background-color 0.12s ease !important
+
+// Category header — emerald left-accent strip + slate raise
+.ff-dark .algolia-search-wrapper .algolia-autocomplete .algolia-docsearch-suggestion .algolia-docsearch-suggestion--category-header
+  background #0f172a !important
+  color #f1f5f9 !important
+  border-bottom 1px solid #334155 !important
+  border-left 3px solid #10b981 !important
+  padding-top 7px !important
+  padding-bottom 7px !important
+  font-weight 600 !important
+  letter-spacing 0.01em !important
+
+// Subcategory column (left meta column)
+.ff-dark .algolia-search-wrapper .algolia-autocomplete .algolia-docsearch-suggestion .algolia-docsearch-suggestion--subcategory-column
+  background #0f172a !important
+  color #94a3b8 !important
+  border-right 1px solid #334155 !important
+  border-color #334155 !important
+  font-size 0.85em !important
+
+.ff-dark .algolia-search-wrapper .algolia-docsearch-suggestion--subcategory-column
+  background #0f172a !important
+
+// Suggestion content
+.ff-dark .algolia-search-wrapper .algolia-autocomplete .algolia-docsearch-suggestion--content
+  background-color transparent !important
+  color #e2e8f0 !important
+
+// Titles + text
+.ff-dark .algolia-search-wrapper .algolia-autocomplete .algolia-docsearch-suggestion--title
+  color #f8fafc !important
+  font-weight 600 !important
+
+.ff-dark .algolia-search-wrapper .algolia-autocomplete .algolia-docsearch-suggestion--text
+  color #cbd5e1 !important
+
+// Match highlights — cleaner emerald (drop underline shadow for less noise)
+.ff-dark .algolia-search-wrapper .algolia-autocomplete .algolia-docsearch-suggestion--highlight
+  background rgba(16, 185, 129, 0.16) !important
+  color #6ee7b7 !important
+  box-shadow none !important
+  padding 0 2px !important
+  border-radius 2px !important
+
+.ff-dark .algolia-search-wrapper .algolia-autocomplete .algolia-docsearch-suggestion--category-header .algolia-docsearch-suggestion--highlight
+  background rgba(110, 231, 183, 0.28) !important
+  color #ffffff !important
+
+// Cursor / hover row — emerald glow on the left
+.ff-dark .algolia-search-wrapper .algolia-autocomplete .ds-cursor .algolia-docsearch-suggestion--content
+  background-color #334155 !important
+  color #ffffff !important
+  box-shadow inset 2px 0 0 0 #10b981 !important
+
+.ff-dark .algolia-search-wrapper .algolia-autocomplete .ds-dropdown-menu .ds-suggestion.ds-cursor .algolia-docsearch-suggestion.suggestion-layout-simple,
+.ff-dark .algolia-search-wrapper .algolia-autocomplete .ds-dropdown-menu .ds-suggestion.ds-cursor .algolia-docsearch-suggestion:not(.suggestion-layout-simple) .algolia-docsearch-suggestion--content
+  background-color #334155 !important
+
+// "Search by Algolia" footer — quiet
+.ff-dark .algolia-search-wrapper .algolia-autocomplete .algolia-docsearch-footer
+  background-color #0f172a !important
+  color #64748b !important
+  border-top 1px solid #334155 !important
+  padding 6px 10px !important
+
+.ff-dark .algolia-search-wrapper .algolia-autocomplete .algolia-docsearch-footer--logo
+  filter brightness(1.6) saturate(0.4) opacity(0.7)
+
+// No-results
+.ff-dark .algolia-search-wrapper .algolia-autocomplete .algolia-docsearch-suggestion--no-results
+  background #1e293b !important
+  color #cbd5e1 !important
+  padding 18px !important
+  text-align center !important

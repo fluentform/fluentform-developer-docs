@@ -19,6 +19,27 @@ module.exports = [
         ]
     },
     {
+        title: 'Model Reference',
+        collapsable: true,
+        sidebarDepth: 0,
+        children: [
+            ['/database/models/form', 'Form'],
+            ['/database/models/formmeta', 'FormMeta'],
+            ['/database/models/formanalytics', 'FormAnalytics'],
+            ['/database/models/submission', 'Submission'],
+            ['/database/models/submissionmeta', 'SubmissionMeta'],
+            ['/database/models/entry', 'Entry'],
+            ['/database/models/entrydetails', 'EntryDetails'],
+            ['/database/models/entrymeta', 'EntryMeta'],
+            ['/database/models/transaction', 'Transaction'],
+            ['/database/models/subscription', 'Subscription'],
+            ['/database/models/orderitem', 'OrderItem'],
+            ['/database/models/log', 'Log'],
+            ['/database/models/scheduler', 'Scheduler'],
+            ['/database/models/user', 'User']
+        ]
+    },
+    {
         title: 'Fluent ORM',
         collapsable: true,
         sidebarDepth: -1,

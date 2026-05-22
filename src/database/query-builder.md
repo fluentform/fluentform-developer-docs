@@ -1,6 +1,5 @@
 # Fluent Forms Query Builder
 
-
 ## Introduction
 Fluent Forms database query builder provides a convenient, fluent interface to creating and running database queries. It can be used to perform most database operations in your application.
 
@@ -19,7 +18,6 @@ $query = wpFluent()->table('fluentform_forms')
             })
             ->orderBy('id', 'ASC');
 ```
-
 
 # Retrieving Results
 
@@ -128,13 +126,11 @@ $price = wpFluent()->table('fluentform_transaction')
                 ->avg('payment_total');
 ```
 
-
 ### Determining If Records Exist
 Instead of using the `count` method to determine if any records exist that match your query's constraints, you may use the `exists`:
 ```php
 return wpFluent()->table('fluentform_transaction')->where('payment_methods', 'stripe')->exists();
 ```
-
 
 ## Selects
 
@@ -155,7 +151,6 @@ $query = wpFluent()->table('fluentform_forms')->select('title');
  
 $forms = $query->addSelect('form_fields')->get();
 ```
-
 
 ## Raw Expressions
 Sometimes you may need to use a raw expression in a query. To create a raw expression, you may use the `raw` method:
@@ -204,7 +199,6 @@ $forms = wpFluent()->table('fluentform_forms')
                 ->get();
 ```
 
-
 ## Joins
 
 ### Inner Join Clause
@@ -252,7 +246,6 @@ wpFluent()->table('fluentform_submissions')
         ->get();
 ```
 
-
 ## Unions
 
 The query builder also provides a quick way to "union" two queries together. For example, you may create an initial query and use the `union` method to union it with a second query:
@@ -265,7 +258,6 @@ $user = wpFluent()->table('users')
             ->union($first)
             ->get();
 ```
-
 
 ## Where Clauses
 
@@ -425,7 +417,6 @@ $forms = wpFluent()->table('fluentform_forms')
                 ])->get();
 ```
 
-
 ### Where Exists Clauses
 The `whereExists` method allows you to write where exists SQL clauses. The `whereExists` method accepts a `Closure` argument, which will receive a query builder instance allowing you to define the query that should be placed inside the "exists" clause:
 ```php
@@ -445,7 +436,6 @@ where exists (
     select 1 from fluentform_order_items where fluentform_order_items.form_id = fluentform_forms.id
 )
 ```
-
 
 ### Ordering, Grouping, Limit, & Offset
 
@@ -505,7 +495,6 @@ $forms = wpFluent()->table('fluentform_forms')
                 ->get();
 ```
 
-
 ### Conditional Clauses
 Sometimes you may want clauses to apply to a query only when something else is true. For instance, you may only want to apply a `where` statement if a given input value is present on the incoming request. You may accomplish this using `when` method:
 ```php
@@ -532,7 +521,6 @@ $forms = wpFluent()->table('fluentform_forms')
                 ->get();
 ```
 
-
 ### Inserts
 
 The query builder also provides an `insert` method for inserting records into the database table. The `insert` method accepts an array of column names and values:
@@ -557,7 +545,6 @@ $formId = wpFluent()->table('fluentform_forms')->insertGetId(
 );
 ```
 
-
 ### Updates
 
 Of course, in addition to inserting records into the database, the query builder can also update existing records using the `update` method. The `update` method, like the `insert` method, accepts an array of column and value pairs containing the columns to be updated. You may constrain the `update` query using `where` clauses:
@@ -566,7 +553,6 @@ wpFluent()->table('fluentform_forms')
             ->where('id', 1)
             ->update(['title' => 'New updated title']);
 ```
-
 
 ### Increment & Decrement
 
@@ -587,7 +573,6 @@ You may also specify additional columns to update during the operation:
 wpFluent()->table('fluentform_order_items')->increment('line_total', 1, ['item_price' => '99.99']);
 ```
 
-
 ### Deletes
 
 The query builder may also be used to delete records from the table via the `delete` method. You may constrain delete statements by adding where clauses before calling the `delete` method:
@@ -600,7 +585,6 @@ If you wish to truncate the entire table, which will remove all rows and reset t
 ```php
 wpFluent()->table('fluentform_order_items')->truncate();
 ```
-
 
 ### Pessimistic Locking
 

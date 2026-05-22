@@ -31,70 +31,11 @@ class FluentExtraTemplateDemo extends TemplateManager
 }
 ```
 
-### getDefaultSettings()
-This method will store the default settings of the PDF template. You will need to return array of the settings key & value.
-```php
-    public function getDefaultSettings()
-    {
-        return [
-            'header' => '<h2>Hello From My Demo Template</h2>',
-            'footer' => '<p>Footer</p>',
-            'body'   => 'Hello There',
-            'demo'   => ''
-        ];
-    }
-```
+### `downloadPDF($submissionId, $settings)`
 
-### getSettingsFields()
-This method will render input fields for the PDF template settings page, based on the returned data. The key value used in these fields needs to match with the [getDefaultSettings()](/api/classes/pdf-template-manager/#getdefaultsettings)
+**Source:** `fluentforms-pdf/Modules/FluentForms/Templates/TemplateManager.php` (line 61)
 
-You can use the prebuilt input components to create your settings page, here is a documentation [link](https://fluentforms.com/docs/integration-feed-fields-api/) where you can find the details list about these input component.
-
-Required properties for the fields array:
-- `key` : Settings Unique Key
-- `label` : Settings Input Label
-- `component` : Pass to prebuild input component.
-
-Here is example of this method:
-```php
-public function getSettingsFields()
-{
-    return array(
-        [
-            'key'        => 'header',
-            'label'      => 'Header Content',
-            'tips'       => 'Write your header content which will be shown every page of the PDF',
-            'component'  => 'text'
-        ],
-        [
-            'key'       => 'body',
-            'label'     => 'PDF Body Content',
-            'tips'      => 'Write your Body content for actual PDF body',
-            'component' => 'wp-editor'
-        ],
-        [
-            'key'       => 'footer',
-            'label'     => 'Footer Content',
-            'tips'      => 'Write your Footer content which will be shown every page of the PDF',
-            'component' => 'wp-editor'
-        ],
-        [
-            'key'       => 'demo',
-            'label'     => 'Demo Input',
-            'tips'      => 'Input Help Text',
-            'component' => 'text'
-        ],
-
-
-    );
-}
-```
-
-The filed `tips` will show the additional help text on hover, this method is almost identical to `getSettingsFields()` in the [Integration Manager Controller Class](/api/classes/integration-manager-controller/#getsettingsfields).
-
-Here is a screenshot of the above code :
-
-<img :src="$withBase('/assets/img/modules/custom-pdf-template.png')" alt="Fluent Custom PDF Templates" />
+---
 
 ### generatePdf()
 This is the most important method where the PDF will be generated. You will get four parameters here :
@@ -238,3 +179,98 @@ add_action('plugins_loaded', function () {
 ```
 
 You can include more classes and add new templates using this method. If you have any query feel free to reach our [support team](https://wpmanageninja.com/support-tickets/) or ask questions in our [facebook community group](https://www.facebook.com/groups/fluentforms/). Also do not forget to share your thoughts on this documentation, by adding your comment or a click on the icons below.
+
+### getDefaultSettings()
+This method will store the default settings of the PDF template. You will need to return array of the settings key & value.
+```php
+    public function getDefaultSettings()
+    {
+        return [
+            'header' => '<h2>Hello From My Demo Template</h2>',
+            'footer' => '<p>Footer</p>',
+            'body'   => 'Hello There',
+            'demo'   => ''
+        ];
+    }
+```
+
+### `getGenerator($mpdfConfig)`
+
+**Source:** `fluentforms-pdf/Modules/FluentForms/Templates/TemplateManager.php` (line 66)
+
+---
+
+### `getPdfCss($appearance)`
+
+**Source:** `fluentforms-pdf/Modules/FluentForms/Templates/TemplateManager.php` (line 208)
+
+---
+
+### getSettingsFields()
+This method will render input fields for the PDF template settings page, based on the returned data. The key value used in these fields needs to match with the [getDefaultSettings()](/api/classes/pdf-template-manager/#getdefaultsettings)
+
+You can use the prebuilt input components to create your settings page, here is a documentation [link](https://fluentforms.com/docs/integration-feed-fields-api/) where you can find the details list about these input component.
+
+Required properties for the fields array:
+- `key` : Settings Unique Key
+- `label` : Settings Input Label
+- `component` : Pass to prebuild input component.
+
+Here is example of this method:
+```php
+public function getSettingsFields()
+{
+    return array(
+        [
+            'key'        => 'header',
+            'label'      => 'Header Content',
+            'tips'       => 'Write your header content which will be shown every page of the PDF',
+            'component'  => 'text'
+        ],
+        [
+            'key'       => 'body',
+            'label'     => 'PDF Body Content',
+            'tips'      => 'Write your Body content for actual PDF body',
+            'component' => 'wp-editor'
+        ],
+        [
+            'key'       => 'footer',
+            'label'     => 'Footer Content',
+            'tips'      => 'Write your Footer content which will be shown every page of the PDF',
+            'component' => 'wp-editor'
+        ],
+        [
+            'key'       => 'demo',
+            'label'     => 'Demo Input',
+            'tips'      => 'Input Help Text',
+            'component' => 'text'
+        ],
+
+    );
+}
+```
+
+The filed `tips` will show the additional help text on hover, this method is almost identical to `getSettingsFields()` in the [Integration Manager Controller Class](/api/classes/integration-manager-controller/#getsettingsfields).
+
+Here is a screenshot of the above code :
+
+<img :src="$withBase('/assets/img/modules/custom-pdf-template.png')" alt="Fluent Custom PDF Templates" />
+
+### `outputPDF($submissionId, $settings, $fileName = '', $forceClear = false)`
+
+**Source:** `fluentforms-pdf/Modules/FluentForms/Templates/TemplateManager.php` (line 45)
+
+---
+
+### `pdfBuilder($fileName, $feed, $body = '', $footer = '', $outPut = 'I')`
+
+**Source:** `fluentforms-pdf/Modules/FluentForms/Templates/TemplateManager.php` (line 127)
+
+---
+
+### `viewPDF($submissionId, $settings)`
+
+**Source:** `fluentforms-pdf/Modules/FluentForms/Templates/TemplateManager.php` (line 40)
+
+---
+

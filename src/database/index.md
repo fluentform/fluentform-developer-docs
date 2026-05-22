@@ -28,7 +28,6 @@ This table store the fields and settings of a form.
 </td></tr><tr><th>updated_at</th><td><span title="">timestamp</span> <i>NULL</i></td><td>
 </td></tr></tbody></table>
 
-
 ## fluentform_submissions
 Storing the form submissions
 
@@ -77,6 +76,8 @@ Storing the scheduled actions details
 </td></tr></tbody></table>
 
 ## fluentform_coupons
+
+<Badge type="tip" vertical="top" text="Pro" />
 Storing coupon data
 <table cellspacing="0" class="nowrap">
 <thead><tr><th>Column</th><td>Type</td><td>Comment</td></tr></thead>
@@ -98,6 +99,8 @@ Storing coupon data
 </td></tr></tbody></table>
 
 ## fluentform_draft_submissions
+
+<Badge type="tip" vertical="top" text="Pro" />
 Draft submission for saved form state and multi step forms.
 <table cellspacing="0" class="nowrap">
 <thead><tr><th>Column</th><td>Type</td><td>Comment</td></tr></thead>
@@ -127,7 +130,6 @@ Submission Entry Details
 </td></tr><tr><th>sub_field_name</th><td><span title="utf8mb4_unicode_520_ci">varchar(255)</span> <i>NULL</i></td><td>
 </td></tr><tr class="odd"><th>field_value</th><td><span title="utf8mb4_unicode_520_ci">longtext</span> <i>NULL</i></td><td>
 </td></tr></tbody></table>
-
 
 ## fluentform_form_analytics
 Form analytics data
@@ -172,6 +174,8 @@ Store Form activity & api log
 </td></tr></tbody></table>
 
 ## fluentform_order_items
+
+<Badge type="tip" vertical="top" text="Pro" />
 Fluent Form Payment order Items
 
 <table cellspacing="0" class="nowrap">
@@ -208,6 +212,8 @@ Form Submission meta
 </td></tr></tbody></table>
 
 ## fluentform_subscriptions
+
+<Badge type="tip" vertical="top" text="Pro" />
 Payment Subscriptions
 
 <table cellspacing="0" class="nowrap">
@@ -243,8 +249,9 @@ Payment Subscriptions
 </td></tr><tr><th>updated_at</th><td><span title="">timestamp</span> <i>NULL</i></td><td>
 </td></tr></tbody></table>
 
-
 ## fluentform_transactions
+
+<Badge type="tip" vertical="top" text="Pro" />
 Payment Transactions
 <table cellspacing="0" class="nowrap">
 <thead><tr><th>Column</th><td>Type</td><td>Comment</td></tr></thead>

@@ -2,10 +2,8 @@
 
 <Badge type="tip" vertical="top" text="Fluent Framework" /> <Badge type="warning" vertical="top" text="ORM" />
 
-
 ## Introduction
 Accessors and mutators allow you to format Fluent ORM attribute values when you retrieve or set them on model instances.
-
 
 ## Accessors & Mutators
 
@@ -140,7 +138,6 @@ class Flight extends Model
 }
 ```
 
-
 ## Attribute Casting
 
 The `$casts` property on your model provides a convenient method of converting attributes to common data types. The `$casts` property should be an array where the key is the name of the attribute being cast and the value is the type you wish to cast the column to. The supported cast types are: `int`, `integer`, `real`, `float`, `double`, `string`, `boolean`, `bool`, `object`, `array`, `json`, `collection`, `date`, `datetime`, and `timestamp`.
@@ -173,7 +170,6 @@ if ($user->is_admin) {
     //
 }
 ```
-
 
 ## Array & JSON Casting
 
@@ -209,7 +205,6 @@ $user->options = $options;
  
 $user->save();
 ```
-
 
 ## Date Casting
 

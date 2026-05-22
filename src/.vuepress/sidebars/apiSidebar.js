@@ -4,7 +4,29 @@ module.exports = [
         collapsable: false,
         sidebarDepth: -1,
         children: [
-            ['/api/extending-rest-api/', 'Extend Rest API']
+            ['/api/extending-rest-api/', 'Extend Rest API'],
+            ['/api/endpoints/', 'Endpoint Reference']
+        ]
+    },
+    {
+        title: 'Endpoint Reference',
+        collapsable: true,
+        sidebarDepth: 0,
+        children: [
+            ['/api/endpoints/forms', 'Forms'],
+            ['/api/endpoints/settings', 'Form Settings'],
+            ['/api/endpoints/submissions', 'Submissions'],
+            ['/api/endpoints/integrations', 'Integrations'],
+            ['/api/endpoints/global-settings', 'Global Settings'],
+            ['/api/endpoints/managers', 'Managers'],
+            ['/api/endpoints/roles', 'Roles'],
+            ['/api/endpoints/analytics', 'Analytics'],
+            ['/api/endpoints/report', 'Reports'],
+            ['/api/endpoints/logs', 'Logs'],
+            ['/api/endpoints/form-submit', 'Form Submit'],
+            ['/api/endpoints/global-search', 'Global Search'],
+            ['/api/endpoints/suggested-plugins', 'Suggested Plugins'],
+            ['/api/endpoints/notice', 'Notice']
         ]
     },
     {

@@ -4,28 +4,32 @@
 
 These hooks fire during third-party integration processing — scheduled jobs, feed processing, and notifications.
 
-<explain-block title="fluentform/maybe_scheduled_jobs">
+<explain-block title="fluentform/created_user">
 
 **Description**
 
-This is a smart background action to process jobs like integration data pushing by schedule time.
+This action runs after user created. Do your stuff after user is created by fluentform.
+
+**Parameters**
+- `$userId` (int) User ID
+- `$feed` (array) User Feed
+- `$submission` (object) Submission
+- `$form`  (object) Form
 
 **Usage:**
 ```php
-add_action('fluentform/maybe_scheduled_jobs' ,function () {
+add_action('fluentform/created_user', function ($userId, $feed, $submission, $form) {
    // Do your stuff here
-}, 10, 0);
+}, 10, 4);
 ```
 
 **Reference**
 
-`do_action('fluentform/maybe_scheduled_jobs');`
+`do_action('fluentform/created_user', $userId, $feed, $entry, $form);`
 
-This action is located in `fluentform/boot/globals.php`
+This action is located in `fluentformpro/src/Integrations/UserRegistration/UserRegistrationApi.php -> createUser()`
 
 </explain-block>
-
----------------------------------------------------
 
 <explain-block title="fluentform/global_notify_completed">
 
@@ -49,6 +53,53 @@ add_action('fluentform/global_notify_completed' ,function ($insertId, $form) {
 `do_action('fluentform/global_notify_completed', $insertId, $form);`
 
 This action is located in `fluentform/app/Services/Integrations/GlobalNotificationManager.php`, `fluentform/app/Services/WPAsync/FluentFormAsyncRequest.php`
+
+</explain-block>
+
+<explain-block title="fluentform/integration_action_result">
+
+**Description**
+
+This action runs after completing an integration process.
+
+**Parameters**
+- `$feed` (array) Current Feed
+- `$status` (string) Status
+- `$note` (string) Note
+
+**Usage:**
+```php
+add_action('fluentform/integration_action_result', function ($feed, $status, $note) {
+   // Do your stuff here
+}, 10, 3);
+```
+
+**Reference**
+
+`do_action('fluentform/integration_action_result', $feed, $status, $message);`
+
+This action is located in `fluentformpro/src/Integrations/**/Bootstrap.php`
+
+</explain-block>
+
+<explain-block title="fluentform/maybe_scheduled_jobs">
+
+**Description**
+
+This is a smart background action to process jobs like integration data pushing by schedule time.
+
+**Usage:**
+```php
+add_action('fluentform/maybe_scheduled_jobs' ,function () {
+   // Do your stuff here
+}, 10, 0);
+```
+
+**Reference**
+
+`do_action('fluentform/maybe_scheduled_jobs');`
+
+This action is located in `fluentform/boot/globals.php`
 
 </explain-block>
 
@@ -77,35 +128,6 @@ This action is located in `fluentform/app/Http/Controllers/GlobalIntegrationCont
 
 </explain-block>
 
-
-<explain-block title="fluentform/integration_action_result">
-
-**Description**
-
-This action runs after completing an integration process.
-
-**Parameters**
-- `$feed` (array) Current Feed
-- `$status` (string) Status
-- `$note` (string) Note
-
-**Usage:**
-```php
-add_action('fluentform/integration_action_result', function ($feed, $status, $note) {
-   // Do your stuff here
-}, 10, 3);
-```
-
-
-**Reference**
-
-`do_action('fluentform/integration_action_result', $feed, $status, $message);`
-
-This action is located in `fluentformpro/src/Integrations/**/Bootstrap.php`
-
-</explain-block>
-
-
 <explain-block title="fluentform/user_registration_before_start">
 
 **Description**
@@ -124,7 +146,6 @@ add_action('fluentform/user_registration_before_start', function ($feed, $submis
 }, 10, 3);
 ```
 
-
 **Reference**
 
 `do_action('fluentform/user_registration_before_start', $feed, $entry, $form);`
@@ -132,36 +153,6 @@ add_action('fluentform/user_registration_before_start', function ($feed, $submis
 This action is located in `fluentformpro/src/Integrations/UserRegistration/UserRegistrationApi.php -> registerUser()`
 
 </explain-block>
-
-
-<explain-block title="fluentform/created_user">
-
-**Description**
-
-This action runs after user created. Do your stuff after user is created by fluentform.
-
-**Parameters**
-- `$userId` (int) User ID
-- `$feed` (array) User Feed
-- `$submission` (object) Submission
-- `$form`  (object) Form
-
-**Usage:**
-```php
-add_action('fluentform/created_user', function ($userId, $feed, $submission, $form) {
-   // Do your stuff here
-}, 10, 4);
-```
-
-
-**Reference**
-
-`do_action('fluentform/created_user', $userId, $feed, $entry, $form);`
-
-This action is located in `fluentformpro/src/Integrations/UserRegistration/UserRegistrationApi.php -> createUser()`
-
-</explain-block>
-
 
 <explain-block title="fluentform/user_registration_completed">
 
@@ -182,7 +173,6 @@ add_action('fluentform/user_registration_completed', function ($userId, $feed, $
 }, 10, 4);
 ```
 
-
 **Reference**
 
 `do_action('fluentform/user_registration_completed', $userId, $feed, $entry, $form);`
@@ -190,7 +180,6 @@ add_action('fluentform/user_registration_completed', function ($userId, $feed, $
 This action is located in `fluentformpro/src/Integrations/UserRegistration/UserRegistrationApi.php -> createUser()`
 
 </explain-block>
-
 
 <explain-block title="fluentform/user_update_completed">
 
@@ -210,7 +199,6 @@ add_action('fluentform/user_update_completed', function ($userId, $feed, $submis
    // Do your stuff here
 }, 10, 4);
 ```
-
 
 **Reference**
 

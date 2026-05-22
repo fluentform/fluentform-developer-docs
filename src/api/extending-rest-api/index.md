@@ -129,9 +129,6 @@ public function create()
 }
 ```
 
-
-
-
 ## Policies
 Policies are classes that are used to authorize requests to routes. 
 The `verifyRequest` method is used to check if the current user has permission to access a route or method.
@@ -167,7 +164,6 @@ class MyPolicy extends Policy
 }
 
 ```
-
 
 ## Directory Structure
 Your directory structure may look something like this:

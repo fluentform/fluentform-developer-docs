@@ -1,236 +1,235 @@
-## Global Functions
+# Global Functions
 
-Fluent Forms provides a set of global functions located in the `boot/globals.php` file. These functions are available throughout the plugin and can be used in your custom code, themes, or plugins.
+<Badge type="tip" vertical="top" text="Global Helpers" /> <Badge type="warning" vertical="top" text="Auto-extracted" />
 
-[[toc]]
+Helper functions registered at plugin boot and available in any PHP context. Source: `boot/globals.php`.
 
-### wpFluentForm($key = null): mixed
-Get the Fluent Forms application instance or a specific core module.
+## `fluentFormApi($module = 'forms')`
+
+**Source:** `boot/globals.php` (line 268)
+
+---
+
+## `fluentFormEditorShortCodes()`
+
+**Source:** `boot/globals.php` (line 119)
+
+---
+
+## `fluentFormGetAllEditorShortCodes($form)`
+
+**Source:** `boot/globals.php` (line 128)
+
+---
+
+## `fluentFormGetRandomPhoto()`
+
+**Source:** `boot/globals.php` (line 279)
+
+---
+
+## `fluentFormHandleScheduledEmailReport()`
+
+**Source:** `boot/globals.php` (line 253)
+
+---
+
+## `fluentFormHandleScheduledTasks()`
+
+**Source:** `boot/globals.php` (line 235)
+
+---
+
+## `fluentFormIsHandlingSubmission()`
+
+**Source:** `boot/globals.php` (line 210)
+
+---
+
+## `fluentFormMix($path = '')`
+
+**Source:** `boot/globals.php` (line 9)
+
+**** DO NOT CALL ANY FUNCTIONS DIRECTLY FROM THIS FILE ******
+This file will be loaded even before the framework is loaded
+so the $app is not available here, only declare functions here.
+
+/**
+Get fluentform instance or other core modules
 
 **Parameters**
-- `$key` `string|null` Module name (e.g., `'db'`, `'request'`, `'path.app'`)
 
-**Return** `mixed` — Application instance or the requested module
+- `$key` (`string`) — @return mixed
+- `$path` (`string`) — @return string
 
-**Usage**
-```php
-// Get the app instance
-$app = wpFluentForm();
-
-// Get the database module
-$db = wpFluentForm('db');
-
-// Get the request module
-$request = wpFluentForm('request');
-```
+**Returns:** `mixed` — /
 
 ---
 
-### wpFluent(): Builder
-Get the Fluent Forms database query builder instance for direct database queries.
+## `fluentFormPrintUnescapedInternalString($string)`
 
-**Return** `\FluentForm\Framework\Database\Query\Builder`
+**Source:** `boot/globals.php` (line 312)
 
-**Usage**
-```php
-// Query the submissions table
-$submissions = wpFluent()->table('fluentform_submissions')
-    ->where('form_id', 5)
-    ->get();
-```
+Print internal content (not user input) without escaping.
 
 ---
 
-### fluentFormApi($module = 'forms'): Form|Submission
-Get the Fluent Forms PHP API for forms or submissions. This is the recommended way to interact with Fluent Forms data programmatically.
+## `fluentFormRender($atts)`
+
+**Source:** `boot/globals.php` (line 296)
+
+---
+
+## `fluentFormSanitizer($input, $attribute = null, $fields = [])`
+
+**Source:** `boot/globals.php` (line 60)
+
+**Returns:** `\FluentForm\Framework\Database\Query\Builder|\FluentForm\Framework\Database\Query\WPDBConnection` — /
+
+---
+
+## `fluentFormWasSubmitted($action = 'fluentform_submit')`
+
+**Source:** `boot/globals.php` (line 197)
+
+---
+
+## `fluentImplodeRecursive($glue, array $array)`
+
+**Source:** `boot/globals.php` (line 145)
+
+Recursively implode a multi-dimentional array
 
 **Parameters**
-- `$module` `string` Module name — `'forms'` or `'submissions'`
 
-**Return** `\FluentForm\App\Api\Form` or `\FluentForm\App\Api\Submission`
+- `$glue` (`string`) — @param array  $array
 
-**Usage**
-```php
-// Get the Forms API
-$formsApi = fluentFormApi('forms');
-$form = $formsApi->find($formId);
-
-// Get the Submissions API
-$submissionsApi = fluentFormApi('submissions');
-```
+**Returns:** `string`
 
 ---
 
-### fluentFormRender($atts): string
-Render a Fluent Form programmatically (equivalent to the `[fluentform]` shortcode).
+## `fluentValidator($data = [], $rules = [], $messages = [])`
+
+**Source:** `boot/globals.php` (line 498)
+
+---
+
+## `fluentformCanUnfilteredHTML()`
+
+**Source:** `boot/globals.php` (line 486)
+
+---
+
+## `fluentformGetPages()`
+
+**Source:** `boot/globals.php` (line 503)
+
+---
+
+## `fluentformLoadFile($path)`
+
+**Source:** `boot/globals.php` (line 491)
+
+---
+
+## `fluentformSanitizeCSS($css)`
+
+**Source:** `boot/globals.php` (line 468)
+
+Sanitizes CSS.
+
+**Returns:** `mixed` — $css
+
+---
+
+## `fluentform_backend_sanitizer($inputs, $sanitizeMap = [])`
+
+**Source:** `boot/globals.php` (line 443)
+
+Sanitize inputs recursively.
 
 **Parameters**
-- `$atts` `array` Shortcode attributes:
-  - `id` `int` Form ID (required)
-  - `title` `string|null` Form title override
-  - `css_classes` `string` Additional CSS classes
-  - `permission` `string` Required user capability
-  - `type` `string` Form type — `'classic'` (default) or `'conversational'`
-  - `permission_message` `string` Message shown when user lacks permission
 
-**Return** `string` — Rendered form HTML
+- `$input` (`array`) — @param array $sanitizeMap
 
-**Usage**
-```php
-// Render form #5 in a template
-echo fluentFormRender(['id' => 5]);
-
-// With custom CSS class and permission check
-echo fluentFormRender([
-    'id'         => 5,
-    'css_classes' => 'my-custom-form',
-    'permission' => 'read',
-]);
-```
+**Returns:** `array` — $input
 
 ---
 
-### fluentFormSanitizer($input, $attribute, $fields): mixed
-Recursively sanitize form input values based on field type. Used internally during submission processing.
+## `fluentform_get_active_theme_slug()`
 
-**Parameters**
-- `$input` `mixed` The input value to sanitize
-- `$attribute` `string|null` The field attribute name
-- `$fields` `array` Form field definitions
-
-**Return** `mixed` — Sanitized input
-
-**Usage**
-```php
-$cleanValue = fluentFormSanitizer($userInput, 'email', $formFields);
-```
+**Source:** `boot/globals.php` (line 170)
 
 ---
 
-### fluentFormIsHandlingSubmission(): bool
-Check if the current request is a Fluent Forms submission or async request.
+## `fluentform_iframe_srcdoc_sanitize($value)`
 
-**Return** `bool`
-
-**Usage**
-```php
-if (fluentFormIsHandlingSubmission()) {
-    // Current request is a form submission
-}
-```
+**Source:** `boot/globals.php` (line 324)
 
 ---
 
-### fluentFormHandleScheduledTasks(): void
-Process failed scheduled actions (retry up to 4 times). Called by WordPress cron.
+## `fluentform_integrations_url()`
 
-**Usage**
-```php
-// Manually trigger scheduled task processing
-fluentFormHandleScheduledTasks();
-```
+**Source:** `boot/globals.php` (line 263)
 
 ---
 
-### fluentFormHandleScheduledEmailReport(): void
-Process scheduled email reports. Called by WordPress cron.
+## `fluentform_kses_js($content)`
+
+**Source:** `boot/globals.php` (line 433)
 
 ---
 
-### fluentFormEditorShortCodes(): array
-Get the list of available editor shortcodes for form notifications and confirmations.
+## `fluentform_mb_strpos($haystack, $needle)`
 
-**Return** `array` — Array of shortcode groups
-
----
-
-### fluentFormGetAllEditorShortCodes($form): array
-Get all editor shortcodes available for a specific form, including form-specific field shortcodes.
-
-**Parameters**
-- `$form` `object` The form object
-
-**Return** `array` — Array of all available shortcodes
+**Source:** `boot/globals.php` (line 226)
 
 ---
 
-### getFluentFormCountryList(): array
-Get the full list of countries with their codes.
+## `fluentform_options_sanitize($options)`
 
-**Return** `array` — Associative array of country code => country name
-
----
-
-### fluentFormMix($path): string
-Generate a URL for static assets within the Fluent Forms plugin.
-
-**Parameters**
-- `$path` `string` Relative path to the asset
-
-**Return** `string` — Full URL to the asset
+**Source:** `boot/globals.php` (line 319)
 
 ---
 
-### fluentform_sanitize_html($html): string
-Sanitize HTML content while preserving allowed tags (including iframes, SVGs, and custom elements). Removes event handlers and JavaScript protocols.
+## `fluentform_sanitize_html($html)`
 
-**Parameters**
-- `$html` `string` HTML content to sanitize
-
-**Return** `string` — Sanitized HTML
-
-**Usage**
-```php
-$safeHtml = fluentform_sanitize_html($rawHtml);
-```
+**Source:** `boot/globals.php` (line 339)
 
 ---
 
-### fluentform_backend_sanitizer($inputs, $sanitizeMap): array
-Sanitize backend inputs recursively using a map of sanitization callbacks.
+## `fluentform_upgrade_url()`
 
-**Parameters**
-- `$inputs` `array` Input data to sanitize
-- `$sanitizeMap` `array` Associative array of `key => callback` pairs
-
-**Return** `array` — Sanitized input data
-
-**Usage**
-```php
-$clean = fluentform_backend_sanitizer($data, [
-    'title' => 'sanitize_text_field',
-    'email' => 'sanitize_email',
-    'content' => 'wp_kses_post',
-]);
-```
+**Source:** `boot/globals.php` (line 258)
 
 ---
 
-### fluentformCanUnfilteredHTML(): bool
-Check if the current user can use unfiltered HTML or if field sanitization is disabled.
+## `getFluentFormCountryList()`
 
-**Return** `bool`
+**Source:** `boot/globals.php` (line 187)
 
 ---
 
-### fluentValidator($data, $rules, $messages): Validator
-Create a validation instance for data validation.
+## `isWpAsyncRequest($action)`
 
-**Parameters**
-- `$data` `array` Data to validate
-- `$rules` `array` Validation rules
-- `$messages` `array` Custom error messages
+**Source:** `boot/globals.php` (line 205)
 
-**Return** `Validator`
+---
 
-**Usage**
-```php
-$validator = fluentValidator($data, [
-    'email' => 'required|email',
-    'name'  => 'required|string',
-]);
+## `wpFluent()`
 
-if ($validator->validate()->fails()) {
-    $errors = $validator->errors();
-}
-```
+**Source:** `boot/globals.php` (line 64)
+
+---
+
+## `wpFluentForm($key = null)`
+
+**Source:** `boot/globals.php` (line 42)
+
+---
+
+## `wpFluentFormAddComponent(BaseComponent $component)`
+
+**Source:** `boot/globals.php` (line 72)
+
+---

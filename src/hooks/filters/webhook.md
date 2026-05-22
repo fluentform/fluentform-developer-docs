@@ -4,6 +4,31 @@
 
 These filters let you modify webhook request arguments and data.
 
+<explain-block title="fluentform/webhook_notification_validation_errors">
+
+<Badge type="tip" vertical="top" text="Pro" />
+
+**Parameters**
+
+- `$errors` — see source
+- `$notification` — see source
+
+**Usage**
+
+```php
+add_filter('fluentform/webhook_notification_validation_errors', function ($errors, $notification) {
+    return $errors;
+}, 10, 2);
+```
+
+**Reference**
+
+`$errors = apply_filters('fluentform/webhook_notification_validation_errors', $errors, $notification);`
+
+This filter is located in `src/Integrations/WebHook/Client.php` (line 143).
+
+</explain-block>
+
 <explain-block title="fluentform/webhook_request_args">
 
 You can modify webhook request arguments using the filter.
@@ -32,67 +57,6 @@ add_filter('fluentform/webhook_request_args', function ($payload, $settings, $fo
 `apply_filters('fluentform/webhook_request_args', $payload, $settings, $formData, $form, $entry->id);`
 
 This filter is located in FluentFormPro\src\Integrations\WebHook\NotifyTrait -> notify($feed, $formData, $entry, $form)
-
-</explain-block>
-
-<explain-block title="fluentform/webhook_request_method">
-
-You can modify webhook request method using the filter.
-
-**Parameters**
-
-- `$method` (array) Webhook Request Method
-- `$settings` (array) Webhook Feed
-- `$data` (array) Form Data
-- `$form` (object) Form Object
-- `$entryId` (int) Submission ID
-
-**Usage**
-
-```php
-add_filter('fluentform/webhook_request_method', function ($method, $settings, $data, $form, $entryId) {
-    // Do your stuff here
-    
-    return $method;
-}, 10, 5);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/webhook_request_method', $method, $settings, $data, $form, $entryId);`
-
-This filter is located in FluentFormPro\src\Integrations\WebHook\NotifyTrait -> getWebHookRequestMethod($settings, $data, $form, $entryId)
-
-</explain-block>
-
-<explain-block title="fluentform/webhook_request_headers">
-
-You can modify webhook request header data using the filter.
-
-**Parameters**
-
-- `$requestHeaders` (array) Webhook Request Header
-- `$settings` (array) Webhook Feed
-- `$data` (array) Form Data
-- `$entryId` (int) Submission ID
-
-**Usage**
-
-```php
-add_filter('fluentform/webhook_request_headers', function ($requestHeaders, $settings, $data, $form, $entryId) {
-    // Do your stuff here
-    
-    return $requestHeaders;
-}, 10, 4);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/webhook_request_headers', $requestHeaders, $settings, $data, $form, $entryId);`
-
-This filter is located in FluentFormPro\src\Integrations\WebHook\NotifyTrait -> getWebHookRequestMethod($settings, $data, $form, $entryId)
 
 </explain-block>
 
@@ -127,6 +91,67 @@ This filter is located in FluentFormPro\src\Integrations\WebHook\NotifyTrait -> 
 
 </explain-block>
 
+<explain-block title="fluentform/webhook_request_headers">
+
+You can modify webhook request header data using the filter.
+
+**Parameters**
+
+- `$requestHeaders` (array) Webhook Request Header
+- `$settings` (array) Webhook Feed
+- `$data` (array) Form Data
+- `$entryId` (int) Submission ID
+
+**Usage**
+
+```php
+add_filter('fluentform/webhook_request_headers', function ($requestHeaders, $settings, $data, $form, $entryId) {
+    // Do your stuff here
+    
+    return $requestHeaders;
+}, 10, 4);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/webhook_request_headers', $requestHeaders, $settings, $data, $form, $entryId);`
+
+This filter is located in FluentFormPro\src\Integrations\WebHook\NotifyTrait -> getWebHookRequestMethod($settings, $data, $form, $entryId)
+
+</explain-block>
+
+<explain-block title="fluentform/webhook_request_method">
+
+You can modify webhook request method using the filter.
+
+**Parameters**
+
+- `$method` (array) Webhook Request Method
+- `$settings` (array) Webhook Feed
+- `$data` (array) Form Data
+- `$form` (object) Form Object
+- `$entryId` (int) Submission ID
+
+**Usage**
+
+```php
+add_filter('fluentform/webhook_request_method', function ($method, $settings, $data, $form, $entryId) {
+    // Do your stuff here
+    
+    return $method;
+}, 10, 5);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/webhook_request_method', $method, $settings, $data, $form, $entryId);`
+
+This filter is located in FluentFormPro\src\Integrations\WebHook\NotifyTrait -> getWebHookRequestMethod($settings, $data, $form, $entryId)
+
+</explain-block>
+
 <explain-block title="fluentform/webhook_request_url">
 
 You can modify webhook request URL using the filter.
@@ -155,5 +180,29 @@ add_filter('fluentform/webhook_request_url', function ($url, $settings, $data, $
 `apply_filters('fluentform/webhook_request_url', $re$url, $settings, $data, $form, $entryId);`
 
 This filter is located in FluentFormPro\src\Integrations\WebHook\NotifyTrait -> getWebHookRequestUrl($settings, $data, $form, $entryId, $requestMethod, $requestData)
+
+</explain-block>
+
+<explain-block title="fluentform/webhook_ssl_verify">
+
+<Badge type="tip" vertical="top" text="Pro" />
+
+**Parameters**
+
+- `$sslVerify` — see source
+
+**Usage**
+
+```php
+add_filter('fluentform/webhook_ssl_verify', function ($sslVerify) {
+    return $sslVerify;
+}, 10, 1);
+```
+
+**Reference**
+
+`'sslverify' => apply_filters('fluentform/webhook_ssl_verify', $sslVerify),`
+
+This filter is located in `src/Integrations/WebHook/NotifyTrait.php` (line 52).
 
 </explain-block>

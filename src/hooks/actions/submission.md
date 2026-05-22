@@ -4,114 +4,78 @@
 
 These hooks fire during form submission processing — before, during, and after a submission is saved.
 
-<explain-block title="fluentform/before_insert_submission">
+<explain-block title="fluentform/after_deleting_submissions">
 
 **Description**
 
-This action runs before a submission is inserting
+This action runs after deleting a submission.
 
 **Parameters**
-- `$insertData` Insert Model
-- `$data` Form Data
-- `$form` Form Object
+- `$submissionId`  (int)   Submission ID
+- `$formId`     (int)   Form ID
 
 **Usage:**
 ```php
-add_action('fluentform/before_insert_submission', function($insertData, $data, $form) {
-   // Do whatever you want before inserting a submission
-}, 10, 3);
+add_action('fluentform/after_deleting_submissions', function ($submissionIds, $formId){
+   // Do your stuff
+}, 10, 2);
 ```
 
 **Reference**
 
-`do_action('fluentform/before_insert_submission', $insertData, $formDataRaw, $this->form);`
+`do_action('fluentform/after_deleting_submissions', $submissionIds, $formId);`
 
-This action is located in `fluentform/app/Services/Form/SubmissionHandlerService.php`
+This action is located in `fluentform/app/Services/Submission/SubmissionService.php -> deleteEntries()`.
 
 </explain-block>
 
-
-<explain-block title="fluentform/submission_inserted">
-
-**Description**
-
-This action runs after a submission was inserted
+<explain-block title="fluentform/after_submission_status_update">
 
 **Parameters**
-- `$submissionId` Submission ID
-- `$formData` Form Data
-- `$form` Form Object
 
-**Usage:**
+- `$submissionId` — see source
+- `$status` — see source
+
+**Usage**
+
 ```php
-add_action('fluentform/submission_inserted', function($submissionId, $formData, $form) {
-   // Do whatever you want with the new submission
-}, 10, 3);
+add_action('fluentform/after_submission_status_update', function ($submissionId, $status) {
+    // your code
+}, 10, 2);
 ```
 
 **Reference**
 
-`$this->app->doAction('fluentform/submission_inserted', $insertId, $formData, $form);`
+`do_action('fluentform/after_submission_status_update', $submissionId, $status);`
 
-This action is located in `fluentform/app/Services/Form/SubmissionHandlerService.php`
+This action is located in `app/Services/Submission/SubmissionService.php` (line 284).
 
 </explain-block>
 
-------------------------------------------------
-
-<explain-block title="fluentform/before_submission_confirmation">
+<explain-block title="fluentform/before_deleting_entries">
 
 **Description**
 
-This action runs after all the actions are completed regarding the form submission and before the submission confirmation message.
+This action runs before deleting a submission.
 
 **Parameters**
-- `$submissionId` Submission ID
-- `$formData` Form  Data
-- `$form` Form Object
+- `$submissionId`  (int)   Submission ID
+- `$formId`     (int)   Form ID
 
 **Usage:**
 ```php
-add_action('fluentform/before_submission_confirmation', function($submissionId, $formData, $form) {
-   // Do whatever you want here
-}, 10, 3);
+add_action('fluentform/before_deleting_entries', function ($submissionIds, $formId){
+   // Do your stuff
+}, 10, 2);
 ```
 
 **Reference**
 
-`do_action('fluentform/before_submission_confirmation', $insertId, $formData, $form);`
+`do_action('fluentform/before_deleting_entries', $submissionIds, $formId);`
 
-This action is located in `fluentform/app/Services/Form/SubmissionHandlerService.php`
-
-</explain-block>
-
-------------------------------------------------
-
-<explain-block title="fluentform/entry_confirmation">
-
-**Description**
-
-This action runs during the confirmation process of double opt-in. Using this action fluent form confirms the subscription of double optin. You can also use this to run your script during the confirmation process.
-
-**Parameters**
-- `$_REQUEST` (array)  Global PHP Request
-
-**Usage:**
-```php
-add_action('fluentform/entry_confirmation', function($_REQUEST) {
-   // Do whatever you want here
-}, 10);
-```
-
-**Reference**
-
-`do_action('fluentform/entry_confirmation', $_REQUEST);`
-
-This action is located in `fluentformpor/src/classes/SharePage/SharePage.php`
+This action is located in `fluentform/app/Services/Submission/SubmissionService.php -> deleteEntries()`.
 
 </explain-block>
-
-------------------------------------------------
 
 <explain-block title="fluentform/before_form_actions_processing">
 
@@ -139,7 +103,6 @@ This action is located in `fluentform/app/Services/Form/SubmissionHandlerService
 
 </explain-block>
 
-
 <explain-block title="fluentform/before_insert_payment_form">
 
 **Description**
@@ -166,171 +129,81 @@ This action is located in `fluentform/app/Services/Form/SubmissionHandlerService
 
 </explain-block>
 
----------------------------------------------------
-
-<explain-block title="fluentform/submission_inserted_{$form_type}_form">
+<explain-block title="fluentform/before_insert_submission">
 
 **Description**
 
-This action runs after a submission was inserted
+This action runs before a submission is inserting
 
 **Parameters**
-- `$submissionId`  (int)    Submission Id
-- `$formData` (array)  Form Raw Data
-- `$form`     (object) Form Object
+- `$insertData` Insert Model
+- `$data` Form Data
+- `$form` Form Object
 
 **Usage:**
 ```php
-add_action('fluentform/submission_inserted_{$form_type}_form', function ($submissionId, $formData, $form){
-   // Do whatever you want with the new submission base on specifiy form type
+add_action('fluentform/before_insert_submission', function($insertData, $data, $form) {
+   // Do whatever you want before inserting a submission
 }, 10, 3);
 ```
-**Note:** `{$form_type}` is dynamic value. Replace `{$form_type}` with your form type.
 
 **Reference**
 
-`$this->app->doAction('fluentform/submission_inserted', $insertId, $formData, $form);`
+`do_action('fluentform/before_insert_submission', $insertData, $formDataRaw, $this->form);`
 
 This action is located in `fluentform/app/Services/Form/SubmissionHandlerService.php`
 
 </explain-block>
 
-
-<explain-block title="fluentform/notify_on_form_submit">
+<explain-block title="fluentform/before_submission_confirmation">
 
 **Description**
 
-This action runs after a submission was inserted
+This action runs after all the actions are completed regarding the form submission and before the submission confirmation message.
 
 **Parameters**
-- `$submissionId`  (int)    Submission Id
-- `$formData` (array)  Form Raw Data
-- `$form`     (object) Form Object
+- `$submissionId` Submission ID
+- `$formData` Form  Data
+- `$form` Form Object
 
 **Usage:**
 ```php
-add_action('fluentform/notify_on_form_submit', function ($submissionId, $formData, $form){
-   // Do whatever you want with the new submission base on specifiy form type
+add_action('fluentform/before_submission_confirmation', function($submissionId, $formData, $form) {
+   // Do whatever you want here
 }, 10, 3);
 ```
 
 **Reference**
 
-`do_action('fluentform/notify_on_form_submit', $insertId, $this->formData, $this->form);`
+`do_action('fluentform/before_submission_confirmation', $insertId, $formData, $form);`
 
-This action is located in `fluentform/app/Services/Form/SubmissionHandlerService.php`, `fluentfomrpro/src/Payments/Classes/PaymentAction.php`.
+This action is located in `fluentform/app/Services/Form/SubmissionHandlerService.php`
 
 </explain-block>
 
----------------------------------------------------
-
-<explain-block title="fluentform/submission_user_changed">
+<explain-block title="fluentform/entry_confirmation">
 
 **Description**
 
-This action runs after a submission user changed
+This action runs during the confirmation process of double opt-in. Using this action fluent form confirms the subscription of double optin. You can also use this to run your script during the confirmation process.
 
 **Parameters**
-- `$submission`  (object)   Submission
-- `$user`     (object)   User
+- `$_REQUEST` (array)  Global PHP Request
 
 **Usage:**
 ```php
-add_action('fluentform/submission_user_changed', function ($submission, $user){
-   // Do your stuff
-}, 10, 2);
+add_action('fluentform/entry_confirmation', function($_REQUEST) {
+   // Do whatever you want here
+}, 10);
 ```
 
 **Reference**
 
-`do_action('fluentform/submission_user_changed', $submission, $user);`
+`do_action('fluentform/entry_confirmation', $_REQUEST);`
 
-This action is located in `fluentform/app/Services/Submission/SubmissionService.php -> updateSubmissionUser()`.
-
-</explain-block>
-
----------------------------------------------------
-
-<explain-block title="fluentform/before_deleting_entries">
-
-**Description**
-
-This action runs before deleting a submission.
-
-**Parameters**
-- `$submissionId`  (int)   Submission ID
-- `$formId`     (int)   Form ID
-
-**Usage:**
-```php
-add_action('fluentform/before_deleting_entries', function ($submissionIds, $formId){
-   // Do your stuff
-}, 10, 2);
-```
-
-**Reference**
-
-`do_action('fluentform/before_deleting_entries', $submissionIds, $formId);`
-
-This action is located in `fluentform/app/Services/Submission/SubmissionService.php -> deleteEntries()`.
+This action is located in `fluentformpor/src/classes/SharePage/SharePage.php`
 
 </explain-block>
-
----------------------------------------------------
-
-<explain-block title="fluentform/after_deleting_submissions">
-
-**Description**
-
-This action runs after deleting a submission.
-
-**Parameters**
-- `$submissionId`  (int)   Submission ID
-- `$formId`     (int)   Form ID
-
-**Usage:**
-```php
-add_action('fluentform/after_deleting_submissions', function ($submissionIds, $formId){
-   // Do your stuff
-}, 10, 2);
-```
-
-**Reference**
-
-`do_action('fluentform/after_deleting_submissions', $submissionIds, $formId);`
-
-This action is located in `fluentform/app/Services/Submission/SubmissionService.php -> deleteEntries()`.
-
-</explain-block>
-
----------------------------------------------------
-
-<explain-block title="fluentform/submission_note_stored">
-
-**Description**
-
-This action runs after submission note saved.
-
-**Parameters**
-- `$submissionMetaId`  (int)   Submission meta ID
-- `$submissionMeta`     (object)   Submission meta
-
-**Usage:**
-```php
-add_action('fluentform/submission_note_stored', function ($submissionMetaId, $submissionMeta){
-   // Do your stuff
-}, 10, 2);
-```
-
-**Reference**
-
-`do_action('fluentform/submission_note_stored', $submissionMeta->id, $submissionMeta);`
-
-This action is located in `fluentform/app/Services/Submission/SubmissionService.php -> storeNote()`.
-
-</explain-block>
-
----------------------------------------------------
 
 <explain-block title="fluentform/log_data">
 
@@ -369,4 +242,153 @@ This action is added in `fluentform/app/Hooks/actions.php`.
 
 </explain-block>
 
+<explain-block title="fluentform/notify_on_form_submit">
 
+**Description**
+
+This action runs after a submission was inserted
+
+**Parameters**
+- `$submissionId`  (int)    Submission Id
+- `$formData` (array)  Form Raw Data
+- `$form`     (object) Form Object
+
+**Usage:**
+```php
+add_action('fluentform/notify_on_form_submit', function ($submissionId, $formData, $form){
+   // Do whatever you want with the new submission base on specifiy form type
+}, 10, 3);
+```
+
+**Reference**
+
+`do_action('fluentform/notify_on_form_submit', $insertId, $this->formData, $this->form);`
+
+This action is located in `fluentform/app/Services/Form/SubmissionHandlerService.php`, `fluentfomrpro/src/Payments/Classes/PaymentAction.php`.
+
+</explain-block>
+
+<explain-block title="fluentform/submission_deleted">
+
+**Parameters**
+
+- `$submissionId` — see source
+
+**Usage**
+
+```php
+add_action('fluentform/submission_deleted', function ($submissionId) {
+    // your code
+}, 10, 1);
+```
+
+**Reference**
+
+`do_action('fluentform/submission_deleted', $submissionId);`
+
+This action is located in `app/Http/Controllers/SubmissionController.php` (line 115).
+
+</explain-block>
+
+<explain-block title="fluentform/submission_inserted">
+
+**Description**
+
+This action runs after a submission was inserted
+
+**Parameters**
+- `$submissionId` Submission ID
+- `$formData` Form Data
+- `$form` Form Object
+
+**Usage:**
+```php
+add_action('fluentform/submission_inserted', function($submissionId, $formData, $form) {
+   // Do whatever you want with the new submission
+}, 10, 3);
+```
+
+**Reference**
+
+`$this->app->doAction('fluentform/submission_inserted', $insertId, $formData, $form);`
+
+This action is located in `fluentform/app/Services/Form/SubmissionHandlerService.php`
+
+</explain-block>
+
+<explain-block title="fluentform/submission_inserted_{$form_type}_form">
+
+**Description**
+
+This action runs after a submission was inserted
+
+**Parameters**
+- `$submissionId`  (int)    Submission Id
+- `$formData` (array)  Form Raw Data
+- `$form`     (object) Form Object
+
+**Usage:**
+```php
+add_action('fluentform/submission_inserted_{$form_type}_form', function ($submissionId, $formData, $form){
+   // Do whatever you want with the new submission base on specifiy form type
+}, 10, 3);
+```
+**Note:** `{$form_type}` is dynamic value. Replace `{$form_type}` with your form type.
+
+**Reference**
+
+`$this->app->doAction('fluentform/submission_inserted', $insertId, $formData, $form);`
+
+This action is located in `fluentform/app/Services/Form/SubmissionHandlerService.php`
+
+</explain-block>
+
+<explain-block title="fluentform/submission_note_stored">
+
+**Description**
+
+This action runs after submission note saved.
+
+**Parameters**
+- `$submissionMetaId`  (int)   Submission meta ID
+- `$submissionMeta`     (object)   Submission meta
+
+**Usage:**
+```php
+add_action('fluentform/submission_note_stored', function ($submissionMetaId, $submissionMeta){
+   // Do your stuff
+}, 10, 2);
+```
+
+**Reference**
+
+`do_action('fluentform/submission_note_stored', $submissionMeta->id, $submissionMeta);`
+
+This action is located in `fluentform/app/Services/Submission/SubmissionService.php -> storeNote()`.
+
+</explain-block>
+
+<explain-block title="fluentform/submission_user_changed">
+
+**Description**
+
+This action runs after a submission user changed
+
+**Parameters**
+- `$submission`  (object)   Submission
+- `$user`     (object)   User
+
+**Usage:**
+```php
+add_action('fluentform/submission_user_changed', function ($submission, $user){
+   // Do your stuff
+}, 10, 2);
+```
+
+**Reference**
+
+`do_action('fluentform/submission_user_changed', $submission, $user);`
+
+This action is located in `fluentform/app/Services/Submission/SubmissionService.php -> updateSubmissionUser()`.
+
+</explain-block>

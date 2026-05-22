@@ -3,7 +3,7 @@
 ## Introduction
 Fluent Forms ORM provides a beautiful, simple ActiveRecord implementation for working with database tables. Each database table has a corresponding "Model" which is used to interact with that table. Models allow you to query for data in db tables, as well as insert new records into the table.
 
-<p class="warning">
+<p class="info">
 NOTE: Fluent Forms offers helper functions and methods to interact with Fluent Forms's database so you may use those things instead of Models directly. We are documenting these for our internal usage and very-high level usage by 3rd-party develoeprs.
 </p>
 
@@ -68,7 +68,6 @@ $max = FluentForm\App\Models\Form::where('status', 'active')->max('id');
 ```
 
 Available aggregate methods such as `count`, `max`, `min`, `avg`, and `sum`.
-
 
 # Inserting & Updating Models
 

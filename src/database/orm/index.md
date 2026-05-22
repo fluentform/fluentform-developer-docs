@@ -13,7 +13,6 @@ _Note: Fluent ORM is compatible the PHP Laravel Framework's Eloquent ORM. If you
 
 To get started, let's create a Fluent model. Models typically live in the `app/Models` directory, but you are free to place them anywhere that can be auto-loaded according to your `composer.json` file. All Fluent models extend `FluentForm\Framework\Database\Orm\Model` class.
 
-
 ## Fluent Model Conventions
 
 Now, let's look at an example `Form` model, which we will use to retrieve and store information from our `fluentform_forms` database table:
@@ -196,7 +195,6 @@ $form = FluentForm\App\Models\Form::findOrFail(1);
 $form = FluentForm\App\Models\Form::where('age', '>', 21)->firstOrFail();
 ```
 
-
 ## Retrieving Aggregates
 You may also use the `count`, `sum`, `max`, and other <a :href="$withBase('/database/query-builder/#aggregates')">aggregate methods</a> provided by the <a :href="$withBase('/database/query-builder')">query builder</a>. These methods return the appropriate scalar value instead of a full model instance:
 ```php
@@ -260,7 +258,6 @@ FluentForm\App\Models\Form::where('has_payment', 1)
           ->update(['status' => 'published']);
 ```
 The `update` method expects an array of column and value pairs representing the columns that should be updated.
-
 
 ## Mass Assignment
 
@@ -353,7 +350,6 @@ $form = FluentForm\App\Models\Form::updateOrCreate(
 );
 ```
 
-
 ## Deleting Models
 
 To delete a model, call the `delete` method on a model instance:
@@ -378,7 +374,6 @@ Of course, you may also run a delete statement on a set of models. In this examp
 ```php
 $deletedRows = FluentForm\App\Models\Form::where('status', 'unpublished')->delete();
 ```
-
 
 ## Soft Deleting
 
@@ -411,7 +406,6 @@ if ($form->trashed()) {
     //
 }
 ```
-
 
 ## Querying Soft Deleted Models
 
@@ -460,7 +454,6 @@ $form->forceDelete();
 // Force deleting all related models...
 $form->history()->forceDelete();
 ```
-
 
 ## Query Scopes
 
@@ -572,7 +565,6 @@ Form::withoutGlobalScopes([
     FirstScope::class, SecondScope::class
 ])->get();
 ```
-
 
 ## Local Scopes
 

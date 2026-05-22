@@ -14,8 +14,10 @@ module.exports = [
       ['/hooks/actions/settings', 'Settings'],
       ['/hooks/actions/payment', 'Payment'],
       ['/hooks/actions/integration', 'Integration'],
+      ['/hooks/actions/post-creation', 'Post Creation'],
       ['/hooks/actions/addon', 'Addon'],
       ['/hooks/actions/conversational', 'Conversational'],
+      ['/hooks/actions/miscellaneous', 'Miscellaneous'],
     ]
   },
   {
@@ -26,15 +28,23 @@ module.exports = [
       ['/hooks/filters/', 'Overview'],
       ['/hooks/filters/submission', 'Submission'],
       ['/hooks/filters/form', 'Form'],
+      ['/hooks/filters/conversational', 'Conversational'],
       ['/hooks/filters/settings', 'Settings'],
+      ['/hooks/filters/messages', 'Messages'],
       ['/hooks/filters/integration', 'Integration'],
-      ['/hooks/filters/miscellaneous', 'Miscellaneous'],
+      ['/hooks/filters/spam-protection', 'Spam Protection'],
+      ['/hooks/filters/payment', 'Payment'],
+      ['/hooks/filters/reports', 'Reports'],
+      ['/hooks/filters/entries-export', 'Entries & Export'],
       ['/hooks/filters/email', 'Email'],
       ['/hooks/filters/file-uploader', 'File Uploader'],
+      ['/hooks/filters/post-creation', 'Post Creation'],
+      ['/hooks/filters/dynamic-fields', 'Dynamic Fields'],
       ['/hooks/filters/quiz', 'Quiz'],
       ['/hooks/filters/user-registration', 'User Registration'],
       ['/hooks/filters/webhook', 'Webhook'],
-      ['/hooks/filters/payment', 'Payment'],
+      ['/hooks/filters/pdf', 'PDF (Add-on)'],
+      ['/hooks/filters/miscellaneous', 'Miscellaneous'],
     ]
   }
 ];
