@@ -385,8 +385,28 @@ details.custom-block.details
   color #d1d5db
 
 .ff-dark #app .navbar .links .nav-item > a:hover,
-.ff-dark #app .navbar .links .nav-item > a.router-link-active
-  color #ffffff
+.ff-dark #app .navbar .links .nav-item > a.router-link-active,
+.ff-dark #app .navbar .links .nav-link.router-link-active,
+.ff-dark #app .navbar .links .nav-link.router-link-exact-active,
+.ff-dark #app .nav-links a.router-link-active,
+.ff-dark #app .nav-links a:hover
+  color #ffffff !important
+
+// Home page CTA "Get Started" action button — keep its blue bg, force
+// white text in dark mode (generic content-link rule was painting it blue
+// and blending into the background).
+.ff-dark .action-button,
+.ff-dark a.action-button,
+.ff-dark a.nav-link.action-button,
+.ff-dark .theme-default-content a.action-button,
+.ff-dark .theme-default-content a.nav-link.action-button
+  color #ffffff !important
+
+.ff-dark .action-button:hover,
+.ff-dark a.action-button:hover,
+.ff-dark a.nav-link.action-button:hover,
+.ff-dark .theme-default-content a.action-button:hover
+  color #ffffff !important
 
 .ff-dark #app .dropdown-wrapper .dropdown-title,
 .ff-dark #app .dropdown-wrapper .mobile-dropdown-title
