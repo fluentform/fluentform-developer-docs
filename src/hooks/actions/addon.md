@@ -28,9 +28,6 @@ This hook is located in `fluentform/app/Views/admin/addons/index.php`.
 
 </explain-block>
 
---------------------------------
-
-
 <explain-block title="fluentform/addons_page_render_fluentform_pdf_settings">
 
 **Description**

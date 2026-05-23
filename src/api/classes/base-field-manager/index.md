@@ -16,6 +16,91 @@ Please check out the GitHub file to get more information.
 - [`getGeneralEditorElements()`](/api/classes/base-field-manager/#getgeneraleditorelements)
 - [`getAdvancedEditorElements()`](/api/classes/base-field-manager/#getadvancededitorelements)
 
+### `advancedEditorElement()`
+
+**Source:** `fluentform/app/Services/FormBuilder/BaseFieldManager.php` (line 89)
+
+---
+
+### Element Settings UI components for EditorElements
+There has 69 UI components for making any type of settings ui for your element. You can even implement your own by implementing `generalEditorElement` and `advancedEditorElement` method. Please check the source code or phone field element in pro version.
+
+**Where to find the built-in UI components:** Please check in the [GitHub source file here](https://github.com/fluentform/fluentform/blob/5f400dbcdc/app/Services/FormBuilder/ElementCustomization.php)
+
+## Implementing this class
+Create a php class and then extend this class. Here is the example where we can use they must use methods
+
+```php
+class MyAwesomeFFElement extends \FluentForm\App\Services\FormBuilder\BaseFieldManager
+{
+    public function __construct()
+    {
+        parent::__construct(
+            'key',
+            'Element title',
+            ['tag1', 'tag2', 'tag3'],
+            'general' // where to push general/advanced
+        );
+    }
+
+    function getComponent()
+    {
+        return []; // return your element structure
+    }
+
+    public function getGeneralEditorElements()
+    {
+        return []; // return your general settings keys
+    }
+
+    public function getAdvancedEditorElements()
+    {
+        return []; // return your advanced settings keys
+    }
+
+    public function render($data, $form)
+    {
+        // print your valid html for this element
+    }
+}
+
+/*
+ * Finally initialize the class
+ */
+add_action('fluentform/loaded', function () {
+    new MyAwesomeFFElement();
+});
+```
+## Further read
+
+### `generalEditorElement()`
+
+**Source:** `fluentform/app/Services/FormBuilder/BaseFieldManager.php` (line 84)
+
+---
+
+### getAdvancedEditorElements()
+This is an important method to that you have to implement when implementing your own element class. This method will return what settings will show in the advanced settings of your form element. By default, it returns the following
+
+**For example:**
+
+```php
+    public function getAdvancedEditorElements()
+    {
+        return [
+            'name',
+            'help_message',
+            'container_class',
+            'class',
+            'conditional_logics',
+        ];
+    }
+```
+
+You should implement this method if you want to add or remove any settings.
+
+Please note that, These keys need to be matched with either your component’s settings or attributes keys.
+
 ### getComponent()
 ```php
     /*
@@ -72,7 +157,6 @@ function getComponent()
 
 The code is already self-explanatory. But you have to keep the structure as same as the example. The array need to have the following keys:
 
-
 - index
 - element
 - attributes (will be used for rendering in editor and frontend)
@@ -94,26 +178,15 @@ The code is already self-explanatory. But you have to keep the structure as same
   - icon_class
   - template ([View Available Templates](https://github.com/fluentform/fluentform/tree/master/resources/assets/admin/components/templates))
 
-
 Please check our other element implementations in `fluentformpro/src/Components` folder to get an idea about the available attributes.
 
 To check all the existing get component data structure please [check this file](https://github.com/fluentform/fluentform/blob/5f400dbcdc/app/Services/FormBuilder/DefaultElements.php). That file contains all free and some pro version data attributes implementation.
 
-### render($data, $form)
-```php
-    /*
-     * Implement render html for your form element. You have to print your element html
-     * @param: $element array - Contain the total element with attributes, settings etc
-     * @param: $form object - Form Object of the current form rendering in that time.
-     * @return void
-     */
-    abstract function render($element, $form);
-```
-You have to implement this method and print the final html for your custom element. Please check other implementations in pro versions `fluentformpro/src/Components` folder. The DOM need to be symmetric, and you must have to use the parent class function to generate the DOM's to make the conditional logic/error messages work.
+### `getEditorCustomizationSettings()`
 
-Please check the all element `render(compile())` method in these files.
+**Source:** `fluentform/app/Services/FormBuilder/BaseFieldManager.php` (line 116)
 
-[https://github.com/fluentform/fluentform/tree/master/app/Services/FormBuilder/Components](https://github.com/fluentform/fluentform/tree/master/app/Services/FormBuilder/Components)
+---
 
 ### getGeneralEditorElements()
 This is an important method that you have to implement when implementing your own element class. This method will return what settings will show in the general settings of your form element.
@@ -135,98 +208,57 @@ This is an important method that you have to implement when implementing your ow
 ```
 Please note that, These keys need to be matched with either your component’s settings or attributes keys.
 
-### getAdvancedEditorElements()
-This is an important method to that you have to implement when implementing your own element class. This method will return what settings will show in the advanced settings of your form element. By default, it returns the following
+### `pushComponent($components)`
 
-**For example:**
+**Source:** `fluentform/app/Services/FormBuilder/BaseFieldManager.php` (line 61)
 
+---
+
+### `pushConditionalSupport($conditonalItems)`
+
+**Source:** `fluentform/app/Services/FormBuilder/BaseFieldManager.php` (line 49)
+
+---
+
+### `pushEditorElementPositions($placement_settings)`
+
+**Source:** `fluentform/app/Services/FormBuilder/BaseFieldManager.php` (line 72)
+
+---
+
+### `pushFormInputType($types)`
+
+**Source:** `fluentform/app/Services/FormBuilder/BaseFieldManager.php` (line 55)
+
+---
+
+### `pushTags($tags, $form)`
+
+**Source:** `fluentform/app/Services/FormBuilder/BaseFieldManager.php` (line 121)
+
+---
+
+### `register()`
+
+**Source:** `fluentform/app/Services/FormBuilder/BaseFieldManager.php` (line 26)
+
+---
+
+### render($data, $form)
 ```php
-    public function getAdvancedEditorElements()
-    {
-        return [
-            'name',
-            'help_message',
-            'container_class',
-            'class',
-            'conditional_logics',
-        ];
-    }
-```
-
-You should implement this method if you want to add or remove any settings.
-
-Please note that, These keys need to be matched with either your component’s settings or attributes keys.
-
-### Element Settings UI components for EditorElements
-There has 69 UI components for making any type of settings ui for your element. You can even implement your own by implementing `generalEditorElement` and `advancedEditorElement` method. Please check the source code or phone field element in pro version.
-
-**Where to find the built-in UI components:** Please check in the [GitHub source file here](https://github.com/fluentform/fluentform/blob/5f400dbcdc/app/Services/FormBuilder/ElementCustomization.php)
-
-## Implementing this class
-Create a php class and then extend this class. Here is the example where we can use they must use methods
-
-```php
-class MyAwesomeFFElement extends \FluentForm\App\Services\FormBuilder\BaseFieldManager
-{
-    public function __construct()
-    {
-        parent::__construct(
-            'key',
-            'Element title',
-            ['tag1', 'tag2', 'tag3'],
-            'general' // where to push general/advanced
-        );
-    }
-
-    function getComponent()
-    {
-        return []; // return your element structure
-    }
-
-    public function getGeneralEditorElements()
-    {
-        return []; // return your general settings keys
-    }
-
-    public function getAdvancedEditorElements()
-    {
-        return []; // return your advanced settings keys
-    }
-
-    public function render($data, $form)
-    {
-        // print your valid html for this element
-    }
-}
-
-/*
- * Finally initialize the class
- */
-add_action('fluentform/loaded', function () {
-    new MyAwesomeFFElement();
-});
-```
-## Further read
-### Validate data of inputed from frontend
-If you want to validate user input data for your form submission you have implement a filter hook
-```php
-add_filter('fluentform/validate_input_item_{YOUR_ELEMENT_KEY}', function ($errorMessage, $field, $formData, $fields, $form) {
-    $fieldName = $field['name'];
-    if (empty($formData[$fieldName])) {
-        return $errorMessage;
-    }
-    $value = $formData[$fieldName]; // This is the user input value
-
     /*
-     * You can validate this value and return $errorMessage
+     * Implement render html for your form element. You have to print your element html
+     * @param: $element array - Contain the total element with attributes, settings etc
+     * @param: $form object - Form Object of the current form rendering in that time.
+     * @return void
      */
-
-    return [$errorMessage];
-
-}, 10, 5);
+    abstract function render($element, $form);
 ```
+You have to implement this method and print the final html for your custom element. Please check other implementations in pro versions `fluentformpro/src/Components` folder. The DOM need to be symmetric, and you must have to use the parent class function to generate the DOM's to make the conditional logic/error messages work.
 
-Learn more about this validation [here](/hooks/filters/#_fluentform_response_render______field__element__)
+Please check the all element `render(compile())` method in these files.
+
+[https://github.com/fluentform/fluentform/tree/master/app/Services/FormBuilder/Components](https://github.com/fluentform/fluentform/tree/master/app/Services/FormBuilder/Components)
 
 ### Transforming Input Data in Entries/Emails
 Maybe you collected the data as array or key of any dynamic data, and you need to transform that data to anywhere that is viewable at admin panel entries/email/3rd party integrations.
@@ -322,3 +354,25 @@ add_action('fluentform/loaded', function () {
 It’s highly recommended to explore our source files and try to understand the design. Once you get if it’s very easy to implement your own custom input elements. Also, please check our a step by step your custom new field creation guide here [How to Create Your Own Custom Field in Fluentforms](https://fluentforms.com/docs/how-to-create-your-own-custom-field-with-fluent-forms/).
 
 If you have any question please feel free to reach at our [support team](https://wpmanageninja.com/support-tickets/) or ask questions in our [facebook community group](https://www.facebook.com/groups/fluentforms/)
+
+### Validate data of inputed from frontend
+If you want to validate user input data for your form submission you have implement a filter hook
+```php
+add_filter('fluentform/validate_input_item_{YOUR_ELEMENT_KEY}', function ($errorMessage, $field, $formData, $fields, $form) {
+    $fieldName = $field['name'];
+    if (empty($formData[$fieldName])) {
+        return $errorMessage;
+    }
+    $value = $formData[$fieldName]; // This is the user input value
+
+    /*
+     * You can validate this value and return $errorMessage
+     */
+
+    return [$errorMessage];
+
+}, 10, 5);
+```
+
+Learn more about this validation [here](/hooks/filters/#_fluentform_response_render______field__element__)
+

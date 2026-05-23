@@ -161,6 +161,10 @@ module.exports = {
                 ],
             },
             {
+                text: 'Changelog',
+                link: '/changelog/',
+            },
+            {
                 text: 'Blog',
                 link: 'https://fluentforms.com/blog/',
             },

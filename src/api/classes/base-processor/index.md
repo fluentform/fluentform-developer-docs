@@ -24,96 +24,6 @@ The API Functions are automatically called when the form has the selected paymen
 - [`setMetaData()`](/api/classes/base-processor/#setmetadata)
 - [`getReturnData()`](/api/classes/base-processor/#getreturndata)
 
-### init()
-You need to override this method using the following hooks. You can call it with your custom payment method class extended from the [BasePaymentMethod](/api/classes/base-payment-method) class. At the bottom of this page, you will see an example implementation of this method with all available parameters of these hooks.
-```php
-/*
-* $this->method Should match your payment method key
-*/
-public function init()
-{
-    add_action('fluentform/process_payment_' . $this->method, array($this, 'handlePaymentAction'), 10, 6);
-    add_action('fluentform/payment_frameless_' . $this->method, array($this, 'handleSessionRedirectBack'));
-
-    add_action('fluentform/ipn_endpoint_' . $this->method, function () {
-            //if IPN verification is needed
-    });
-}
-```
-
-### handlePaymentAction()
-This is an abstract class that you have to implement in your own class. This is the most crucial part where the payment should be processed and then the transaction data is inserted into the database.
-
-```php
-/* 
-* Process and finalize the payment transaction
-* 
-* 
-* @param  int $submissionId  - Form Submission ID
-* @param array $submissionData - Form Submission Data Array
-* @param object $form - Form Object
-* @param array $methodSettings - Payment Method Settings Data Array
-* @param boolean $subscriptionItems - Payment has subscription item
-* @param int $totalPayable - Total payable amount
-*/
-
-public abstract function handlePaymentAction($submissionId, $submissionData, $form, $methodSettings)
-```
-
-### setSubmissionId($submissionId)
-This method will set the form submission ID property. It should be called from handlePaymentAction where the $submissionId parameter is available. The following methods does not need to be created in your class you can call these methods from the base class.
-
-```php
-/*
-* Set the currrent submission ID
-* @param $submissionId  - Form Submission ID
-*/
-public function setSubmissionId($submissionId)
-```
-
-### insertTransaction($data)
-This method will insert the transaction data into the database. It should be called from the [`handlePaymentAction()`](/api/classes/base-processor/#handlepaymentaction) method or when you need to insert a transaction record after verifying data.
-
-```php
-/*
-* @param data - Transaction Data array
-*/
-public function insertTransaction($data)
-```
-
-### insertRefund($data)
-This method is used to insert refund data.
-
-```php
-/*
-* @param data - Refund Data array
-*/
-public function insertRefund($data)
-```
-
-
-### getTransaction($transactionId, $column = ‘id’)
-This method is called to get transaction data. You can use this inside [`handlePaymentAction()`](/api/classes/base-processor/#handlepaymentaction) method to process the transaction.
-
-```php
-/*
-* @param transactionId - Transaction ID
-* $column - Column Name to match with 
-*/
-public function getTransaction($transactionId, $column = 'id')
-```
-
-### getRefund($refundId, $column = ‘id’)
-Use this method to get refund data.
-
-```php
-/*
-* @param @refundId - RefundId ID
-* $column - Column Name to match with 
-*/
-public function getRefund($refundId, $column = 'id')
-```
-
 ### changeSubmissionPaymentStatus($newStatus)
 Update the current submission status for example paid or pending. After processing a transaction update the payment status using this method.
 
@@ -135,44 +45,82 @@ Use this method to update the status of the transaction.
 public function changeTransactionStatus($transactionId, $newStatus)
 ```
 
-### recalculatePaidTotal()
-Use this method to recalculate the current submission total amount. This method does not need to be created in your class you can call this method from the base class.
+### `completePaymentSubmission($isAjax = true)`
 
-```php
-public function recalculatePaidTotal()
-```
+**Source:** `fluentformpro/src/Payments/PaymentMethods/BaseProcessor.php` (line 382)
 
-### updateTransaction($transactionId, $data)
-This method updates transaction data.
+---
+
+### `createInitialPendingTransaction($submission = false, $hasSubscriptions = false)`
+
+**Source:** `fluentformpro/src/Payments/PaymentMethods/BaseProcessor.php` (line 1090)
+
+---
+
+### `deleteMetaData($name)`
+
+**Source:** `fluentformpro/src/Payments/PaymentMethods/BaseProcessor.php` (line 497)
+
+---
+
+### `getAmountTotal()`
+
+**Source:** `fluentformpro/src/Payments/PaymentMethods/BaseProcessor.php` (line 765)
+
+---
+
+### `getDiscountItems()`
+
+**Source:** `fluentformpro/src/Payments/PaymentMethods/BaseProcessor.php` (line 474)
+
+---
+
+### `getForm()`
+
+**Source:** `fluentformpro/src/Payments/PaymentMethods/BaseProcessor.php` (line 451)
+
+---
+
+### `getLastTransaction($submissionId)`
+
+**Source:** `fluentformpro/src/Payments/PaymentMethods/BaseProcessor.php` (line 208)
+
+---
+
+### `getMetaData($metaKey)`
+
+**Source:** `fluentformpro/src/Payments/PaymentMethods/BaseProcessor.php` (line 505)
+
+---
+
+### `getOrderItems()`
+
+**Source:** `fluentformpro/src/Payments/PaymentMethods/BaseProcessor.php` (line 466)
+
+---
+
+### `getPaymentCountsAndTotal($subscriptionId, $paymentMethod = false)`
+
+**Source:** `fluentformpro/src/Payments/PaymentMethods/BaseProcessor.php` (line 954)
+
+---
+
+### getRefund($refundId, $column = ‘id’)
+Use this method to get refund data.
 
 ```php
 /*
-/*
-*@param $transactionId - Transaction ID 
-*@param $data - Transaction data array 
+* @param @refundId - RefundId ID
+* $column - Column Name to match with 
 */
-
-public function updateTransaction($transactionId, $data)
+public function getRefund($refundId, $column = 'id')
 ```
 
-### handleSessionRedirectBack($data)
-This method handles the payment session redirect back.
+### `getRefundTotal()`
 
-```php
-public function handleSessionRedirectBack($data)
-```
+**Source:** `fluentformpro/src/Payments/PaymentMethods/BaseProcessor.php` (line 306)
 
-### setMetaData()
-Submission metadata is saved using this method.
-
-```php
-/*
-/*
-* @param $name - Meta Name
-* @param @value - Meta Value
-*/
-public function setMetaData($name, $value)
-```
+---
 
 ### getReturnData()
 This method will return submission data which will be used during the final payment processing.
@@ -282,7 +230,6 @@ class MyPaymentProcessor extends BaseProcessor
         ], 200);
     }
 
-
     /*
     * This method is called when you are redirected back to your site.
     *
@@ -339,3 +286,227 @@ class MyPaymentProcessor extends BaseProcessor
 
 ## Final Note
 Please check the existing payment processor files to get a more clear concept of this class and implement your custom payment system. There are other methods also to help with possessing a payment. If you have any questions please feel free to reach to our [support team](https://wpmanageninja.com/support-tickets/) or ask questions in our [facebook community group](https://www.facebook.com/groups/fluentforms/)
+
+### `getSubmission()`
+
+**Source:** `fluentformpro/src/Payments/PaymentMethods/BaseProcessor.php` (line 429)
+
+---
+
+### `getSubmissionId()`
+
+**Source:** `fluentformpro/src/Payments/PaymentMethods/BaseProcessor.php` (line 142)
+
+Log a security-relevant payment event.
+
+---
+
+### `getSubscriptions($status = false)`
+
+**Source:** `fluentformpro/src/Payments/PaymentMethods/BaseProcessor.php` (line 818)
+
+---
+
+### getTransaction($transactionId, $column = ‘id’)
+This method is called to get transaction data. You can use this inside [`handlePaymentAction()`](/api/classes/base-processor/#handlepaymentaction) method to process the transaction.
+
+```php
+/*
+* @param transactionId - Transaction ID
+* $column - Column Name to match with 
+*/
+public function getTransaction($transactionId, $column = 'id')
+```
+
+### `getTransactionByChargeId($chargeId)`
+
+**Source:** `fluentformpro/src/Payments/PaymentMethods/BaseProcessor.php` (line 200)
+
+Log a security-relevant payment event.
+
+---
+
+### `getTransactionDefaults()`
+
+**Source:** `fluentformpro/src/Payments/PaymentMethods/BaseProcessor.php` (line 1032)
+
+---
+
+### handlePaymentAction()
+This is an abstract class that you have to implement in your own class. This is the most crucial part where the payment should be processed and then the transaction data is inserted into the database.
+
+```php
+/* 
+* Process and finalize the payment transaction
+* 
+* 
+* @param  int $submissionId  - Form Submission ID
+* @param array $submissionData - Form Submission Data Array
+* @param object $form - Form Object
+* @param array $methodSettings - Payment Method Settings Data Array
+* @param boolean $subscriptionItems - Payment has subscription item
+* @param int $totalPayable - Total payable amount
+*/
+
+public abstract function handlePaymentAction($submissionId, $submissionData, $form, $methodSettings)
+```
+
+### handleSessionRedirectBack($data)
+This method handles the payment session redirect back.
+
+```php
+public function handleSessionRedirectBack($data)
+```
+
+### init()
+You need to override this method using the following hooks. You can call it with your custom payment method class extended from the [BasePaymentMethod](/api/classes/base-payment-method) class. At the bottom of this page, you will see an example implementation of this method with all available parameters of these hooks.
+```php
+/*
+* $this->method Should match your payment method key
+*/
+public function init()
+{
+    add_action('fluentform/process_payment_' . $this->method, array($this, 'handlePaymentAction'), 10, 6);
+    add_action('fluentform/payment_frameless_' . $this->method, array($this, 'handleSessionRedirectBack'));
+
+    add_action('fluentform/ipn_endpoint_' . $this->method, function () {
+            //if IPN verification is needed
+    });
+}
+```
+
+### insertRefund($data)
+This method is used to insert refund data.
+
+```php
+/*
+* @param data - Refund Data array
+*/
+public function insertRefund($data)
+```
+
+### insertTransaction($data)
+This method will insert the transaction data into the database. It should be called from the [`handlePaymentAction()`](/api/classes/base-processor/#handlepaymentaction) method or when you need to insert a transaction record after verifying data.
+
+```php
+/*
+* @param data - Transaction Data array
+*/
+public function insertTransaction($data)
+```
+
+### `limitLength($string, $limit = 127)`
+
+**Source:** `fluentformpro/src/Payments/PaymentMethods/BaseProcessor.php` (line 1017)
+
+---
+
+### `loadView($view, $data = [])`
+
+**Source:** `fluentformpro/src/Payments/PaymentMethods/BaseProcessor.php` (line 585)
+
+---
+
+### `maybeInsertSubscriptionCharge($item)`
+
+**Source:** `fluentformpro/src/Payments/PaymentMethods/BaseProcessor.php` (line 844)
+
+---
+
+### recalculatePaidTotal()
+Use this method to recalculate the current submission total amount. This method does not need to be created in your class you can call this method from the base class.
+
+```php
+public function recalculatePaidTotal()
+```
+
+### `refund($refund_amount, $transaction, $submission, $method = '', $refundId = '', $refundNote = 'Refunded')`
+
+**Source:** `fluentformpro/src/Payments/PaymentMethods/BaseProcessor.php` (line 594)
+
+---
+
+### setMetaData()
+Submission metadata is saved using this method.
+
+```php
+/*
+/*
+* @param $name - Meta Name
+* @param @value - Meta Value
+*/
+public function setMetaData($name, $value)
+```
+
+### setSubmissionId($submissionId)
+This method will set the form submission ID property. It should be called from handlePaymentAction where the $submissionId parameter is available. The following methods does not need to be created in your class you can call these methods from the base class.
+
+```php
+/*
+* Set the currrent submission ID
+* @param $submissionId  - Form Submission ID
+*/
+public function setSubmissionId($submissionId)
+```
+
+### `showPaymentView($returnData)`
+
+**Source:** `fluentformpro/src/Payments/PaymentMethods/BaseProcessor.php` (line 519)
+
+---
+
+### `updateRefund($totalRefund, $transaction, $submission, $method = '', $refundId = '', $refundNote = 'Refunded')`
+
+**Source:** `fluentformpro/src/Payments/PaymentMethods/BaseProcessor.php` (line 671)
+
+---
+
+### `updateSubmission($id, $data)`
+
+**Source:** `fluentformpro/src/Payments/PaymentMethods/BaseProcessor.php` (line 1008)
+
+---
+
+### `updateSubscription($id, $data)`
+
+**Source:** `fluentformpro/src/Payments/PaymentMethods/BaseProcessor.php` (line 835)
+
+---
+
+### `updateSubscriptionStatus($subscription, $newStatus, $note = '')`
+
+**Source:** `fluentformpro/src/Payments/PaymentMethods/BaseProcessor.php` (line 1142)
+
+---
+
+### updateTransaction($transactionId, $data)
+This method updates transaction data.
+
+```php
+/*
+/*
+*@param $transactionId - Transaction ID 
+*@param $data - Transaction data array 
+*/
+
+public function updateTransaction($transactionId, $data)
+```
+
+### `validatePaymentConfirmation($transaction, $submissionId)`
+
+**Source:** `fluentformpro/src/Payments/PaymentMethods/BaseProcessor.php` (line 38)
+
+Validate a payment confirmation request before processing.
+Checks that the transaction exists, is in a confirmable state,
+and the submission hasn't already been paid.
+
+---
+
+### `verifyPaymentNonce($submissionId, $method)`
+
+**Source:** `fluentformpro/src/Payments/PaymentMethods/BaseProcessor.php` (line 85)
+
+Verify a payment nonce for the given submission.
+
+---
+

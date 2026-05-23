@@ -4,90 +4,314 @@
 
 These filters let you modify submission data, responses, and entry display.
 
-<explain-block title="fluentform/insert_response_data">
+<explain-block title="fluentform/all_entries">
 
-**Description**
-
-You can modify or format the submitted data using this filter. The returned data will be inserted as submission response.
-
-**Parameters**
-
-- `$formData` (array) Form Data
-- `$formId` (int) Form ID
-- `$inputConfigs` (array) Form Inputs
-
-**Usage**
-
-```php
-add_filter('fluentform/insert_response_data', function ($formData, $formId, $inputConfigs) {
-   // Do your stuff here
-   
-   return $formData;
-},10, 3);
-```
-
-**Reference**
-
-`apply_filters('fluentform/insert_response_data', $formData, $formId, $inputConfigs);`
-
-This filter is located in FluentForm\App\Services\Form\SubmissionHandlerService -> prepareInsertData()
-
-</explain-block>
-
-<explain-block title="fluentform/find_submission">
-
-**Description**
-
-You can modify a submission by using this filter.
+You can modify all submissions using the filter.
 
 **Parameters**
 
 - `$submission` (array) Form Submission
-- `$formId` (int) Form ID
 
 **Usage**
 
 ```php
-add_filter('fluentform/find_submission', function ($submission, $formId) {
-   // Do your stuff here
-   
-   return $submission;
-}, 10, 2);
+add_filter('fluentform/all_entries', function ($submission) {
+    // Do your stuff here
+    
+    return $submission;
+}, 10, 1);
+
 ```
 
 **Reference**
 
-`apply_filters('fluentform/find_submission', $submission, $this->form->id);`
+`apply_filters('fluentform/all_entries', $entries['submissions']);`
 
-This filter is located in FluentForm\App\Services\Submission\SubmissionService -> find($submissionId)
+This filter is located in FluentFormPro\src\classes\StepFormEntries -> getEntries()
 
 </explain-block>
 
-<explain-block title="fluentform/truncate_password_values">
+<explain-block title="fluentform/all_entry_labels">
 
-You can toggle password truncation before rendering on Submission by using this filter.
+This filter returns the input labels for the Submission on the Submission page.
 
 **Parameters**
 
-- `$isTurncate` (boolean) Whether Password is truncated
+- `$labels` (array) Form Input Labels
 - `$formId` (int) Form ID
 
 **Usage**
 
 ```php
-add_filter('fluentform/truncate_password_values', function ($isTruncate, $formId) {
+add_filter('fluentform/all_entry_labels', function ($labels, $formId) {
+    // Do your stuff here
+    
+    return $labels;
+}, 10, 2);
+
+```
+**Reference**
+
+`apply_filters('fluentform/all_entry_labels', $labels, $formId);`
+
+This filter is located in FluentForm\App\Services\Form\FormService -> getInputsAndLabels($formId, $with = ['admin_label', 'raw'])
+
+</explain-block>
+
+<explain-block title="fluentform/all_entry_labels_with_payment">
+
+This filter returns the input labels for the payment submission on the submission page.
+
+**Parameters**
+
+- `$labels` (array) Form Input Labels
+- `$isActive` (boolean) Whether Payment is active
+- `$form` (object) Form Object
+
+**Usage**
+
+```php
+add_filter('fluentform/all_entry_labels_with_payment', function ($labels, $isActive, $form) {
+    // Do your stuff here
+    
+    return $labels;
+}, 10, 3);
+
+```
+**Reference**
+
+`apply_filters('fluentform/all_entry_labels_with_payment',  $labels, false, $form);`
+
+This filter is located in FluentForm\App\Services\Form\FormService -> getInputsAndLabels($formId, $with = ['admin_label', 'raw'])
+
+</explain-block>
+
+<explain-block title="fluentform/all_logs">
+
+You can modify all logs by using this filter.
+
+**Parameters**
+
+- `$logs` (array) Logs
+
+**Usage**
+
+```php
+add_filter('fluentform/all_logs', function($logs) {
    // Do your stuff here
-   
-   return $isTruncate;
+
+   return $logs;
+}, 10, 1);
+
+```
+**Reference**
+
+`apply_filters('fluentform/get_logs', $logs);`
+
+This filter is located in FluentForm\App\Services\Logger\Logger -> get($attributes = [])
+
+</explain-block>
+
+<explain-block title="fluentform/api_all_logs">
+
+You can modify all API logs / integration logs using this filter.
+
+**Parameters**
+
+- `$logs` (array) Logs
+
+**Usage**
+
+```php
+add_filter('fluentform/api_all_logs', function($logs) {
+   // Do your stuff here
+
+   return $logs;
+}, 10, 1);
+
+```
+**Reference**
+
+`apply_filters('fluentform/api_all_logs', $logs);`
+
+This filter is located in FluentForm\App\Modules\Logger\DataLogger -> getApiLogs()
+
+</explain-block>
+
+<explain-block title="fluentform/auto_read_submission">
+
+You can use this filter to toggle submission status to read automatically.
+
+**Parameters**
+
+- `$autoRead` (boolean) Whether change submission status to read
+- `$form` (object) Form Object
+
+**Usage**
+
+```php
+add_filter('fluentform/auto_read_submission', function ($autoRead, $form) {
+    // Do your stuff here
+    
+    return $autoRead;
 }, 10, 2);
 
 ```
 
 **Reference**
 
-`apply_filters('fluentform/truncate_password_values', true, $formId)`
+`apply_filters('fluentform/auto_read_submission', $autoRead, $form);`
 
-This filter is located in FluentForm\App\Helpers\Helper -> shouldHidePassword($formId)
+This filter is located in Fluentform\app\Services\Submission\SubmissionService -> find($submissionId)
+
+</explain-block>
+
+<explain-block title="fluentform/disable_ip_logging">
+
+You can toggle the IP logging of form submission using the the filter.
+
+**Parameters**
+
+- `$status` Check whether IP based logging is enabled
+- `$formId` (int) Form ID
+
+**Usage**
+
+```php
+add_filter('fluentform/disable_ip_logging', function($status, $formId) {
+   // Do your stuff here
+
+   return $status;
+}, 10, 1);
+
+```
+**Reference**
+
+`apply_filters('fluentform/disable_ip_logging', $disableIpLog, $formId);`
+
+This filter is located in FluentForm\App\Services\Form\SubmissionHandlerService -> prepareInsertData($formData = false)
+
+</explain-block>
+
+<explain-block title="fluentform/disable_submission_country_detection">
+
+**Parameters**
+
+- `$value` — see source
+- `$formId` — see source
+
+**Usage**
+
+```php
+add_filter('fluentform/disable_submission_country_detection', function ($value, $formId) {
+    return $value;
+}, 10, 2);
+```
+
+**Reference**
+
+`'country'       => apply_filters('fluentform/disable_submission_country_detection', false, $formId) ? null : Helper::getCountryCodeFromHeaders(),`
+
+This filter is located in `app/Services/Form/SubmissionHandlerService.php` (line 183).
+
+</explain-block>
+
+<explain-block title="fluentform/entries_default_sort_column">
+
+<Badge type="warning" vertical="top" text="Added in 6.2.3" />
+
+Change the column the entries table sorts by when no explicit sort is requested. Before 6.2.3 the table sorted by `id`; the default is now `created_at` (actual submission date) so re-imported entries appear in the right place. Use this filter to opt back into `id`-based ordering or to point at any other indexed column.
+
+**Parameters**
+
+- `$column` (string) Default `'created_at'`
+
+**Usage**
+
+```php
+add_filter('fluentform/entries_default_sort_column', function ($column) {
+    return 'id';
+}, 10, 1);
+```
+
+**Reference**
+
+`apply_filters('fluentform/entries_default_sort_column', 'created_at');`
+
+This filter is located in `FluentForm\App\Models\Submission`.
+
+</explain-block>
+
+<explain-block title="fluentform/entries_vars">
+
+You can use this filter to modify entries variables which has been localized.
+
+**Parameters**
+
+- `$data` (array) Entry Variables
+- `$form` (object) Form Object
+
+**Usage**
+
+```php
+add_filter('fluentform/entries_vars', function ($data, $form) {
+    // Do your stuff here
+    
+    return $status;
+}, 10, 1);
+
+```
+```php
+$data = [
+    'all_forms_url'       => admin_url('admin.php?page=fluent_forms'),
+    'forms'               => $forms,
+    'form_id'             => $form->id,
+    'enabled_auto_delete' => Helper::isEntryAutoDeleteEnabled($form_id),
+    'current_form_title'  => $form->title,
+    'entry_statuses'      => Helper::getEntryStatuses($form_id),
+    'entries_url_base'    => admin_url('admin.php?page=fluent_forms&route=entries&form_id='),
+    'no_found_text'       => __('Sorry! No entries found. All your entries will be shown here once you start getting form submissions', 'fluentform'),
+    'has_pro'             => defined('FLUENTFORMPRO'),
+    'printStyles'         => [fluentformMix('css/settings_global.css')],
+    'email_notifications' => $formattedNotification,
+    'available_countries' => getFluentFormCountryList(),
+    'upgrade_url'      => fluentform_upgrade_url(),
+    'form_entries_str' => TranslationString::getEntriesI18n(),
+];
+```
+
+**Reference**
+
+`apply_filters('fluentform/entries_vars', $data, $form);`
+
+This filter is located in FluentForm\app\Modules\Entries\Entries -> renderEntries($form_id)
+
+</explain-block>
+
+<explain-block title="fluentform/entry_lists_labels">
+
+This filter returns the input labels for the Submission on the Submission page.
+
+**Parameters**
+
+- `$labels` (array) Form Input Labels
+- `$form` (object) Form Object
+
+**Usage**
+
+```php
+add_filter('fluentform/entry_lists_labels', function ($labels, $form) {
+    // Do your stuff here
+    
+    return $labels;
+}, 10, 2);
+
+```
+**Reference**
+
+`apply_filters('fluentform/entry_lists_labels', $labels, $form);`
+
+This filter is located in FluentForm\App\Services\Form\FormService -> getInputsAndLabels($formId, $with = ['admin_label', 'raw'])
 
 </explain-block>
 
@@ -123,113 +347,187 @@ This filter is located in FluentForm\App\Helpers\Helper -> getEntryStatuses($for
 
 </explain-block>
 
-<explain-block title="fluentform/reportable_inputs">
+<explain-block title="fluentform/export_data">
 
-You can modify or add more inputs for making Submission Report by using this filter.
+You can use this filter to modify the exported submission.
 
 **Parameters**
 
-- `$reportableInputs` (array) Reportable Inputs
+- `$data` (array) Default Values
+- `$form` (object) Form Object
+- `$exportData` (array) Export Data
+- `$inputLabels` (array) Input Labels
 
 **Usage**
 
 ```php
-add_filter('fluentform/reportable_inputs', function($reportableInputs) {
+add_filter('fluentform/export_data', function($data, $form, $exportData, $inputLabels) {
    // Do your stuff here
 
-  return $reportableInputs;
-}, 10, 1);
+   return $data;
+}, 10, 4);
 
 ```
-
-
 **Reference**
 
-`apply_filters('fluentform/reportable_inputs', $reportableInputs);`
+`apply_filters('fluentform/export_data', $data, $form, $exportData, $inputLabels);`
 
-This filter is located in FluentForm\App\Helpers\Helper -> getReportableInputs()
+This filter is located in FluentForm\App\Services\Transfer\TransferService -> exportEntries($args)
 
 </explain-block>
 
-<explain-block title="fluentform/subfield_reportable_inputs">
+<explain-block title="fluentform/filter_insert_data">
 
-You can modify or add more inputs as subfield for making Submission Report by using this filter.
+This filter is available just before a submission inserted into the database. But If you want to change response data then you should use fluentform_insert_response_data filter hook.
 
 **Parameters**
 
-- `$subFieldReportableInputs` (array) Reportable Inputs as Subfield
+- `$response` (array) Submission Data
+```php
+$response = [
+    'form_id'       => 5, // Form ID
+    'serial_number' => 1, // Numeric Serial Number
+    'response'      => json_encode($response), // The submitted response as JSON
+    'source_url'    => $source_url, // source url eg: https://domain.com/contact-form
+    'user_id'       => 1, // current user id
+    'browser'       => 'Chrome',
+    'device'        => 'ipad',
+    'ip'            => '127.0.0.1',
+    'created_at'    => '2019-12-31 23:12:34',
+    'updated_at'    => '2019-12-31 23:12:34'
+];
+```
 
 **Usage**
 
 ```php
-add_filter('fluentform/subfield_reportable_inputs', function ($subFieldReportableInputs) {
-    // Do your stuff here
+add_filter('fluentform/filter_insert_data', function($response) {
+   // Do your stuff here
 
-    return $subFieldReportableInputs;
+   return $response;
 }, 10, 1);
 
 ```
-
 **Reference**
 
-`apply_filters('fluentform/subfield_reportable_inputs', ['tabular_grid']);`
+`apply_filters('fluentform/filter_insert_data', $response);`
 
-This filter is located in FluentForm\App\Helpers\Helper -> getSubFieldReportableInputs()
+This filter is located in FluentForm\App\Services\Form\SubmissionHandlerService -> prepareInsertData($formData = false)
 
 </explain-block>
 
-<explain-block title="fluentform/next_submission">
+<explain-block title="fluentform/find_submission">
 
-You can modify next or previous submission using this filter.
+**Description**
+
+You can modify a submission by using this filter.
 
 **Parameters**
 
-- `$submission` (array) Current Submission
-- `$entryId` (string) Form Submission ID
-- `$attributes` (array) Submission attributes
+- `$submission` (array) Form Submission
+- `$formId` (int) Form ID
 
 **Usage**
 
 ```php
-add_filter('fluentform/next_submission', function ($submission, $entryId, $attributes) {
+add_filter('fluentform/find_submission', function ($submission, $formId) {
    // Do your stuff here
-
+   
    return $submission;
+}, 10, 2);
+```
+
+**Reference**
+
+`apply_filters('fluentform/find_submission', $submission, $this->form->id);`
+
+This filter is located in FluentForm\App\Services\Submission\SubmissionService -> find($submissionId)
+
+</explain-block>
+
+<explain-block title="fluentform/format_{$element}_response_as_html">
+
+This filter allows you to determine whether a specific form element's response should be formatted as HTML. The `{$element}` in the filter name is dynamically replaced with the actual element type (supported elements: `select`, `input_checkbox`, `input_radio`, `address`, `select_country`, `gdpr_agreement`, `terms_and_condition`, `dynamic_field` and `multi_payment_component`).
+
+**Parameters**
+
+- `$isHtml` (boolean) Whether to format the response as HTML
+- `$response` (mixed) The form field response value
+- `$field` (array) The form field configuration
+
+**Usage**
+
+```php
+// Example for select element
+add_filter('fluentform/format_select_response_as_html', function($isHtml, $response, $field) {
+    // Always format select fields as HTML
+    return true;
 }, 10, 3);
 
+// Example for checkbox element
+add_filter('fluentform/format_input_checkbox_response_as_html', function($isHtml, $response, $field) {
+    // Custom logic to determine HTML formatting
+    return $isHtml;
+}, 10, 3);
 ```
+
 **Reference**
 
-`apply_filters('fluentform/next_submission', $submission, $entryId, $attributes);`
+`apply_filters("fluentform/format_{$element}_response_as_html", $isHtml, $response, $field);`
 
-This filter is located in FluentForm\App\Models\Form -> findAdjacentSubmission($attributes = []) and FluentForm\App\Models\Form -> findPreviousSubmission($attributes = []) and
+This filter is located in `FluentForm\app\Hooks\filters.php` within the response rendering filter for various elements.
 
 </explain-block>
 
-<explain-block title="fluentform/step_string">
+<explain-block title="fluentform/get_log_filters">
 
-This filter returns the input labels for the Submission on the submission page.
+You can use this filter to modify all the log filters.
 
 **Parameters**
 
-- `$stepText` (string) Active Step Text
+- `$filters` (array) All Log Filters
 
 **Usage**
 
 ```php
-add_filter('fluentform/step_string', function ($stepText) {
-   // Do your stuff here
-
-   return $stepText;
+add_filter('fluentform/get_log_filters', function ($filters) {
+    // Do your stuff here
+    
+    return $filters;
 }, 10, 1);
 
 ```
-
 **Reference**
 
-`apply_filters('fluentform/step_string', $stepText);`
+`apply_filters('fluentform/get_log_filters', ['statuses' => $statuses, 'components' => $components, 'forms' => $forms]);`
 
-This filter is located in FluentForm\App\Modules\Component\Component -> getEditorShortcodes()
+This filter is located in FluentForm\App\Services\Logger\Logger -> getFilters($attributes = [])
+
+</explain-block>
+
+<explain-block title="fluentform/get_logs">
+
+You can use this filter to get all the logs.
+
+**Parameters**
+
+- `$logs` (array) All Logs
+
+**Usage**
+
+```php
+add_filter('fluentform/get_logs', function ($logs) {
+    // Do your stuff here
+    
+    return $logs;
+}, 10, 1);
+
+```
+**Reference**
+
+`apply_filters('fluentform/get_logs', $logs);`
+
+This filter is located in FluentForm\App\Services\Logger\Logger -> get($attributes = [])
 
 </explain-block>
 
@@ -260,32 +558,25 @@ This filter is located in FluentForm\App\Models\Submission -> paginateEntries($a
 
 </explain-block>
 
-<explain-block title="fluentform/export_data">
-
-You can use this filter to modify the exported submission.
+<explain-block title="fluentform/get_submissions">
 
 **Parameters**
 
-- `$data` (array) Default Values
-- `$form` (object) Form Object
-- `$exportData` (array) Export Data
-- `$inputLabels` (array) Input Labels
+- `$entries` — see source
 
 **Usage**
 
 ```php
-add_filter('fluentform/export_data', function($data, $form, $exportData, $inputLabels) {
-   // Do your stuff here
-
-   return $data;
-}, 10, 4);
-
+add_filter('fluentform/get_submissions', function ($entries) {
+    return $entries;
+}, 10, 1);
 ```
+
 **Reference**
 
-`apply_filters('fluentform/export_data', $data, $form, $exportData, $inputLabels);`
+`return apply_filters('fluentform/get_submissions', $entries);`
 
-This filter is located in FluentForm\App\Services\Transfer\TransferService -> exportEntries($args)
+This filter is located in `app/Services/Submission/SubmissionService.php` (line 50).
 
 </explain-block>
 
@@ -330,70 +621,29 @@ This filter is located in FluentForm\App\Services\Form\SubmissionHandlerService 
 
 </explain-block>
 
-<explain-block title="fluentform/disable_ip_logging">
+<explain-block title="fluentform/is_handling_submission">
 
-You can toggle the IP logging of form submission using the the filter.
+You can use this filter to handle async submission request.
 
 **Parameters**
 
-- `$status` Check whether IP based logging is enabled
-- `$formId` (int) Form ID
+- `$status` (boolean) Whether handle submission is enabled
 
 **Usage**
 
 ```php
-add_filter('fluentform/disable_ip_logging', function($status, $formId) {
-   // Do your stuff here
-
-   return $status;
+add_filter('fluentform/is_handling_submission', function ($status) {
+    // Do your stuff here
+    
+    return $status;
 }, 10, 1);
 
 ```
 **Reference**
 
-`apply_filters('fluentform/disable_ip_logging', $disableIpLog, $formId);`
+`apply_filters('fluentform/is_handling_submission', $status);`
 
-This filter is located in FluentForm\App\Services\Form\SubmissionHandlerService -> prepareInsertData($formData = false)
-
-</explain-block>
-
-<explain-block title="fluentform/filter_insert_data">
-
-This filter is available just before a submission inserted into the database. But If you want to change response data then you should use fluentform_insert_response_data filter hook.
-
-**Parameters**
-
-- `$response` (array) Submission Data
-```php
-$response = [
-    'form_id'       => 5, // Form ID
-    'serial_number' => 1, // Numeric Serial Number
-    'response'      => json_encode($response), // The submitted response as JSON
-    'source_url'    => $source_url, // source url eg: https://domain.com/contact-form
-    'user_id'       => 1, // current user id
-    'browser'       => 'Chrome',
-    'device'        => 'ipad',
-    'ip'            => '127.0.0.1',
-    'created_at'    => '2019-12-31 23:12:34',
-    'updated_at'    => '2019-12-31 23:12:34'
-];
-```
-
-**Usage**
-
-```php
-add_filter('fluentform/filter_insert_data', function($response) {
-   // Do your stuff here
-
-   return $response;
-}, 10, 1);
-
-```
-**Reference**
-
-`apply_filters('fluentform/filter_insert_data', $response);`
-
-This filter is located in FluentForm\App\Services\Form\SubmissionHandlerService -> prepareInsertData($formData = false)
+This filter is located in FluentForm\boot\globals.php -> fluentFormIsHandlingSubmission()
 
 </explain-block>
 
@@ -461,188 +711,58 @@ This filter is located in FluentForm\App\Services\Form\FormValidationService -> 
 
 </explain-block>
 
-<explain-block title="fluentform/too_many_requests">
+<explain-block title="fluentform/next_submission">
 
-You can modify validation message for malicious attack prevention, maximum submission count and minimum submission interval using this filter.
+You can modify next or previous submission using this filter.
 
 **Parameters**
 
-- `$message` (string) Validation Message
-- `$formId` (int) Form ID
+- `$submission` (array) Current Submission
+- `$entryId` (string) Form Submission ID
+- `$attributes` (array) Submission attributes
 
 **Usage**
 
 ```php
-add_filter('fluentform/too_many_requests', function($message, $formId) {
+add_filter('fluentform/next_submission', function ($submission, $entryId, $attributes) {
    // Do your stuff here
 
-   return $message;
-}, 10, 2);
+   return $submission;
+}, 10, 3);
 
 ```
 **Reference**
 
-`apply_filters('fluentform/too_many_requests', 'Too Many Requests.', $this->form->id), 'fluentform');`
+`apply_filters('fluentform/next_submission', $submission, $entryId, $attributes);`
 
-This filter is located in FluentForm\App\Services\Form\FormValidationService -> preventMaliciousAttacks()
+This filter is located in FluentForm\App\Models\Form -> findAdjacentSubmission($attributes = []) and FluentForm\App\Models\Form -> findPreviousSubmission($attributes = []) and
 
 </explain-block>
 
-<explain-block title="fluentform/supported_conditional_fields">
+<explain-block title="fluentform/reportable_inputs">
 
-You can add or modify form fields as to support as conditional using this filter.
+You can modify or add more inputs for making Submission Report by using this filter.
 
 **Parameters**
 
-- `$supportedConditionalFields` (array) Form Field Names
+- `$reportableInputs` (array) Reportable Inputs
 
 **Usage**
 
 ```php
-add_filter('fluentform/supported_conditional_fields', function ($supportedConditionalFields) {
+add_filter('fluentform/reportable_inputs', function($reportableInputs) {
    // Do your stuff here
 
-   return $supportedConditionalFields;
+  return $reportableInputs;
 }, 10, 1);
 
 ```
+
 **Reference**
 
-`apply_filters('fluentform/supported_conditional_fields', $supportedConditionalFields);`
+`apply_filters('fluentform/reportable_inputs', $reportableInputs);`
 
-This filter is located in FluentForm\App\Modules\Form\Inputs -> supportedConditionalFields()
-
-</explain-block>
-
-<explain-block title="fluentform/submission_logs">
-
-You can modify submission logs of a submission using this Filter.
-
-**Parameters**
-
-- `$submissionLogs` (array) Submission Logs
-- `$submissionId` (int) Submission ID
-
-**Usage**
-
-```php
-add_filter('fluentform/submission_logs', function($submissionLogs, $submissionId) {
-   // Do your stuff here
-
-   return $submissionLogs;
-}, 10, 2);
-
-```
-**Reference**
-
-`apply_filters('fluentform/submission_logs', $logs, $submissionId);`
-
-This filter is located in FluentForm\App\Services\Logger\Logger -> getSubmissionLogs($submissionId, $attributes = [])
-
-</explain-block>
-
-<explain-block title="fluentform/submission_api_logs">
-
-You can modify submission API logs or integration logs of a submission using this Filter.
-
-**Parameters**
-
-- `$submissionLogs` (array) Submission Logs
-- `$submissionId` (int) Submission ID
-
-**Usage**
-
-```php
-add_filter('fluentform/submission_api_logs', function($submissionLogs, $submissionId) {
-   // Do your stuff here
-
-   return $submissionLogs;
-}, 10, 2);
-
-```
-**Reference**
-
-`apply_filters('fluentform/submission_api_logs', $logs, $submissionId);`
-
-This filter is located in FluentForm\App\Services\Logger\Logger -> getSubmissionLogs($submissionId, $attributes = [])
-
-</explain-block>
-
-<explain-block title="fluentform/all_logs">
-
-You can modify all logs by using this filter.
-
-**Parameters**
-
-- `$logs` (array) Logs
-
-**Usage**
-
-```php
-add_filter('fluentform/all_logs', function($logs) {
-   // Do your stuff here
-
-   return $logs;
-}, 10, 1);
-
-```
-**Reference**
-
-`apply_filters('fluentform/get_logs', $logs);`
-
-This filter is located in FluentForm\App\Services\Logger\Logger -> get($attributes = [])
-
-</explain-block>
-
-<explain-block title="fluentform/api_all_logs">
-
-You can modify all API logs / integration logs using this filter.
-
-**Parameters**
-
-- `$logs` (array) Logs
-
-**Usage**
-
-```php
-add_filter('fluentform/api_all_logs', function($logs) {
-   // Do your stuff here
-
-   return $logs;
-}, 10, 1);
-
-```
-**Reference**
-
-`apply_filters('fluentform/api_all_logs', $logs);`
-
-This filter is located in FluentForm\App\Modules\Logger\DataLogger -> getApiLogs()
-
-</explain-block>
-
-<explain-block title="fluentform/get_log_filters">
-
-You can use this filter to modify all the log filters.
-
-**Parameters**
-
-- `$filters` (array) All Log Filters
-
-**Usage**
-
-```php
-add_filter('fluentform/get_log_filters', function ($filters) {
-    // Do your stuff here
-    
-    return $filters;
-}, 10, 1);
-
-```
-**Reference**
-
-`apply_filters('fluentform/get_log_filters', ['statuses' => $statuses, 'components' => $components, 'forms' => $forms]);`
-
-This filter is located in FluentForm\App\Services\Logger\Logger -> getFilters($attributes = [])
+This filter is located in FluentForm\App\Helpers\Helper -> getReportableInputs()
 
 </explain-block>
 
@@ -669,349 +789,6 @@ add_filter('fluentform/show_payment_entries', function($status) {
 `apply_filters('fluentform/show_payment_entries', false);`
 
 This filter is located in FluentForm\App\Modules\Registerer\Menu -> register()
-
-</explain-block>
-
-<explain-block title="fluentform/entry_lists_labels">
-
-This filter returns the input labels for the Submission on the Submission page.
-
-**Parameters**
-
-- `$labels` (array) Form Input Labels
-- `$form` (object) Form Object
-
-**Usage**
-
-```php
-add_filter('fluentform/entry_lists_labels', function ($labels, $form) {
-    // Do your stuff here
-    
-    return $labels;
-}, 10, 2);
-
-```
-**Reference**
-
-`apply_filters('fluentform/entry_lists_labels', $labels, $form);`
-
-This filter is located in FluentForm\App\Services\Form\FormService -> getInputsAndLabels($formId, $with = ['admin_label', 'raw'])
-
-</explain-block>
-
-<explain-block title="fluentform/all_entry_labels">
-
-This filter returns the input labels for the Submission on the Submission page.
-
-**Parameters**
-
-- `$labels` (array) Form Input Labels
-- `$formId` (int) Form ID
-
-**Usage**
-
-```php
-add_filter('fluentform/all_entry_labels', function ($labels, $formId) {
-    // Do your stuff here
-    
-    return $labels;
-}, 10, 2);
-
-```
-**Reference**
-
-`apply_filters('fluentform/all_entry_labels', $labels, $formId);`
-
-This filter is located in FluentForm\App\Services\Form\FormService -> getInputsAndLabels($formId, $with = ['admin_label', 'raw'])
-
-</explain-block>
-
-<explain-block title="fluentform/all_entry_labels_with_payment">
-
-This filter returns the input labels for the payment submission on the submission page.
-
-**Parameters**
-
-- `$labels` (array) Form Input Labels
-- `$isActive` (boolean) Whether Payment is active
-- `$form` (object) Form Object
-
-**Usage**
-
-```php
-add_filter('fluentform/all_entry_labels_with_payment', function ($labels, $isActive, $form) {
-    // Do your stuff here
-    
-    return $labels;
-}, 10, 3);
-
-```
-**Reference**
-
-`apply_filters('fluentform/all_entry_labels_with_payment',  $labels, false, $form);`
-
-This filter is located in FluentForm\App\Services\Form\FormService -> getInputsAndLabels($formId, $with = ['admin_label', 'raw'])
-
-</explain-block>
-
-<explain-block title="fluentform/get_logs">
-
-You can use this filter to get all the logs.
-
-**Parameters**
-
-- `$logs` (array) All Logs
-
-**Usage**
-
-```php
-add_filter('fluentform/get_logs', function ($logs) {
-    // Do your stuff here
-    
-    return $logs;
-}, 10, 1);
-
-```
-**Reference**
-
-`apply_filters('fluentform/get_logs', $logs);`
-
-This filter is located in FluentForm\App\Services\Logger\Logger -> get($attributes = [])
-
-</explain-block>
-
-<explain-block title="fluentform/get_log_filters">
-
-You can use this filter to modify all the log filters.
-
-**Parameters**
-
-- `$filters` (array) All Log Filters
-
-**Usage**
-
-```php
-add_filter('fluentform/get_log_filters', function ($filters) {
-    // Do your stuff here
-    
-    return $filters;
-}, 10, 1);
-
-```
-**Reference**
-
-`apply_filters('fluentform/get_log_filters', ['statuses' => $statuses, 'components' => $components, 'forms' => $forms]);`
-
-This filter is located in FluentForm\App\Services\Logger\Logger -> getFilters($attributes = [])
-
-</explain-block>
-
-<explain-block title="fluentform/is_handling_submission">
-
-You can use this filter to handle async submission request.
-
-**Parameters**
-
-- `$status` (boolean) Whether handle submission is enabled
-
-**Usage**
-
-```php
-add_filter('fluentform/is_handling_submission', function ($status) {
-    // Do your stuff here
-    
-    return $status;
-}, 10, 1);
-
-```
-**Reference**
-
-`apply_filters('fluentform/is_handling_submission', $status);`
-
-This filter is located in FluentForm\boot\globals.php -> fluentFormIsHandlingSubmission()
-
-</explain-block>
-
-<explain-block title="fluentform/entries_vars">
-
-You can use this filter to modify entries variables which has been localized.
-
-**Parameters**
-
-- `$data` (array) Entry Variables
-- `$form` (object) Form Object
-
-**Usage**
-
-```php
-add_filter('fluentform/entries_vars', function ($data, $form) {
-    // Do your stuff here
-    
-    return $status;
-}, 10, 1);
-
-```
-```php
-$data = [
-    'all_forms_url'       => admin_url('admin.php?page=fluent_forms'),
-    'forms'               => $forms,
-    'form_id'             => $form->id,
-    'enabled_auto_delete' => Helper::isEntryAutoDeleteEnabled($form_id),
-    'current_form_title'  => $form->title,
-    'entry_statuses'      => Helper::getEntryStatuses($form_id),
-    'entries_url_base'    => admin_url('admin.php?page=fluent_forms&route=entries&form_id='),
-    'no_found_text'       => __('Sorry! No entries found. All your entries will be shown here once you start getting form submissions', 'fluentform'),
-    'has_pro'             => defined('FLUENTFORMPRO'),
-    'printStyles'         => [fluentformMix('css/settings_global.css')],
-    'email_notifications' => $formattedNotification,
-    'available_countries' => getFluentFormCountryList(),
-    'upgrade_url'      => fluentform_upgrade_url(),
-    'form_entries_str' => TranslationString::getEntriesI18n(),
-];
-```
-
-**Reference**
-
-`apply_filters('fluentform/entries_vars', $data, $form);`
-
-This filter is located in FluentForm\app\Modules\Entries\Entries -> renderEntries($form_id)
-
-</explain-block>
-
-<explain-block title="fluentform/submission_labels">
-
-You can use this filter to modify Submission labels.
-
-**Parameters**
-
-- `$labels` (array) Label Names
-- `$submission` (array) Current Form Submission
-- `$form` (object) Form Object
-
-**Usage**
-
-```php
-add_filter('fluentform/submission_labels', function ($labels, $submission, $form) {
-    // Do your stuff here
-    
-    return $labels;
-}, 10, 3);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/submission_labels', $resources['labels'], $submission, $submission->form);`
-
-This filter is located in FluentForm\app\Services\Form\FormServices -> getDisabledComponents()
-
-</explain-block>
-
-<explain-block title="fluentform/submission_vars">
-
-You can modify submission variables on double optin confirmation by using this filter.
-
-**Parameters**
-
-- `$submissionVars` (array) Submission Variable
-- `$formId` (int) Form ID
-
-**Usage**
-
-```php
-add_filter('fluentform/submission_vars', function ($submissionVars, $formId) {
-    // Do your stuff here
-    
-    return $submissionVars;
-}, 10, 2);
-
-```
-```php
-$submissionVars = [
-    'settings'        => $settings,
-    'title'           => 'Submission Confirmed - ' . $form->title,
-    'form_id'         => $formId,
-    'entry'           => $entry,
-    'form'            => $form,
-    'bg_color'        => $settings['custom_color'],
-    'landing_content' => $message,
-    'has_header'      => false,
-    'isEmbeded'       => !!ArrayHelper::get($_GET, 'embedded')
-];
-```
-
-**Reference**
-
-`apply_filters('fluentform/submission_vars', $submissionVars, $formId);`
-
-This filter is located in FluentFormPro\src\classes\DoubleOption -> confirmSubmission($data)
-
-</explain-block>
-
-<explain-block title="fluentform/step_form_entry_vars">
-
-You can modify step form submission variables by using this filter.
-
-**Parameters**
-
-- `$entryVars` (array) Step Form Submission Variables
-- `$form` (object) Form Object
-
-**Usage**
-
-```php
-add_filter('fluentform/step_form_entry_vars', function ($entryVars, $form) {
-    // Do your stuff here
-    
-    return $entryVars;
-}, 10, 2);
-
-```
-```php
-$entryVars = [
-    'form_id' => $form->id,
-    'current_form_title' => $form->title,
-    'has_pro' => defined('FLUENTFORMPRO'),
-    'all_forms_url' => admin_url('admin.php?page=fluent_forms'),
-    'printStyles' => [fluentformMix('css/settings_global.css')],
-    'entries_url_base' => admin_url('admin.php?page=fluent_forms&route=msformentries&form_id='),
-    'available_countries' => getFluentFormCountryList(),
-    'no_found_text' => __('Sorry! No entries found. All your entries will be shown here once you start getting form submissions', 'fluentformpro')
-];
-```
-
-**Reference**
-
-`apply_filters('fluentform/step_form_entry_vars', $entryVars, $form);`
-
-This filter is located in FluentFormPro\src\classes\StepFormEntries -> renderEntries($form_id)
-
-</explain-block>
-
-<explain-block title="fluentform/all_entries">
-
-You can modify all submissions using the filter.
-
-**Parameters**
-
-- `$submission` (array) Form Submission
-
-**Usage**
-
-```php
-add_filter('fluentform/all_entries', function ($submission) {
-    // Do your stuff here
-    
-    return $submission;
-}, 10, 1);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/all_entries', $entries['submissions']);`
-
-This filter is located in FluentFormPro\src\classes\StepFormEntries -> getEntries()
 
 </explain-block>
 
@@ -1099,6 +876,150 @@ This filter is located in FluentFormPro\src\classes\StepFormEntries -> getstepFo
 
 </explain-block>
 
+<explain-block title="fluentform/step_form_entry_vars">
+
+You can modify step form submission variables by using this filter.
+
+**Parameters**
+
+- `$entryVars` (array) Step Form Submission Variables
+- `$form` (object) Form Object
+
+**Usage**
+
+```php
+add_filter('fluentform/step_form_entry_vars', function ($entryVars, $form) {
+    // Do your stuff here
+    
+    return $entryVars;
+}, 10, 2);
+
+```
+```php
+$entryVars = [
+    'form_id' => $form->id,
+    'current_form_title' => $form->title,
+    'has_pro' => defined('FLUENTFORMPRO'),
+    'all_forms_url' => admin_url('admin.php?page=fluent_forms'),
+    'printStyles' => [fluentformMix('css/settings_global.css')],
+    'entries_url_base' => admin_url('admin.php?page=fluent_forms&route=msformentries&form_id='),
+    'available_countries' => getFluentFormCountryList(),
+    'no_found_text' => __('Sorry! No entries found. All your entries will be shown here once you start getting form submissions', 'fluentformpro')
+];
+```
+
+**Reference**
+
+`apply_filters('fluentform/step_form_entry_vars', $entryVars, $form);`
+
+This filter is located in FluentFormPro\src\classes\StepFormEntries -> renderEntries($form_id)
+
+</explain-block>
+
+<explain-block title="fluentform/step_string">
+
+This filter returns the input labels for the Submission on the submission page.
+
+**Parameters**
+
+- `$stepText` (string) Active Step Text
+
+**Usage**
+
+```php
+add_filter('fluentform/step_string', function ($stepText) {
+   // Do your stuff here
+
+   return $stepText;
+}, 10, 1);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/step_string', $stepText);`
+
+This filter is located in FluentForm\App\Modules\Component\Component -> getEditorShortcodes()
+
+</explain-block>
+
+<explain-block title="fluentform/subfield_reportable_inputs">
+
+You can modify or add more inputs as subfield for making Submission Report by using this filter.
+
+**Parameters**
+
+- `$subFieldReportableInputs` (array) Reportable Inputs as Subfield
+
+**Usage**
+
+```php
+add_filter('fluentform/subfield_reportable_inputs', function ($subFieldReportableInputs) {
+    // Do your stuff here
+
+    return $subFieldReportableInputs;
+}, 10, 1);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/subfield_reportable_inputs', ['tabular_grid']);`
+
+This filter is located in FluentForm\App\Helpers\Helper -> getSubFieldReportableInputs()
+
+</explain-block>
+
+<explain-block title="fluentform/submission_api_logs">
+
+You can modify submission API logs or integration logs of a submission using this Filter.
+
+**Parameters**
+
+- `$submissionLogs` (array) Submission Logs
+- `$submissionId` (int) Submission ID
+
+**Usage**
+
+```php
+add_filter('fluentform/submission_api_logs', function($submissionLogs, $submissionId) {
+   // Do your stuff here
+
+   return $submissionLogs;
+}, 10, 2);
+
+```
+**Reference**
+
+`apply_filters('fluentform/submission_api_logs', $logs, $submissionId);`
+
+This filter is located in FluentForm\App\Services\Logger\Logger -> getSubmissionLogs($submissionId, $attributes = [])
+
+</explain-block>
+
+<explain-block title="fluentform/submission_before_parse">
+
+**Parameters**
+
+- `$submission` — see source
+- `$form` — see source
+
+**Usage**
+
+```php
+add_filter('fluentform/submission_before_parse', function ($submission, $form) {
+    return $submission;
+}, 10, 2);
+```
+
+**Reference**
+
+`$submission = apply_filters('fluentform/submission_before_parse', $submission, $form);`
+
+This filter is located in `app/Services/Submission/SubmissionService.php` (line 86).
+
+</explain-block>
+
 <explain-block title="fluentform/submission_cards">
 
 You can use this filter to modify submission page cards.
@@ -1125,6 +1046,86 @@ add_filter('fluentform/submission_cards', function ($cards, $resources, $submiss
 `apply_filters('fluentform/submission_cards', $cards, $resources, $submission);`
 
 This filter is located in Fluentform\app\services\Submission\SubmissionService -> resources($attributes)
+
+</explain-block>
+
+<explain-block title="fluentform/submission_form_data">
+
+**Parameters**
+
+- `$formData` — see source
+- `$insertId` — see source
+- `$form` — see source
+
+**Usage**
+
+```php
+add_filter('fluentform/submission_form_data', function ($formData, $insertId, $form) {
+    return $formData;
+}, 10, 3);
+```
+
+**Reference**
+
+`$formData = apply_filters('fluentform/submission_form_data', $formData, $insertId, $form);`
+
+This filter is located in `app/Services/Form/SubmissionHandlerService.php` (line 221).
+
+</explain-block>
+
+<explain-block title="fluentform/submission_labels">
+
+You can use this filter to modify Submission labels.
+
+**Parameters**
+
+- `$labels` (array) Label Names
+- `$submission` (array) Current Form Submission
+- `$form` (object) Form Object
+
+**Usage**
+
+```php
+add_filter('fluentform/submission_labels', function ($labels, $submission, $form) {
+    // Do your stuff here
+    
+    return $labels;
+}, 10, 3);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/submission_labels', $resources['labels'], $submission, $submission->form);`
+
+This filter is located in FluentForm\app\Services\Form\FormServices -> getDisabledComponents()
+
+</explain-block>
+
+<explain-block title="fluentform/submission_logs">
+
+You can modify submission logs of a submission using this Filter.
+
+**Parameters**
+
+- `$submissionLogs` (array) Submission Logs
+- `$submissionId` (int) Submission ID
+
+**Usage**
+
+```php
+add_filter('fluentform/submission_logs', function($submissionLogs, $submissionId) {
+   // Do your stuff here
+
+   return $submissionLogs;
+}, 10, 2);
+
+```
+**Reference**
+
+`apply_filters('fluentform/submission_logs', $logs, $submissionId);`
+
+This filter is located in FluentForm\App\Services\Logger\Logger -> getSubmissionLogs($submissionId, $attributes = [])
 
 </explain-block>
 
@@ -1157,59 +1158,94 @@ This filter is located in Fluentform\app\services\Submission\SubmissionService -
 
 </explain-block>
 
-<explain-block title="fluentform/auto_read_submission">
+<explain-block title="fluentform/submission_resources">
 
-You can use this filter to toggle submission status to read automatically.
+You can use this filter to modify all submission resources.
 
 **Parameters**
 
-- `$autoRead` (boolean) Whether change submission status to read
-- `$form` (object) Form Object
+- `$resources` (array) Submission Resources
 
 **Usage**
 
 ```php
-add_filter('fluentform/auto_read_submission', function ($autoRead, $form) {
+add_filter('fluentform/submission_resources', function ($resources) {
     // Do your stuff here
     
-    return $autoRead;
-}, 10, 2);
+    return $resources;
+}, 10, 1);
 
 ```
 
 **Reference**
 
-`apply_filters('fluentform/auto_read', $autoRead, $form);`
+`apply_filters('fluentform/submission_resources', $resources);`
 
-This filter is located in Fluentform\app\Modules\Entries\Entries -> _getEntry()
+This filter is located in Fluentform\app\Services\Submission\SubmissionService -> resources($attributes)
 
 </explain-block>
 
-<explain-block title="fluentform/auto_read_submission">
-
-You can use this filter to toggle submission status to read automatically.
+<explain-block title="fluentform/submission_shortcodes">
 
 **Parameters**
 
-- `$autoRead` (boolean) Whether change submission status to read
-- `$form` (object) Form Object
+- `$submissionShortcodes` — see source
+- `$form` — see source
 
 **Usage**
 
 ```php
-add_filter('fluentform/auto_read_submission', function ($autoRead, $form) {
-    // Do your stuff here
-    
-    return $autoRead;
+add_filter('fluentform/submission_shortcodes', function ($submissionShortcodes, $form) {
+    return $submissionShortcodes;
 }, 10, 2);
-
 ```
 
 **Reference**
 
-`apply_filters('fluentform/auto_read_submission', $autoRead, $form);`
+`return apply_filters('fluentform/submission_shortcodes', $submissionShortcodes, $form);`
 
-This filter is located in Fluentform\app\Services\Submission\SubmissionService -> find($submissionId)
+This filter is located in `app/Services/FormBuilder/EditorShortCode.php` (line 108).
+
+</explain-block>
+
+<explain-block title="fluentform/submission_vars">
+
+You can modify submission variables on double optin confirmation by using this filter.
+
+**Parameters**
+
+- `$submissionVars` (array) Submission Variable
+- `$formId` (int) Form ID
+
+**Usage**
+
+```php
+add_filter('fluentform/submission_vars', function ($submissionVars, $formId) {
+    // Do your stuff here
+    
+    return $submissionVars;
+}, 10, 2);
+
+```
+```php
+$submissionVars = [
+    'settings'        => $settings,
+    'title'           => 'Submission Confirmed - ' . $form->title,
+    'form_id'         => $formId,
+    'entry'           => $entry,
+    'form'            => $form,
+    'bg_color'        => $settings['custom_color'],
+    'landing_content' => $message,
+    'has_header'      => false,
+    'isEmbeded'       => !!ArrayHelper::get($_GET, 'embedded')
+];
+```
+
+**Reference**
+
+`apply_filters('fluentform/submission_vars', $submissionVars, $formId);`
+
+This filter is located in FluentFormPro\src\classes\DoubleOption -> confirmSubmission($data)
 
 </explain-block>
 
@@ -1242,63 +1278,83 @@ This filter is located in Fluentform\app\Services\Submission\SubmissionService -
 
 </explain-block>
 
-<explain-block title="fluentform/submission_resources">
+<explain-block title="fluentform/supported_conditional_fields">
 
-You can use this filter to modify all submission resources.
+You can add or modify form fields as to support as conditional using this filter.
 
 **Parameters**
 
-- `$resources` (array) Submission Resources
+- `$supportedConditionalFields` (array) Form Field Names
 
 **Usage**
 
 ```php
-add_filter('fluentform/submission_resources', function ($resources) {
-    // Do your stuff here
-    
-    return $resources;
+add_filter('fluentform/supported_conditional_fields', function ($supportedConditionalFields) {
+   // Do your stuff here
+
+   return $supportedConditionalFields;
 }, 10, 1);
 
 ```
-
 **Reference**
 
-`apply_filters('fluentform/submission_resources', $resources);`
+`apply_filters('fluentform/supported_conditional_fields', $supportedConditionalFields);`
 
-This filter is located in Fluentform\app\Services\Submission\SubmissionService -> resources($attributes)
+This filter is located in FluentForm\App\Modules\Form\Inputs -> supportedConditionalFields()
 
 </explain-block>
 
-<explain-block title="fluentform/format_{$element}_response_as_html">
+<explain-block title="fluentform/too_many_requests">
 
-This filter allows you to determine whether a specific form element's response should be formatted as HTML. The `{$element}` in the filter name is dynamically replaced with the actual element type (supported elements: `select`, `input_checkbox`, `input_radio`, `address`, `select_country`, `gdpr_agreement`, `terms_and_condition`, `dynamic_field` and `multi_payment_component`).
+You can modify validation message for malicious attack prevention, maximum submission count and minimum submission interval using this filter.
 
 **Parameters**
 
-- `$isHtml` (boolean) Whether to format the response as HTML
-- `$response` (mixed) The form field response value
-- `$field` (array) The form field configuration
+- `$message` (string) Validation Message
+- `$formId` (int) Form ID
 
 **Usage**
 
 ```php
-// Example for select element
-add_filter('fluentform/format_select_response_as_html', function($isHtml, $response, $field) {
-    // Always format select fields as HTML
-    return true;
-}, 10, 3);
+add_filter('fluentform/too_many_requests', function($message, $formId) {
+   // Do your stuff here
 
-// Example for checkbox element
-add_filter('fluentform/format_input_checkbox_response_as_html', function($isHtml, $response, $field) {
-    // Custom logic to determine HTML formatting
-    return $isHtml;
-}, 10, 3);
+   return $message;
+}, 10, 2);
+
+```
+**Reference**
+
+`apply_filters('fluentform/too_many_requests', 'Too Many Requests.', $this->form->id), 'fluentform');`
+
+This filter is located in FluentForm\App\Services\Form\FormValidationService -> preventMaliciousAttacks()
+
+</explain-block>
+
+<explain-block title="fluentform/truncate_password_values">
+
+You can toggle password truncation before rendering on Submission by using this filter.
+
+**Parameters**
+
+- `$isTurncate` (boolean) Whether Password is truncated
+- `$formId` (int) Form ID
+
+**Usage**
+
+```php
+add_filter('fluentform/truncate_password_values', function ($isTruncate, $formId) {
+   // Do your stuff here
+   
+   return $isTruncate;
+}, 10, 2);
+
 ```
 
 **Reference**
 
-`apply_filters("fluentform/format_{$element}_response_as_html", $isHtml, $response, $field);`
+`apply_filters('fluentform/truncate_password_values', true, $formId)`
 
-This filter is located in `FluentForm\app\Hooks\filters.php` within the response rendering filter for various elements.
+This filter is located in FluentForm\App\Helpers\Helper -> shouldHidePassword($formId)
 
 </explain-block>

@@ -4,6 +4,28 @@
 
 These hooks fire during Fluent Forms plugin initialization and loading.
 
+<explain-block title="fluentform/global_menu">
+
+**Description**
+
+This action runs before rendering the admin menu.
+
+**Usage**
+
+```php
+add_action('fluentform/global_menu', function() {
+   // Do your stuff here
+}, 10, 0);
+```
+
+**Reference**
+
+`do_action('fluentform/global_menu');`
+
+This hook is located in `app/Views/admin/**/*.php`.
+
+</explain-block>
+
 <explain-block title="fluentform/loaded">
 
 **Description**
@@ -30,7 +52,30 @@ This hook is located in fluentform/boot/app.php
 
 </explain-block>
 
-------------------------------------------------
+<explain-block title="fluentform/loading_editor_assets">
+
+**Description**
+
+This action runs during asset loading for the editor. You can hook into this action and load your custom scripts or do other tasks.
+
+**Parameters**
+- `$form` (object) Form
+
+**Usage**
+
+```php
+add_action('fluentform/loading_editor_assets', function($form) {
+   // Do your stuff here
+}, 10, 1);
+```
+
+**Reference**
+
+`do_action('fluentform/loading_editor_assets', $form);`
+
+This hook is located in `fluentform/app/Modules/Registerer/Menu.php`.
+
+</explain-block>
 
 <explain-block title="fluentform/pre_load_scripts">
 
@@ -58,8 +103,6 @@ This hook is located in fluentform/app/Modules/Component/Component.php
 
 </explain-block>
 
-------------------------------------------------
-
 <explain-block title="fluentform/scripts_registered">
 
 **Description**
@@ -79,58 +122,5 @@ add_action('fluentform/scripts_registered', function() {
 `do_action('fluentform/scripts_registered');`
 
 This hook is located in fluentform/app/Modules/Component/Component.php
-
-</explain-block>
-
-
-------------------------------------------------
-
-<explain-block title="fluentform/loading_editor_assets">
-
-**Description**
-
-This action runs during asset loading for the editor. You can hook into this action and load your custom scripts or do other tasks.
-
-**Parameters**
-- `$form` (object) Form
-
-**Usage**
-
-```php
-add_action('fluentform/loading_editor_assets', function($form) {
-   // Do your stuff here
-}, 10, 1);
-```
-
-**Reference**
-
-`do_action('fluentform/loading_editor_assets', $form);`
-
-This hook is located in `fluentform/app/Modules/Registerer/Menu.php`.
-
-</explain-block>
-
-------------------------------------------------
-
-<explain-block title="fluentform/global_menu">
-
-**Description**
-
-This action runs before rendering the admin menu.
-
-
-**Usage**
-
-```php
-add_action('fluentform/global_menu', function() {
-   // Do your stuff here
-}, 10, 0);
-```
-
-**Reference**
-
-`do_action('fluentform/global_menu');`
-
-This hook is located in `app/Views/admin/**/*.php`.
 
 </explain-block>

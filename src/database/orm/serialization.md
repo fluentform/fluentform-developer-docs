@@ -2,7 +2,6 @@
 
 <Badge type="tip" vertical="top" text="Fluent Framework" /> <Badge type="warning" vertical="top" text="ORM" />
 
-
 ## Introduction
 
 When building JSON APIs, you will often need to convert your models and relationships to arrays or JSON. Fluent ORM includes convenient methods for making these conversions, as well as controlling which attributes are included in your serializations.
@@ -32,7 +31,6 @@ return $form->toJson();
  
 return $form->toJson(JSON_PRETTY_PRINT);
 ```
-
 
 ## Hiding Attributes From JSON
 
@@ -64,7 +62,6 @@ Likewise, if you would like to make some typically visible attributes hidden on 
 ```php
 return $form->makeHidden('attribute')->toArray();
 ```
-
 
 ## Appending Values To JSON
 

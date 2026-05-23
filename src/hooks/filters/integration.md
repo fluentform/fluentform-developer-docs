@@ -4,58 +4,30 @@
 
 These filters let you modify integration feeds, notification data, and third-party connections.
 
-<explain-block title="fluentform/global_notification_active_types">
+<explain-block title="fluentform/api_failed_log">
 
-This filter returns the active notification feeds for the current form ID.
+This filter checks the logging of the failed API calls for development environment status.
 
 **Parameters**
 
-- `$types` (array) Active Feeds
+- `$isDev` (boolean) Checks whether development environment is Dev or Production
+- `$form` (object) Form
+- `$feed` (array) Current Feed
 
 **Usage**
 
 ```php
-add_filter('fluentform/global_notification_active_types', function ($types) {
+add_filter('fluentform/api_failed_log', function($isDev, $form, $feed) {
    // Do your stuff here
-   $types['notifications'] = 'email_notifications';
-   return $types;
-}, 10, 1);
+   return $isDev;
+}, 10, 3);
 
 ```
-
 **Reference**
 
-`apply_filters('fluentform/global_notification_active_types', [], $form->id);`
+`apply_filters('fluentform/api_failed_log', $isDev, $form, $feed);`
 
-This filter is located in FluentForm\App\Hooks\Handlers\GlobalNotificationHandler -> globalNotify()
-
-</explain-block>
-
-<explain-block title="'fluentform/notifying_async_' . $integrationKey">
-
-This filter checks if the integration is asynchronous or not. If you are working on an integration you can return false to run the integration instantly.
-
-**Parameters**
-
-- `$status` (boolean) True / False
-- `$formId` (int) Form Id
-
-**Usage**
-
-```php
-add_filter('fluentform/notifying_async_' . $integrationKey, function ($status, $formId) {
-   // Do your stuff here
-   
-   return $status; 
-}, 10, 2);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/notifying_async_' . $integrationKey, true, $form->id);`
-
-This filter is located in FluentForm\App\Hooks\Handlers\GlobalNotificationHandler -> globalNotify()
+This filter is located in FluentForm\App\Hooks\actions.php
 
 </explain-block>
 
@@ -87,30 +59,131 @@ This filter is located in FluentForm\App\Hooks\actions.php
 
 </explain-block>
 
-<explain-block title="fluentform/api_failed_log">
+<explain-block title="fluentform/failed_integration_email_body">
 
-This filter checks the logging of the failed API calls for development environment status.
+<Badge type="tip" vertical="top" text="Pro" />
 
 **Parameters**
 
-- `$isDev` (boolean) Checks whether development environment is Dev or Production
-- `$form` (object) Form
-- `$feed` (array) Current Feed
+- `$emailBody` — see source
+- `$data` — see source
 
 **Usage**
 
 ```php
-add_filter('fluentform/api_failed_log', function($isDev, $form, $feed) {
-   // Do your stuff here
-   return $isDev;
-}, 10, 3);
+add_filter('fluentform/failed_integration_email_body', function ($emailBody, $data) {
+    return $emailBody;
+}, 10, 2);
+```
+
+**Reference**
+
+`$emailBody = apply_filters('fluentform/failed_integration_email_body', $emailBody, $data);`
+
+This filter is located in `src/classes/FailedIntegrationNotification.php` (line 143).
+
+</explain-block>
+
+<explain-block title="fluentform/failed_integration_email_subject">
+
+<Badge type="tip" vertical="top" text="Pro" />
+
+**Parameters**
+
+- `$emailSubject` — see source
+
+**Usage**
+
+```php
+add_filter('fluentform/failed_integration_email_subject', function ($emailSubject) {
+    return $emailSubject;
+}, 10, 1);
+```
+
+**Reference**
+
+`$emailSubject = apply_filters('fluentform/failed_integration_email_subject', $emailSubject);`
+
+This filter is located in `src/classes/FailedIntegrationNotification.php` (line 164).
+
+</explain-block>
+
+<explain-block title="fluentform/failed_integration_notification_time_gap">
+
+<Badge type="tip" vertical="top" text="Pro" />
+
+**Parameters**
+
+- `$value` — see source
+
+**Usage**
+
+```php
+add_filter('fluentform/failed_integration_notification_time_gap', function ($value) {
+    return $value;
+}, 10, 1);
+```
+
+**Reference**
+
+`$time = apply_filters('fluentform/failed_integration_notification_time_gap', 3600);// set time by default 1 hour gap`
+
+This filter is located in `src/classes/FailedIntegrationNotification.php` (line 177).
+
+</explain-block>
+
+<explain-block title="fluentform/get_available_form_integrations">
+
+You can use this filter to modify all available integrations.
+
+**Parameters**
+
+- `$availableIntegrations` (array) All Available Integrations
+- `$formId` (int) Form ID
+
+**Usage**
+
+```php
+add_filter('fluentform/get_available_form_integrations', function ($availableIntegrations, $formId) {
+    // Do your stuff here
+    
+    return $availableIntegrations;
+}, 10, 2);
 
 ```
 **Reference**
 
-`apply_filters('fluentform/api_failed_log', $isDev, $form, $feed);`
+`apply_filters('fluentform/get_available_form_integrations', $availableIntegrations, $formId);`
 
-This filter is located in FluentForm\App\Hooks\actions.php
+This filter is located in FluentForm\App\Services\Integration\GlobalIntegrationManager -> getAllFormIntegrations()
+
+</explain-block>
+
+<explain-block title="'fluentform/get_integration_defaults_' . $integrationName">
+
+You can tweak integration default settings using the filter.
+
+**Parameters**
+
+- `$settings` (array) Integration Settings
+- `$formId` (int) Form ID
+
+**Usage**
+
+```php
+add_filter('fluentform/get_integration_values_' . $integrationName, function ($settings, $formId) {
+   // Do your stuff here
+
+   return $settings;
+}, 10, 2);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/get_integration_defaults_' . $integrationName, $settings, $formId);`
+
+This filter is located in FluentForm\App\Services\Integrations\GlobalIntegrationManager -> getIntegrationSettings()
 
 </explain-block>
 
@@ -148,143 +221,25 @@ This filter is located in FluentForm\App\Https\Controllers\FormIntegrationContro
 
 </explain-block>
 
-<explain-block title="fluentform/validation_user_registration_errors">
-
-This filter return user registration validation error before submission.
+<explain-block title="fluentform/get_integration_settings_fields_">
 
 **Parameters**
 
-- `$errors` (array) Errors
-- `$formData` (array) Form Data
-- `$form` (Object) Form Object
-- `$fields` (array) Form Fields
+- See source
 
 **Usage**
 
 ```php
-add_filter('fluentform/validation_user_registration_errors', function($errors, $formData, $form, $fields) {
-   // Do your stuff here
-
-   return $errors;
-}, 10, 4);
-
-```
-**Reference**
-
-`apply_filters('fluentform/validation_user_registration_errors', $errors, $formData, $this->form, $fields);`
-
-This filter is located in FluentForm\App\Services\Form\FormValidationService -> validateSubmission(&$fields, &$formData)
-
-</explain-block>
-
-<explain-block title="fluentform/validation_user_update_errors">
-
-This filter return user update validation error before submission.
-
-**Parameters**
-
-- `$errors` (array) Errors
-- `$formData` (array) Form Data
-- `$form` (Object) Form Object
-- `$fields` (array) Form Fields
-
-**Usage**
-
-```php
-add_filter('fluentform/validation_user_update_errors', function($errors, $formData, $form, $fields) {
-   // Do your stuff here
-
-   return $errors;
-}, 10, 4);
-
-```
-**Reference**
-
-`apply_filters('fluentform/validation_user_update_errors', $errors, $formData, $this->form, $fields);`
-
-This filter is located in FluentForm\App\Services\Form\FormValidationService -> validateSubmission(&$fields, &$formData)
-
-</explain-block>
-
-<explain-block title="fluentform/mailchimp_keep_existing_interests">
-
-You can modify double optin status to keep existing interest in mailchimp using the filter.
-
-**Parameters**
-
-- `$status` (string) Whether the Double Optin is pending or subscribed
-- `$formId` (int) Form ID
-
-**Usage**
-
-```php
-add_filter('fluentform/mailchimp_keep_existing_interests', function ($status, $formId) {
-   // Do your stuff here
-
-   return $status;
-}, 10, 2);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/mailchimp_keep_existing_interests', $status, $form->id);`
-
-This filter is located in FluentForm\App\Services\Integration\MailChimp\MailChimpSubscriber -> subscribe($feed, $formData, $entry, $form)
-
-</explain-block>
-
-<explain-block title="fluentform/mailchimp_keep_existing_tags">
-
-You can modify to keep existing tags in mailchimp using the filter.
-
-**Parameters**
-
-- `$status` (boolean) Whether the status is true or false
-- `$formId` (int) Form ID
-
-**Usage**
-
-```php
-add_filter('fluentform/mailchimp_keep_existing_tags', function ($status, $formId) {
-   // Do your stuff here
-
-   return $status;
-}, 10, 2);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/mailchimp_keep_existing_tags', true, $form->id);`
-
-This filter is located in FluentForm\App\Services\Integration\MailChimp\MailChimpSubscriber -> subscribe($feed, $formData, $entry, $form)
-
-</explain-block>
-
-<explain-block title="fluentform/mailchimp_api_timeout">
-
-This filter allows you to modify the timeout value for MailChimp API requests.
-
-**Parameters**
-
-- `$timeout` (int) The default timeout value in seconds
-
-**Usage**
-
-```php
-add_filter('fluentform/mailchimp_api_timeout', function ($timeout) {
-   // Do your stuff here
-   // Increase timeout for slow connections
-   return 60; // 60 seconds
+add_filter('fluentform/get_integration_settings_fields_', function ($value) {
+    return $value;
 }, 10, 1);
 ```
 
 **Reference**
 
-`apply_filters('fluentform/mailchimp_api_timeout', $timeout);`
+`$settingsFields = apply_filters('fluentform/get_integration_settings_fields_' . $integrationName, $settings, $formId, $settings);`
 
-This filter is located in `FluentForm\App\Services\Integrations\MailChimp\MailChimp` -> `makeRequest()`
+This filter is located in `app/Services/Integrations/FormIntegrationService.php` (line 93).
 
 </explain-block>
 
@@ -314,224 +269,6 @@ add_filter('fluentform/get_integration_values_' . $integrationName, function ($s
 `apply_filters('fluentform/get_integration_values_' . $integrationName, $settings, $feed, $formId);`
 
 This filter is located in FluentForm\App\Services\Integrations\GlobalIntegrationManager -> getIntegrationSettings()
-
-</explain-block>
-
-<explain-block title="'fluentform/get_integration_defaults_' . $integrationName">
-
-You can tweak integration default settings using the filter.
-
-**Parameters**
-
-- `$settings` (array) Integration Settings
-- `$formId` (int) Form ID
-
-**Usage**
-
-```php
-add_filter('fluentform/get_integration_values_' . $integrationName, function ($settings, $formId) {
-   // Do your stuff here
-
-   return $settings;
-}, 10, 2);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/get_integration_defaults_' . $integrationName, $settings, $formId);`
-
-This filter is located in FluentForm\App\Services\Integrations\GlobalIntegrationManager -> getIntegrationSettings()
-
-</explain-block>
-
-<explain-block title="'fluentform/save_integration_value_' . $integrationName">
-
-You can modify integration mapped form value before saving it to the database using the filter.
-
-**Parameters**
-
-- `$integration` (array) Integration Settings
-- `$integrationId` (int) Integration ID
-- `$formId` (int) Form ID
-
-**Usage**
-
-```php
-add_filter('fluentform/save_integration_value_' . $integrationName, function ($integration, $integrationId, $formId) {
-   // Do your stuff here
-
-   return $integration;
-}, 10, 3);
-
-```
-```php 
-add_filter('fluentform/save_integration_value_mailchimp', [$this, 'sanitizeSettings'], 10, 3);
-
-public function sanitizeSettings($integration, $integrationId, $formId)
-{
-    if (fluentformCanUnfilteredHTML()) {
-        return $integration;
-    }
-    $sanitizeMap = [
-        'status'                 => 'rest_sanitize_boolean',
-        'enabled'                => 'rest_sanitize_boolean',
-        'type'                   => 'sanitize_text_field',
-        'list_id'                => 'sanitize_text_field',
-        'list_name'              => 'sanitize_text_field',
-        'name'                   => 'sanitize_text_field',
-        'tags'                   => 'sanitize_text_field',
-        'tag_ids_selection_type' => 'sanitize_text_field',
-        'fieldEmailAddress'      => 'sanitize_text_field',
-        'doubleOptIn'            => 'rest_sanitize_bolean',
-        'resubscribe'            => 'rest_sanitize_bolean',
-        'note'                   => 'sanitize_text_field',
-    ];
-    
-    return fluentform_backend_sanitizer($integration, $sanitizeMap);
-}
-```
-
-**Reference**
-
-`apply_filters('fluentform/save_integration_value_' . $integrationName, $integration, $integrationId, $formId);`
-
-This filter is located in FluentForm\App\Services\Integrations\GlobalIntegrationManager -> saveIntegrationSettings()
-
-</explain-block>
-
-<explain-block title="'fluentform/save_integration_value_' . $integrationName">
-
-You can modify integration settings value before saving it to the database using the filter.
-
-**Parameters**
-
-- `$data` (array) Integration Settings
-- `$integrationId` (int) Integration ID
-
-**Usage**
-
-```php
-add_filter('fluentform/save_integration_value_' . $integrationName, function ($data, $integrationId) {
-   // Do your stuff here
-
-   return $data;
-}, 10, 2);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/save_integration_value_' . $integrationName, $data, $integrationId);`
-
-This filter is located in FluentForm\App\Services\Integrations\GlobalIntegrationManager -> saveIntegrationSettings()
-
-</explain-block>
-
-<explain-block title="fluentform/global_notification_types">
-
-You can use this filter to modify all global notifications keys.
-
-**Parameters**
-
-- `$notificationKeys` (array) Global Notification Keys
-- `$formId` (int) Form ID
-
-**Usage**
-
-```php
-add_filter('fluentform/global_notification_types', function ($notificationKeys, $formId) {
-    // Do your stuff here
-    
-    return $notificationKeys;
-}, 10, 2);
-
-```
-**Reference**
-
-`apply_filters('fluentform/global_notification_types', $notificationKeys, $formId);`
-
-This filter is located in FluentForm\App\Services\Integration\GlobalIntegrationManager -> getAllFormIntegrations()
-
-</explain-block>
-
-<explain-block title="'fluentform/global_notification_feed_' . $feed->meta_key">
-
-You can use this filter to modify global notifications feed data.
-
-**Parameters**
-
-- `$feedData` (array) Mapped Form Data
-- `$formId` (int) Form ID
-
-**Usage**
-
-```php
-add_filter('fluentform/global_notification_feed_' . $feed->meta_key, function ($feedData, $formId) {
-    // Do your stuff here
-    
-    return $feedData;
-}, 10, 2);
-
-```
-**Reference**
-
-`apply_filters('fluentform/global_notification_feed_' . $feed->meta_key, $feedData, $formId);`
-
-This filter is located in FluentForm\App\Services\Integration\GlobalIntegrationManager -> getNotificationFeeds($formId)
-
-</explain-block>
-
-<explain-block title="fluentform/get_available_form_integrations">
-
-You can use this filter to modify all available integrations.
-
-**Parameters**
-
-- `$availableIntegrations` (array) All Available Integrations
-- `$formId` (int) Form ID
-
-**Usage**
-
-```php
-add_filter('fluentform/get_available_form_integrations', function ($availableIntegrations, $formId) {
-    // Do your stuff here
-    
-    return $availableIntegrations;
-}, 10, 2);
-
-```
-**Reference**
-
-`apply_filters('fluentform/get_available_form_integrations', $availableIntegrations, $formId);`
-
-This filter is located in FluentForm\App\Services\Integration\GlobalIntegrationManager -> getAllFormIntegrations()
-
-</explain-block>
-
-<explain-block title="'fluentform/global_integration_settings_' . $settingsKey">
-
-You can use this filter to modify all integration field settings.
-
-**Parameters**
-
-- `$settings` (array) All Available Integrations Field Settings
-
-**Usage**
-
-```php
-add_filter('fluentform/global_integration_settings_' . $settingsKey, function ($settings) {
-    // Do your stuff here
-    
-    return $settings;
-}, 10, 1);
-
-```
-**Reference**
-
-`apply_filters('fluentform/global_integration_settings_' . $settingsKey', $settings);`
-
-This filter is located in FluentForm\App\Services\Integration\GlobalIntegrationManager -> getGlobalSettingsAjax()
 
 </explain-block>
 
@@ -569,59 +306,132 @@ This filter is located in FluentForm\app\Modules\AddOnModules -> showFluentAddOn
 
 </explain-block>
 
-<explain-block title="'fluentform/integration_data_' . $this->integrationKey">
-
-You can modify any integration data through valid integration key before form submission by using this filter.
+<explain-block title="fluentform/global_integration_fields_">
 
 **Parameters**
 
-- `$addData` (array) Submitted Data
-- `$feed` (array) Form Feed
-- `$entry` (array) Submission
+- See source
 
 **Usage**
 
 ```php
-add_filter('fluentform/integration_data_' . $this->integrationKey, function ($addData, $feed, $entry) {
-    // Do your stuff here
-    
-    return $addData;
-}, 10, 3);
-
+add_filter('fluentform/global_integration_fields_', function ($value) {
+    return $value;
+}, 10, 1);
 ```
 
 **Reference**
 
-`apply_filters('fluentform/integration_data_' . $this->integrationKey, $addData, $feed, $entry);`
+`$fieldSettings = apply_filters('fluentform/global_integration_fields_' . $settingsKey, $fieldSettings);`
 
-This filter is located in FluentFormPro\src\Integrations\ActiveCampaign\Bootstrap -> notify($feed, $formData, $entry, $form)
+This filter is located in `app/Services/Integrations/GlobalIntegrationService.php` (line 32).
 
 </explain-block>
 
-<explain-block title="fluentform/integration_constantcontact_action_by">
+<explain-block title="'fluentform/global_integration_settings_' . $settingsKey">
 
-You can edit constant contact API url action using the filter.
+You can use this filter to modify all integration field settings.
 
 **Parameters**
 
-- `$actionName` (array) Action Name
+- `$settings` (array) All Available Integrations Field Settings
 
 **Usage**
 
 ```php
-add_filter('fluentform/integration_constantcontact_action_by', function ($actionName) {
+add_filter('fluentform/global_integration_settings_' . $settingsKey, function ($settings) {
     // Do your stuff here
     
-    return $actionName;
+    return $settings;
+}, 10, 1);
+
+```
+**Reference**
+
+`apply_filters('fluentform/global_integration_settings_' . $settingsKey', $settings);`
+
+This filter is located in FluentForm\App\Services\Integration\GlobalIntegrationManager -> getGlobalSettingsAjax()
+
+</explain-block>
+
+<explain-block title="fluentform/global_notification_active_types">
+
+This filter returns the active notification feeds for the current form ID.
+
+**Parameters**
+
+- `$types` (array) Active Feeds
+
+**Usage**
+
+```php
+add_filter('fluentform/global_notification_active_types', function ($types) {
+   // Do your stuff here
+   $types['notifications'] = 'email_notifications';
+   return $types;
 }, 10, 1);
 
 ```
 
 **Reference**
 
-`apply_filters('fluentform/integration_constantcontact_action_by', $actionName);`
+`apply_filters('fluentform/global_notification_active_types', [], $form->id);`
 
-This filter is located in FluentFormPro\src\Integrations\ConstantContact\API -> getApiUrl($resource)
+This filter is located in FluentForm\App\Hooks\Handlers\GlobalNotificationHandler -> globalNotify()
+
+</explain-block>
+
+<explain-block title="'fluentform/global_notification_feed_' . $feed->meta_key">
+
+You can use this filter to modify global notifications feed data.
+
+**Parameters**
+
+- `$feedData` (array) Mapped Form Data
+- `$formId` (int) Form ID
+
+**Usage**
+
+```php
+add_filter('fluentform/global_notification_feed_' . $feed->meta_key, function ($feedData, $formId) {
+    // Do your stuff here
+    
+    return $feedData;
+}, 10, 2);
+
+```
+**Reference**
+
+`apply_filters('fluentform/global_notification_feed_' . $feed->meta_key, $feedData, $formId);`
+
+This filter is located in FluentForm\App\Services\Integration\GlobalIntegrationManager -> getNotificationFeeds($formId)
+
+</explain-block>
+
+<explain-block title="fluentform/global_notification_types">
+
+You can use this filter to modify all global notifications keys.
+
+**Parameters**
+
+- `$notificationKeys` (array) Global Notification Keys
+- `$formId` (int) Form ID
+
+**Usage**
+
+```php
+add_filter('fluentform/global_notification_types', function ($notificationKeys, $formId) {
+    // Do your stuff here
+    
+    return $notificationKeys;
+}, 10, 2);
+
+```
+**Reference**
+
+`apply_filters('fluentform/global_notification_types', $notificationKeys, $formId);`
+
+This filter is located in FluentForm\App\Services\Integration\GlobalIntegrationManager -> getAllFormIntegrations()
 
 </explain-block>
 
@@ -685,6 +495,88 @@ This filter is located in FluentFormPro\src\Integrations\IContact\IContactApi ->
 
 </explain-block>
 
+<explain-block title="fluentform/integration_constantcontact_action_by">
+
+You can edit constant contact API url action using the filter.
+
+**Parameters**
+
+- `$actionName` (array) Action Name
+
+**Usage**
+
+```php
+add_filter('fluentform/integration_constantcontact_action_by', function ($actionName) {
+    // Do your stuff here
+    
+    return $actionName;
+}, 10, 1);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/integration_constantcontact_action_by', $actionName);`
+
+This filter is located in FluentFormPro\src\Integrations\ConstantContact\API -> getApiUrl($resource)
+
+</explain-block>
+
+<explain-block title="'fluentform/integration_data_' . $this->integrationKey">
+
+You can modify any integration data through valid integration key before form submission by using this filter.
+
+**Parameters**
+
+- `$addData` (array) Submitted Data
+- `$feed` (array) Form Feed
+- `$entry` (array) Submission
+
+**Usage**
+
+```php
+add_filter('fluentform/integration_data_' . $this->integrationKey, function ($addData, $feed, $entry) {
+    // Do your stuff here
+    
+    return $addData;
+}, 10, 3);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/integration_data_' . $this->integrationKey, $addData, $feed, $entry);`
+
+This filter is located in FluentFormPro\src\Integrations\ActiveCampaign\Bootstrap -> notify($feed, $formData, $entry, $form)
+
+</explain-block>
+
+<explain-block title="fluentform/integration_data_zapier">
+
+<Badge type="tip" vertical="top" text="Pro" />
+
+**Parameters**
+
+- `$payload` — see source
+- `$feed` — see source
+- `$entry` — see source
+
+**Usage**
+
+```php
+add_filter('fluentform/integration_data_zapier', function ($payload, $feed, $entry) {
+    return $payload;
+}, 10, 3);
+```
+
+**Reference**
+
+`$payload = apply_filters('fluentform/integration_data_zapier', $payload, $feed, $entry);`
+
+This filter is located in `src/Integrations/Zapier/NotifyTrait.php` (line 34).
+
+</explain-block>
+
 <explain-block title="fluentform/integration_discord_message">
 
 You can modify discord message arguments using the filter.
@@ -727,6 +619,31 @@ $messageArgs = [
 `apply_filters('fluentform/integration_discord_message', $messageArgs, $feed);`
 
 This filter is located in FluentFormPro\src\Integrations\Discord\Bootstrap -> notify($feed, $formData, $entry, $form)
+
+</explain-block>
+
+<explain-block title="fluentform/integration_feed_before_parse">
+
+**Parameters**
+
+- `$feed` — see source
+- `$insertId` — see source
+- `$formData` — see source
+- `$form` — see source
+
+**Usage**
+
+```php
+add_filter('fluentform/integration_feed_before_parse', function ($feed, $insertId, $formData, $form) {
+    return $feed;
+}, 10, 4);
+```
+
+**Reference**
+
+`$feed = apply_filters('fluentform/integration_feed_before_parse', $feed, $insertId, $formData, $form);`
+
+This filter is located in `app/Hooks/Handlers/GlobalNotificationHandler.php` (line 103).
 
 </explain-block>
 
@@ -824,5 +741,296 @@ add_filter('fluentform/inventory_validation_error', function ($stockOutMsg, $fie
 `apply_filters('fluentform/inventory_validation_error', $stockOutMsg, $fieldName, $item, $this->formData, $this->form);`
 
 This filter is located in FluentFormPro\src\classes\Inventory\InventoryValidation -> validate()
+
+</explain-block>
+
+<explain-block title="fluentform/is_integration_enabled_">
+
+**Parameters**
+
+- See source
+
+**Usage**
+
+```php
+add_filter('fluentform/is_integration_enabled_', function ($value) {
+    return $value;
+}, 10, 1);
+```
+
+**Reference**
+
+`return apply_filters('fluentform/is_integration_enabled_'.$integrationKey, $isEnabled);`
+
+This filter is located in `app/Services/Integrations/GlobalIntegrationService.php` (line 66).
+
+</explain-block>
+
+<explain-block title="fluentform/mailchimp_api_timeout">
+
+This filter allows you to modify the timeout value for MailChimp API requests.
+
+**Parameters**
+
+- `$timeout` (int) The default timeout value in seconds
+
+**Usage**
+
+```php
+add_filter('fluentform/mailchimp_api_timeout', function ($timeout) {
+   // Do your stuff here
+   // Increase timeout for slow connections
+   return 60; // 60 seconds
+}, 10, 1);
+```
+
+**Reference**
+
+`apply_filters('fluentform/mailchimp_api_timeout', $timeout);`
+
+This filter is located in `FluentForm\App\Services\Integrations\MailChimp\MailChimp` -> `makeRequest()`
+
+</explain-block>
+
+<explain-block title="fluentform/mailchimp_keep_existing_interests">
+
+You can modify double optin status to keep existing interest in mailchimp using the filter.
+
+**Parameters**
+
+- `$status` (string) Whether the Double Optin is pending or subscribed
+- `$formId` (int) Form ID
+
+**Usage**
+
+```php
+add_filter('fluentform/mailchimp_keep_existing_interests', function ($status, $formId) {
+   // Do your stuff here
+
+   return $status;
+}, 10, 2);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/mailchimp_keep_existing_interests', $status, $form->id);`
+
+This filter is located in FluentForm\App\Services\Integration\MailChimp\MailChimpSubscriber -> subscribe($feed, $formData, $entry, $form)
+
+</explain-block>
+
+<explain-block title="fluentform/mailchimp_keep_existing_tags">
+
+You can modify to keep existing tags in mailchimp using the filter.
+
+**Parameters**
+
+- `$status` (boolean) Whether the status is true or false
+- `$formId` (int) Form ID
+
+**Usage**
+
+```php
+add_filter('fluentform/mailchimp_keep_existing_tags', function ($status, $formId) {
+   // Do your stuff here
+
+   return $status;
+}, 10, 2);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/mailchimp_keep_existing_tags', true, $form->id);`
+
+This filter is located in FluentForm\App\Services\Integration\MailChimp\MailChimpSubscriber -> subscribe($feed, $formData, $entry, $form)
+
+</explain-block>
+
+<explain-block title="'fluentform/notifying_async_' . $integrationKey">
+
+This filter checks if the integration is asynchronous or not. If you are working on an integration you can return false to run the integration instantly.
+
+**Parameters**
+
+- `$status` (boolean) True / False
+- `$formId` (int) Form Id
+
+**Usage**
+
+```php
+add_filter('fluentform/notifying_async_' . $integrationKey, function ($status, $formId) {
+   // Do your stuff here
+   
+   return $status; 
+}, 10, 2);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/notifying_async_' . $integrationKey, true, $form->id);`
+
+This filter is located in FluentForm\App\Hooks\Handlers\GlobalNotificationHandler -> globalNotify()
+
+</explain-block>
+
+<explain-block title="fluentform/save_integration_settings_">
+
+**Parameters**
+
+- See source
+
+**Usage**
+
+```php
+add_filter('fluentform/save_integration_settings_', function ($value) {
+    return $value;
+}, 10, 1);
+```
+
+**Reference**
+
+`$data = apply_filters('fluentform/save_integration_settings_' . $integrationName, $data, $integrationId);`
+
+This filter is located in `app/Services/Integrations/FormIntegrationService.php` (line 162).
+
+</explain-block>
+
+<explain-block title="'fluentform/save_integration_value_' . $integrationName">
+
+You can modify integration mapped form value before saving it to the database using the filter.
+
+**Parameters**
+
+- `$integration` (array) Integration Settings
+- `$integrationId` (int) Integration ID
+- `$formId` (int) Form ID
+
+**Usage**
+
+```php
+add_filter('fluentform/save_integration_value_' . $integrationName, function ($integration, $integrationId, $formId) {
+   // Do your stuff here
+
+   return $integration;
+}, 10, 3);
+
+```
+```php 
+add_filter('fluentform/save_integration_value_mailchimp', [$this, 'sanitizeSettings'], 10, 3);
+
+public function sanitizeSettings($integration, $integrationId, $formId)
+{
+    if (fluentformCanUnfilteredHTML()) {
+        return $integration;
+    }
+    $sanitizeMap = [
+        'status'                 => 'rest_sanitize_boolean',
+        'enabled'                => 'rest_sanitize_boolean',
+        'type'                   => 'sanitize_text_field',
+        'list_id'                => 'sanitize_text_field',
+        'list_name'              => 'sanitize_text_field',
+        'name'                   => 'sanitize_text_field',
+        'tags'                   => 'sanitize_text_field',
+        'tag_ids_selection_type' => 'sanitize_text_field',
+        'fieldEmailAddress'      => 'sanitize_text_field',
+        'doubleOptIn'            => 'rest_sanitize_bolean',
+        'resubscribe'            => 'rest_sanitize_bolean',
+        'note'                   => 'sanitize_text_field',
+    ];
+    
+    return fluentform_backend_sanitizer($integration, $sanitizeMap);
+}
+```
+
+**Reference**
+
+`apply_filters('fluentform/save_integration_value_' . $integrationName, $integration, $integrationId, $formId);`
+
+This filter is located in FluentForm\App\Services\Integrations\GlobalIntegrationManager -> saveIntegrationSettings()
+
+</explain-block>
+
+<explain-block title="fluentform/slack_field_label_selection">
+
+**Parameters**
+
+- `$labels` — see source
+- `$settings` — see source
+- `$form` — see source
+
+**Usage**
+
+```php
+add_filter('fluentform/slack_field_label_selection', function ($labels, $settings, $form) {
+    return $labels;
+}, 10, 3);
+```
+
+**Reference**
+
+`$labels = apply_filters('fluentform/slack_field_label_selection', $labels, $settings, $form);`
+
+This filter is located in `app/Services/Integrations/Slack/Slack.php` (line 49).
+
+</explain-block>
+
+<explain-block title="fluentform/validation_user_registration_errors">
+
+This filter return user registration validation error before submission.
+
+**Parameters**
+
+- `$errors` (array) Errors
+- `$formData` (array) Form Data
+- `$form` (Object) Form Object
+- `$fields` (array) Form Fields
+
+**Usage**
+
+```php
+add_filter('fluentform/validation_user_registration_errors', function($errors, $formData, $form, $fields) {
+   // Do your stuff here
+
+   return $errors;
+}, 10, 4);
+
+```
+**Reference**
+
+`apply_filters('fluentform/validation_user_registration_errors', $errors, $formData, $this->form, $fields);`
+
+This filter is located in FluentForm\App\Services\Form\FormValidationService -> validateSubmission(&$fields, &$formData)
+
+</explain-block>
+
+<explain-block title="fluentform/validation_user_update_errors">
+
+This filter return user update validation error before submission.
+
+**Parameters**
+
+- `$errors` (array) Errors
+- `$formData` (array) Form Data
+- `$form` (Object) Form Object
+- `$fields` (array) Form Fields
+
+**Usage**
+
+```php
+add_filter('fluentform/validation_user_update_errors', function($errors, $formData, $form, $fields) {
+   // Do your stuff here
+
+   return $errors;
+}, 10, 4);
+
+```
+**Reference**
+
+`apply_filters('fluentform/validation_user_update_errors', $errors, $formData, $this->form, $fields);`
+
+This filter is located in FluentForm\App\Services\Form\FormValidationService -> validateSubmission(&$fields, &$formData)
 
 </explain-block>

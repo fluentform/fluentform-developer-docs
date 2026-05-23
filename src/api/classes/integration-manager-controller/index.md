@@ -53,6 +53,59 @@ public function __construct(Application $application)
 }
 ```
 
+### `addActiveNotificationType($types)`
+
+**Source:** `fluentform/app/Http/Controllers/IntegrationManagerController.php` (line 137)
+
+---
+
+### `addGlobalMenu($setting)`
+
+**Source:** `fluentform/app/Http/Controllers/IntegrationManagerController.php` (line 120)
+
+---
+
+### `addNotificationType($types)`
+
+**Source:** `fluentform/app/Http/Controllers/IntegrationManagerController.php` (line 131)
+
+---
+
+### fluentform/save_integration_value_{integrationKey}
+
+Filter hook for validating integration settings.
+
+```php
+add_filter('fluentform/save_integration_value_' . $this->integrationKey, [$this, 'yourValidationMethodBeforeSave'], 10, 3);
+```
+
+Example of a validation:
+
+```php
+public function yourValidationMethodBeforeSave($settings, $integrationId, $formId)
+{   
+    try {
+        $error = "";                                   // check your conditions
+        if ($error){
+            throw new \Exception('Error message ');   // throw error
+        }
+    } catch (\Exception $e) {
+        wp_send_json_error([
+            'message' => $e->getMessage(),
+            'status' => false
+        ], 400);
+    }
+
+    return $settings;
+}
+```
+
+### `getApiSettings()`
+
+**Source:** `fluentform/app/Http/Controllers/IntegrationManagerController.php` (line 216)
+
+---
+
 ### getGlobalFields()
 This method will need to return the settings data format for the integration API connection. You have to keep the structure as same as the example. This setting will store the API key & additional required data to connect with your Integration API.
 
@@ -105,89 +158,6 @@ Here is an **example** of the method:
     }
 ```
 
-
-### saveGlobalSettings()
-Here you will get the settings data after user submission, and you can use the data connect with your API or do your required task. Then save the data or return error using your own validation.
-
-**For example :**
-
-```php
-public function saveGlobalSettings($settings)
-    {
-        if (!$settings['apiKey']) {
-            $mySettings = [
-                'apiKey' => '',
-                'status' => false
-            ];
-            
-            update_option($this->optionKey, $mySettings, 'no');
-            wp_send_json_success([
-                'message' => __('Your settings has been updated and disconnected', 'fluentform'),
-                'status'  => false
-            ], 200);
-        }
-
-        // Verify API key
-        try {
-             
-        // Connect with your api using the apiKey
-        // Your code
-            
-        } catch (\Exception $exception) {
-            wp_send_json_error([
-                'message' => $exception->getMessage()
-            ], 400);
-        }
-
-        // API key is verified now
-        $settings = [
-            'apiKey' => sanitize_text_field($settings['apiKey']),
-            'status' => true
-        ];
-
-        // Update options with the key
-        update_option($this->optionKey, $settings, 'no`');
-
-        wp_send_json_success([
-            'message' => __('Your MyAwesomeIntegration api key has been verified and successfully set', 'fluentform'),
-            'status'  => true
-        ], 200);
-    }
-```
-After you have successfully completed this step along with the previous methods, your integration will appear int the fluent form modules list.
-
-<img :src="$withBase('/assets/img/modules/custom-integration.png')" alt="Fluent Custom Integration Modules" />
-
-
-After you enable your new integration, you can go to the integration settings page where settings will be displayed according to your global field settings from getGlobalFields.
-
-After the integration is up and running the integration needs to be pushed in the form feed, so a user can use this in his form. Following method will achieve this.
-
-### pushIntegration()
-Adding your integration into the form feeds. Here you will get two parameters `$integrations, $formId`,
-
-Here is screenshot when the integration is pushed :
-
-<img :src="$withBase('/assets/img/modules/push-custom-integration.png')" alt="Fluent Custom Integration Modules" />
-
-If the integration is configured it will push the integration into the form feed or else it will show a message to configure the API. The isConfigured() method, to check if the integration is configured is built in , you just need to call it.
-
-```php
-public function pushIntegration($integrations, $formId)
-{
-    $integrations[$this->integrationKey] = [
-        'title'                 => $this->title . ' Integration',
-        'logo'                  => $this->logo,
-        'is_active'             => $this->isConfigured(),
-        'configure_title'       => 'Configuration required!',
-        'global_configure_url'  => admin_url('admin.php?page=fluent_forms_settings#{your settings page url}'),
-        'configure_message'     => 'MyAwesomeIntegration is not configured yet! Please configure your API first',
-        'configure_button_text' => 'Set MyAwesomeIntegration API'
-    ];
-    return $integrations;
-}
-```
-
 ### getIntegrationDefaults
 This method will return your Integration feed settings default data format. You will get two parameters here `$settings`, `$formId`.
 Here is an example of this method.
@@ -206,6 +176,12 @@ Here is an example of this method.
     'enabled' => true
 ];
 ```
+
+### getMergeFields()
+In this method you will get three parameters `$list`, `$listId`, `$formId`.
+This method is called after every select option change. When you have field depending on one another, you need to modify subfields based on a primary field you can use this method and return modified data based on one primary field.
+
+For reference check [Mailchimp integration](https://github.com/fluentform/fluentform/blob/master/app/Services/Integrations/MailChimp/MailChimpIntegration.php)
 
 ### getSettingsFields
 This method will render input fields for the integration feed settings page, based on the returned input data format. You will get two parameters here `$settings`, `$formId`.
@@ -277,11 +253,17 @@ All your input field will be generated dynamically based on your provided data. 
 <img :src="$withBase('/assets/img/modules/custom-integration-feed.png')" alt="Fluent Custom Integration Modules" />
 In the default settings [getIntegrationDefaults()](/api/classes/integration-manager-controller/#getintegrationdefaults) we gave a value `enabled` as true, that is why you can see that the field with this key `checkbox-single` checked which means it is true.
 
-### getMergeFields()
-In this method you will get three parameters `$list`, `$listId`, `$formId`.
-This method is called after every select option change. When you have field depending on one another, you need to modify subfields based on a primary field you can use this method and return modified data based on one primary field.
+### `isConfigured()`
 
-For reference check [Mailchimp integration](https://github.com/fluentform/fluentform/blob/master/app/Services/Integrations/MailChimp/MailChimpIntegration.php)
+**Source:** `fluentform/app/Http/Controllers/IntegrationManagerController.php` (line 205)
+
+---
+
+### `isEnabled()`
+
+**Source:** `fluentform/app/Http/Controllers/IntegrationManagerController.php` (line 211)
+
+---
 
 ### notify()
 This method will be called upon form submission, you will get four parameters `$feed`, `$formData`, `$entry`, `$form`. This is the most important method, here you will your necessary task upon form submission
@@ -289,31 +271,115 @@ This method will be called upon form submission, you will get four parameters `$
 Here is a filter that you can use to validate your settings.
 
 ## Further read
-### fluentform/save_integration_value_{integrationKey}
 
-Filter hook for validating integration settings.
+### `prepareIntegrationFeed($setting, $feed, $formId)`
+
+**Source:** `fluentform/app/Http/Controllers/IntegrationManagerController.php` (line 164)
+
+---
+
+### pushIntegration()
+Adding your integration into the form feeds. Here you will get two parameters `$integrations, $formId`,
+
+Here is screenshot when the integration is pushed :
+
+<img :src="$withBase('/assets/img/modules/push-custom-integration.png')" alt="Fluent Custom Integration Modules" />
+
+If the integration is configured it will push the integration into the form feed or else it will show a message to configure the API. The isConfigured() method, to check if the integration is configured is built in , you just need to call it.
 
 ```php
-add_filter('fluentform/save_integration_value_' . $this->integrationKey, [$this, 'yourValidationMethodBeforeSave'], 10, 3);
-```
-
-Example of a validation:
-
-```php
-public function yourValidationMethodBeforeSave($settings, $integrationId, $formId)
-{   
-    try {
-        $error = "";                                   // check your conditions
-        if ($error){
-            throw new \Exception('Error message ');   // throw error
-        }
-    } catch (\Exception $e) {
-        wp_send_json_error([
-            'message' => $e->getMessage(),
-            'status' => false
-        ], 400);
-    }
-
-    return $settings;
+public function pushIntegration($integrations, $formId)
+{
+    $integrations[$this->integrationKey] = [
+        'title'                 => $this->title . ' Integration',
+        'logo'                  => $this->logo,
+        'is_active'             => $this->isConfigured(),
+        'configure_title'       => 'Configuration required!',
+        'global_configure_url'  => admin_url('admin.php?page=fluent_forms_settings#{your settings page url}'),
+        'configure_message'     => 'MyAwesomeIntegration is not configured yet! Please configure your API first',
+        'configure_button_text' => 'Set MyAwesomeIntegration API'
+    ];
+    return $integrations;
 }
 ```
+
+### `registerAdminHooks()`
+
+**Source:** `fluentform/app/Http/Controllers/IntegrationManagerController.php` (line 54)
+
+---
+
+### `registerNotificationHooks()`
+
+**Source:** `fluentform/app/Http/Controllers/IntegrationManagerController.php` (line 106)
+
+---
+
+### saveGlobalSettings()
+Here you will get the settings data after user submission, and you can use the data connect with your API or do your required task. Then save the data or return error using your own validation.
+
+**For example :**
+
+```php
+public function saveGlobalSettings($settings)
+    {
+        if (!$settings['apiKey']) {
+            $mySettings = [
+                'apiKey' => '',
+                'status' => false
+            ];
+            
+            update_option($this->optionKey, $mySettings, 'no');
+            wp_send_json_success([
+                'message' => __('Your settings has been updated and disconnected', 'fluentform'),
+                'status'  => false
+            ], 200);
+        }
+
+        // Verify API key
+        try {
+             
+        // Connect with your api using the apiKey
+        // Your code
+            
+        } catch (\Exception $exception) {
+            wp_send_json_error([
+                'message' => $exception->getMessage()
+            ], 400);
+        }
+
+        // API key is verified now
+        $settings = [
+            'apiKey' => sanitize_text_field($settings['apiKey']),
+            'status' => true
+        ];
+
+        // Update options with the key
+        update_option($this->optionKey, $settings, 'no`');
+
+        wp_send_json_success([
+            'message' => __('Your MyAwesomeIntegration api key has been verified and successfully set', 'fluentform'),
+            'status'  => true
+        ], 200);
+    }
+```
+After you have successfully completed this step along with the previous methods, your integration will appear int the fluent form modules list.
+
+<img :src="$withBase('/assets/img/modules/custom-integration.png')" alt="Fluent Custom Integration Modules" />
+
+After you enable your new integration, you can go to the integration settings page where settings will be displayed according to your global field settings from getGlobalFields.
+
+After the integration is up and running the integration needs to be pushed in the form feed, so a user can use this in his form. Following method will achieve this.
+
+### `setFeedAttributes($feed, $formId)`
+
+**Source:** `fluentform/app/Http/Controllers/IntegrationManagerController.php` (line 198)
+
+---
+
+### `setMetaKey($data)`
+
+**Source:** `fluentform/app/Http/Controllers/IntegrationManagerController.php` (line 158)
+
+---
+

@@ -4,30 +4,57 @@
 
 These filters let you modify form rendering, validation, fields, and form-level settings.
 
-<explain-block title="fluentform/is_form_renderable">
+<explain-block title="fluentform/before_render_item">
 
-You can check if the form is renderable using this filter.
+You can use this filter to modify the form inputs before form render.
 
 **Parameters**
 
-- `$isAllowed` (array) Form Status
+- `$item` (array) Input Item
 - `$form` (object) Form Object
 
 **Usage**
 
 ```php
-add_filter('fluentform/is_form_renderable', function ($isAllowed, $form){
-   // Do your stuff here
-   
-   return $isAllowed;
+add_filter('fluentform/before_render_item', function ($item, $form) {
+    // Do your stuff here
+    
+    return $item;
 }, 10, 2);
-```
 
+```
 **Reference**
 
-`apply_filters('fluentform/is_form_renderable', $isAllowed, $this->form);`
+`apply_filters('fluentform/before_render_item',  $item, $form);`
 
-This filter is located in FluentForm\App\Services\Form\FormValidationService -> validateRestrictions(&$fields)
+This filter is located in FluentForm\App\Services\FormBuilder -> buildFormBody($form)
+
+</explain-block>
+
+<explain-block title="fluentform/conversational_editor_elements">
+
+You can modify conversational editor elements using this filter.
+
+**Parameters**
+
+- `$elements` (array) Conversational Editor Elements
+- `$formId` (int) Form ID
+
+**Usage**
+
+```php
+add_filter('fluentform/conversational_editor_elements', function ($elements, $formId) {
+    // Do your stuff here
+    
+    return $elements;
+}, 10, 1);
+
+```
+**Reference**
+
+`apply_filters('fluentform/conversational_editor_elements', $elements, $formId);`
+
+This filter is located in FluentForm\App\Modules\Widgets\EditorButtonModule -> pageSupportedMediaButtons()
 
 </explain-block>
 
@@ -127,85 +154,6 @@ customFfLandingPageSlug('my-forms'); // you may change the "my-forms" for your o
 
 </explain-block>
 
-<explain-block title="fluentform/numeric_styles">
-
-You can modify or add more numeric formatters to number inputs using this filter.
-
-**Parameters**
-
-- `$numericFormatters` (array) all numeric formats
-
-**Usage**
-
-```php
-add_filter('fluentform/numeric_styles', function($numericFormatters) {
-   // Do your stuff here
-
-  return $staus;
-}, 10, 1);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/numeric_styles', $numericFormatters);`
-
-This filter is located in FluentForm\App\Helpers\Helper -> getNumericFormatters()
-
-</explain-block>
-
-<explain-block title="fluentform/form_store_attributes">
-
-You can modify Form attributes just Before storing the Form to the Database.
-
-**Parameters**
-
-- `$storeAttributes` (array) Form default attributes
-
-**Usage**
-
-```php
-add_filter('fluentform/form_store_attributes', function ($storeAttributes) {
-   // Do your stuff here
-
-   return $storeAttributes;
-}, 10, 1);
-
-```
-**Reference**
-
-`apply_filters('fluentform/form_store_attributes', array_filter($storeAttributes));`
-
-This filter is located in FluentForm\App\Models\Form -> prepare($attributes = [])
-
-</explain-block>
-
-<explain-block title="fluentform/forms_default_settings">
-
-You can modify Form Default Settings using this filter.
-
-**Parameters**
-
-- `$defaultSettings` (array) Form default Settings
-
-**Usage**
-
-```php
-add_filter('fluentform/forms_default_settings', function ($defaultSettings) {
-   // Do your stuff here
-
-   return $defaultSettings;
-}, 10, 1);
-
-```
-**Reference**
-
-`apply_filters('fluentform/forms_default_settings', array_filter($data));`
-
-This filter is located in FluentForm\App\Models\Form -> getFormsDefaultSettings($formId = false)
-
-</explain-block>
-
 <explain-block title="fluentform/create_default_settings">
 
 You can modify Form Default Settings while creating a new form using this filter.
@@ -229,6 +177,114 @@ add_filter('fluentform/create_default_settings', function($defaultSettings) {
 `apply_filters('fluentform/create_default_settings', array_filter($defaultSettings));`
 
 This filter is located in FluentForm\App\Models\Form -> getFormsDefaultSettings($formId = false)
+
+</explain-block>
+
+<explain-block title="fluentform/date_i18n">
+
+This filter returns date fields internationalized strings.
+
+**Parameters**
+
+- `$i18n` (array) Internationalized Strings
+
+**Usage**
+
+```php
+add_filter('fluentform/date_i18n', function ($i18n) {
+   // Do your stuff here
+
+   return $i18n;
+}, 10, 1);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/date_i18n', $i18n);`
+
+This filter is located in FluentForm\App\Modules\Component\Component -> getDatei18n()
+
+</explain-block>
+
+<explain-block title="fluentform/disable_accessibility_fieldset">
+
+You can use this filter to toggle form accessibility status and fieldset.
+
+**Parameters**
+
+- `$status` (boolean) Whether the accessibility status is enabled
+- `$form` (object) Form Object
+
+**Usage**
+
+```php
+add_filter('fluentform/disable_accessibility_fieldset', function ($status, $form) {
+    // Do your stuff here
+    
+    return $status;
+}, 10, 2);
+
+```
+**Reference**
+
+`apply_filters('fluentform/disable_accessibility_fieldset', true, $form);`
+
+This filter is located in FluentForm\App\Services\FormBuilder\FormBuilder -> build($form, $extraCssClass = '', $instanceCssClass = '', $atts = [])
+
+</explain-block>
+
+<explain-block title="fluentform/disable_inputmode">
+
+You can disable text input field using the filter.
+
+**Parameters**
+
+- `$status` (boolean) Whether text input is disabled
+
+**Usage**
+
+```php
+add_filter('fluentform/disable_inputmode', function ($status) {
+   // Do your stuff here
+
+   return $status;
+}, 10, 1);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/disable_inputmode', $status);`
+
+This filter is located in FluentForm\App\Services\FormBuilder\Components\Text -> compile($data, $form)
+
+</explain-block>
+
+<explain-block title="fluentform/disabled_analytics">
+
+Using this filter you can toggle the form analytics.
+
+**Parameters**
+
+- `$status` (boolean) whether form analytics is enabled
+
+**Usage**
+
+```php
+add_filter('fluentform/disabled_analytics', function($status) {
+   // Do your stuff here
+
+   return $status;
+}, 10, 1);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/disabled_analytics', $disableAnalytics);`
+
+This filter is located in FluentForm\App\Modules\Component\Component -> renderForm($atts)
 
 </explain-block>
 
@@ -263,6 +319,792 @@ add_filter('fluentform/editor_components', function($editorComponents, $formId) 
 `apply_filters('fluentform/editor_components', $editorComponents, $formId);`
 
 This filter is located in FluentForm\App\Modules\Component\Component -> index()
+
+</explain-block>
+
+<explain-block title="fluentform/editor_element_search_tags">
+
+You can modify editor element search tags using this filter.
+
+**Parameters**
+
+- `$searchTags` (array) Editor Fields
+- `$form` (object) Form Object
+
+**Usage**
+
+```php
+add_filter('fluentform/editor_element_search_tags', function ($searchTags, $form) {
+   // Do your stuff here
+
+   return $searchTags;
+}, 10, 2);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/editor_element_search_tags', $searchTags, $form);`
+
+This filter is located in FluentForm\App\Modules\Registerer\Menu -> enqueueEditorAssets()
+
+</explain-block>
+
+<explain-block title="fluentform/editor_element_settings_placement">
+
+Using this filter you can insert more editor settings for input in the editor.
+
+**Parameters**
+
+- `$placements` (array) Editor Fields
+- `$form` (object) Form Object
+
+**Usage**
+
+```php
+add_filter('fluentform/editor_element_settings_placement', function ($placements, $form) {
+   // Do your stuff here
+
+   return $placements;
+}, 10, 2);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/editor_element_settings_placement', $elementPlacements, $form);`
+
+This filter is located in FluentForm\App\Modules\Registerer\Menu -> enqueueEditorAssets()
+
+</explain-block>
+
+<explain-block title="'fluentform/editor_init_element_' . $formField['element']">
+
+Rendered form fields can be modified using this filter.
+
+**Parameters**
+
+- `$formField` (array) Form Field
+- `$form` (object) Form Object
+
+**Usage**
+
+```php
+add_filter('fluentform/editor_init_element_input_text', function ($element) {
+    if (!isset($element['attributes']['maxlength'])) {
+        $element['attributes']['maxlength'] = '';
+    }
+    
+    return $element;
+});
+```
+```php
+add_filter('fluentform/editor_init_element_input_number', function ($item) {
+    if (!isset($item['settings']['number_step'])) {
+        $item['settings']['number_step'] = '';
+    }
+    if (!isset($item['settings']['numeric_formatter'])) {
+        $item['settings']['numeric_formatter'] = '';
+    }
+    if (!isset($item['settings']['prefix_label'])) {
+        $item['settings']['prefix_label'] = '';
+    }
+    if (!isset($item['settings']['suffix_label'])) {
+        $item['settings']['suffix_label'] = '';
+    }
+
+    return $item;
+});
+```
+
+**Reference**
+
+`apply_filters('fluentform/editor_init_element_' . $formField['element'], $formField, $form);`
+
+This filter is located in FluentForm\App\Modules\Registerer\Menu -> enqueueEditorAssets()
+
+::: tip New core registrations in 6.2.3
+Fluent Forms 6.2.3 added two new core uses of this dynamic filter. These are NOT new hook names — they're additional registrations on the same `fluentform/editor_init_element_{element}` pattern:
+
+- `fluentform/editor_init_element_step_start` — core now augments the step-start element when this filter fires
+- `fluentform/editor_init_element_ratings` — core now wires the new icon-preset / SVG / color options into the ratings element editor
+
+If your extension already filters either element, re-check the merged `$item` shape — the core now contributes more keys to it. The Ratings additions include icon presets, custom inline SVG markup, and active/inactive color options exposed through `FluentForm\App\Services\FormBuilder\RatingIcon`; the step-start additions surface the new keyboard-shortcut and progress-bar options to the editor.
+:::
+
+</explain-block>
+
+<explain-block title="fluentform/fields_requiring_advanced_script">
+
+**Parameters**
+
+- `$advancedFields` — see source
+
+**Usage**
+
+```php
+add_filter('fluentform/fields_requiring_advanced_script', function ($advancedFields) {
+    return $advancedFields;
+}, 10, 1);
+```
+
+**Reference**
+
+`$advancedFields = apply_filters('fluentform/fields_requiring_advanced_script', $advancedFields);`
+
+This filter is located in `app/Modules/Component/Component.php` (line 1293).
+
+</explain-block>
+
+<explain-block title="fluentform/filtered_editor_fields">
+
+**Parameters**
+
+- `$fields` — see source
+
+**Usage**
+
+```php
+add_filter('fluentform/filtered_editor_fields', function ($fields) {
+    return $fields;
+}, 10, 1);
+```
+
+**Reference**
+
+`return apply_filters('fluentform/filtered_editor_fields', $fields);`
+
+This filter is located in `app/Services/Form/Fields.php` (line 101).
+
+</explain-block>
+
+<explain-block title="fluentform/form_admin_menu">
+
+You can modify admin menu items using this filter.
+
+**Parameters**
+
+- `$permission` (array) Admin Permission Set
+- `$form_id` (int) Form ID
+- `$form` (object) Form Object
+
+**Usage**
+
+```php
+add_filter('fluentform/form_admin_menu', function($formAdminMenus, $form_id, $form) {
+   // Do your stuff here
+
+   return $formAdminMenus;
+}, 10, 3);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/form_admin_menu', $formAdminMenus, $form_id, $form);`
+
+This filter is located in FluentForm\App\Modules\Registerer\Menu -> renderFormInnerPages()
+
+</explain-block>
+
+<explain-block title="fluentform/form_class">
+
+You can use this filter to modify a form CSS classes.
+
+**Parameters**
+
+- `$item` (array) Input Item
+- `$form` (object) Form Object
+
+**Usage**
+
+```php
+add_filter('fluentform/form_class', function ($css_class, $targetForm) use ($form) {
+    if ($targetForm->id == $form->id) {
+        $css_class .= ' ff_calc_form';
+    }
+    return $css_class;
+}, 10, 2);
+
+```
+**Reference**
+
+`apply_filters('fluentform/form_class', $formClass, $form);`
+
+This filter is located in FluentForm\App\Services\FormBuilder\FormBuilder -> build($form, $extraCssClass = '', $instanceCssClass = '', $atts = [])
+
+</explain-block>
+
+<explain-block title="fluentform/form_fields_update">
+
+This filter returns the updated field when updating a form field.
+
+**Parameters**
+
+- `$formFields` (array) Form Fields
+- `$formId` (int) Form ID
+
+**Usage**
+
+```php
+add_filter('fluentform/form_fields_update', function ($formFields, $formId) {
+   // Do your stuff here
+
+   return $defaultSettings;
+}, 10, 2);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/form_fields_update', $formFields, $formId);`
+
+This filter is located in FluentForm\App\Services\Form\Updater -> update($attributes = [])
+
+</explain-block>
+
+<explain-block title="fluentform/form_input_types">
+
+You can use this filter to add more form input types.
+
+**Parameters**
+
+- `$types` (array) Form Input Types
+
+**Usage**
+
+```php
+add_filter('fluentform/form_input_types', function ($types) {
+    // Do your stuff here
+    
+    return $types;
+}, 10, 1);
+
+```
+**Reference**
+
+`apply_filters('fluentform/form_input_types', $types);`
+
+This filter is located in FluentForm\App\Services\Parser\Form -> setInputTypes($types = [])
+
+</explain-block>
+
+<explain-block title="fluentform/form_payment_fields">
+
+You can use this filter to add more form payment input fields.
+
+**Parameters**
+
+- `$types` (array) Form Payment Input Types
+
+**Usage**
+
+```php
+add_filter('fluentform/form_payment_fields', function ($types) {
+    // Do your stuff here
+    
+    return $types;
+}, 10, 1);
+
+```
+**Reference**
+
+`apply_filters('fluentform/form_payment_fields', $types);`
+
+This filter is located in FluentForm\App\Services\Parser\Form -> hasPaymentFields()
+
+</explain-block>
+
+<explain-block title="fluentform/form_payment_inputs">
+
+You can use this filter to modify form payment input fields types
+
+**Parameters**
+
+- `$data` (array) Form Payment Input Types
+
+**Usage**
+
+```php
+add_filter('fluentform/form_payment_inputs', function ($data) {
+    // Do your stuff here
+    
+    return $data;
+}, 10, 1);
+
+```
+**Reference**
+
+`apply_filters('fluentform/form_payment_inputs', $data);`
+
+This filter is located in FluentForm\App\Services\Parser\Form -> getPaymentInputFields($with = ['element'])
+
+</explain-block>
+
+<explain-block title="fluentform/form_settings_ajax">
+
+You can modify a form setting Ajax using this filter.
+
+**Parameters**
+
+- `$settings` (array) Form Settings
+- `$formId` (int) Form ID
+
+**Usage**
+
+```php
+add_filter('fluentform/form_settings_ajax', function ($settings, $formId) {
+   // Do your stuff here
+
+   return $settings;
+}, 10, 2);
+
+```
+
+**Reference**
+
+`applyFilters('fluentform/form_settings_ajax', $settings, $formId);`
+
+This filter is located in FluentForm\App\Settings\FormSettings -> getGeneralSettingsAjax()
+
+</explain-block>
+
+<explain-block title="fluentform/form_settings_menu">
+
+You can modify form settings menu items using this filter.
+
+**Parameters**
+
+- `$permission` (array) Admin Permission Set
+
+**Usage**
+
+```php
+add_filter('fluentform/form_settings_menu', function ($settingsMenus, $form_id) {
+   // Do your stuff here
+
+   return $settingsMenus;
+}, 10, 2);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/form_settings_menu', $settingsMenus, $form_id);`
+
+This filter is located in FluentForm\App\Modules\Registerer\Menu -> renderSettings($form_id)
+
+</explain-block>
+
+<explain-block title="fluentform/form_store_attributes">
+
+You can modify Form attributes just Before storing the Form to the Database.
+
+**Parameters**
+
+- `$storeAttributes` (array) Form default attributes
+
+**Usage**
+
+```php
+add_filter('fluentform/form_store_attributes', function ($storeAttributes) {
+   // Do your stuff here
+
+   return $storeAttributes;
+}, 10, 1);
+
+```
+**Reference**
+
+`apply_filters('fluentform/form_store_attributes', array_filter($storeAttributes));`
+
+This filter is located in FluentForm\App\Models\Form -> prepare($attributes = [])
+
+</explain-block>
+
+<explain-block title="fluentform/form_submission_confirmation">
+
+You can use this filter hook to alter form confirmation message after a successful form submission.
+
+**Parameters**
+
+- `$confirmation` (array) Confirmation Details
+```php
+$confirmation = [
+    'redirectTo'           => 'samePage'  // or customUrl or customPage
+    'messageToShow'        => 'Thank you for your message. We will get in touch with you shortly'
+    'customPage'           => '' 
+    'samePageFormBehavior' => 'hide_form' // or reset_form 
+    'customUrl'            => 'https://yourcustomurl.com'
+];
+```
+- `$formData` (array) Form Data
+- `$form` (object) Form Object
+
+**Usage**
+
+```php
+add_filter('fluentform/form_submission_confirmation', function($confirmation, $formData, $form) {
+   // Do your stuff here
+
+   return $confirmation;
+}, 10, 3);
+
+```
+The following would apply to a specific form with id 5:
+```php
+add_filter('fluentform/form_submission_confirmation', function($confirmation, $formData, $form)
+{
+   if ($form->id != 5) {
+      return $confirmation;
+   }
+
+   // Do your stuffs here 
+   return $confirmation;
+}, 10, 3);
+
+```
+**Reference**
+
+`apply_filters('fluentform/submission_confirmation', $returnData, $form, $confirmation);`
+
+This filter is located in FluentForm\App\Services\Form\SubmissionHandlerService -> getReturnData($insertId, $form, $formData)
+
+</explain-block>
+
+<explain-block title="fluentform/form_vars_for_JS">
+
+You can modify Form Default Variables Javascript using this filter.
+
+**Parameters**
+
+- `$form_vars` (array) Form Variables
+- `$form` (object) Form Object
+
+**Usage**
+
+```php
+add_filter('fluentform/form_vars_for_JS', function($form_vars, $form) {
+   // Do your stuff here
+
+   return $form_vars;
+}, 10, 2);
+
+```
+**Reference**
+
+`apply_filters('fluentform/form_vars_for_JS', $form_vars, $form);`
+
+This filter is located in FluentForm\App\Modules\Component\Component -> renderForm($atts))
+
+</explain-block>
+
+<explain-block title="fluentform/form_wrapper_classes">
+
+**Parameters**
+
+- `$wrapperClasses` — see source
+- `$form` — see source
+
+**Usage**
+
+```php
+add_filter('fluentform/form_wrapper_classes', function ($wrapperClasses, $form) {
+    return $wrapperClasses;
+}, 10, 2);
+```
+
+**Reference**
+
+`$wrapperClasses = apply_filters('fluentform/form_wrapper_classes', $wrapperClasses, $form);`
+
+This filter is located in `app/Services/FormBuilder/FormBuilder.php` (line 152).
+
+</explain-block>
+
+<explain-block title="fluentform/forms_default_settings">
+
+You can modify Form Default Settings using this filter.
+
+**Parameters**
+
+- `$defaultSettings` (array) Form default Settings
+
+**Usage**
+
+```php
+add_filter('fluentform/forms_default_settings', function ($defaultSettings) {
+   // Do your stuff here
+
+   return $defaultSettings;
+}, 10, 1);
+
+```
+**Reference**
+
+`apply_filters('fluentform/forms_default_settings', array_filter($data));`
+
+This filter is located in FluentForm\App\Models\Form -> getFormsDefaultSettings($formId = false)
+
+</explain-block>
+
+<explain-block title="fluentform/frontend_date_format">
+
+You can modify date formats to show in form frontend using the filter.
+
+**Parameters**
+
+- `$dateFormats` (array) Date formats Settings
+- `$settings` (array) Field Settings  
+- `$form` (object) Form Object  
+
+**Usage**
+
+```php
+add_filter('fluentform/frontend_date_format', function ($dateFormats, $settings, $form) {
+    // Do your stuff here
+    
+    return $dateFormats;
+}, 10, 3);
+
+```
+Date formats to filter:
+```php
+[
+    'dateFormat'    => $dateFormat,
+    'enableTime'    => $hasTime,
+    'noCalendar'    => ! $this->hasDate($dateFormat),
+    'disableMobile' => true,
+    'time_24hr'     => $time24,
+];
+```
+
+**Reference**
+
+`apply_filters('fluentform/frontend_date_format', $dateFormats, $settings, $form);`
+
+This filter is located in FluentForm\App\Services\FormBuilder\Components\DateTime -> getDateFormatConfigJSON($settings, $form)
+
+</explain-block>
+
+<explain-block title="fluentform/global_form_vars">
+
+This filter returns the variables for localizing with fluentform script.
+
+**Parameters**
+
+- `$globalVars` (array) Localized Global Variable Array
+
+**Usage**
+
+```php
+add_filter('fluentform/global_form_vars', function ($globalVars) {
+   // Do your stuff here
+
+   return $globalVars;
+}, 10, 1);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/global_form_vars', $data);`
+
+This filter is located in FluentForm\App\Modules\Component\Component -> renderForm($atts)
+
+</explain-block>
+
+<explain-block title="fluentform/honeypot_name">
+
+You can change Honeypot name using this filter just before rendering the form.
+
+**Parameters**
+
+- `$name` (string) Honeypot Field Name
+- `$formId` (int) Form ID
+
+**Usage**
+
+```php
+add_filter('fluentform/honeypot_name', function($name, $formId) {
+   // Do your stuff here
+   $customStr = 'custom_name';
+   $name = 'item__' . $formId . '__fluent_checkme_' . $customStr;
+
+   return $name;
+}, 10, 2);
+
+```
+**Reference**
+
+`apply_filters('fluentform/honeypot_name', 'item__' . $formId . '__fluent_checkme_', $formId);`
+
+This filter is located in FluentForm\App\Modules\Form\HoneyPot -> getFieldName($formId)
+
+</explain-block>
+
+<explain-block title="fluentform/honeypot_status">
+
+You can toggle Honeypot status using this filter.
+
+**Parameters**
+
+- `$status` (boolean) Whether Honeypot status is Enabled
+- `$formId` (int) Form ID
+
+**Usage**
+
+```php
+add_filter('fluentform/honeypot_status', function($status, $formId) {
+   // Do your stuff here
+
+   return $status;
+}, 10, 2);
+
+```
+**Reference**
+
+`apply_filters('fluentform/honeypot_status', $status, $formId);`
+
+This filter is located in FluentForm\App\Modules\Form\Honeypot -> isEnabled($formId = false)
+
+</explain-block>
+
+<explain-block title="fluentform/image_type_options">
+
+**Parameters**
+
+- `$fluentformImageTypeOptions` — see source
+
+**Usage**
+
+```php
+add_filter('fluentform/image_type_options', function ($fluentformImageTypeOptions) {
+    return $fluentformImageTypeOptions;
+}, 10, 1);
+```
+
+**Reference**
+
+`$fluentformImageTypeOptions = apply_filters('fluentform/image_type_options', $fluentformImageTypeOptions);`
+
+This filter is located in `app/Services/FormBuilder/ValidationRuleSettings.php` (line 81).
+
+</explain-block>
+
+<explain-block title="fluentform/inner_route_has_permission">
+
+You can check admin menu route has proper permission using this filter.
+
+**Parameters**
+
+- `$hasPermission` (boolean) Whether the current route has permission
+- `$route` (string) Route Name
+- `$formId` (int) Form ID
+
+**Usage**
+
+```php
+add_filter('fluentform/inner_route_has_permission', function($hasPermission, $route, $formId) {
+   // Do your stuff here
+
+   return $hasPermission;
+}, 10, 3);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/form_inner_route_permission_set', Acl::hasPermission($toVerifyPermission), $route, $formId);`
+
+This filter is located in FluentForm\App\Modules\Registerer\Menu -> renderFormAdminRoute()
+
+</explain-block>
+
+<explain-block title="'fluentform/input_data_' . $element">
+
+This filter returns the input labels for the Submission on the Submission page.
+
+**Parameters**
+
+- `$fieldData` (array) Form Data of the Field
+- `$field` (array) Field Data
+- `$formData` (array) Form Data
+- `$form` (object) Form Object
+
+**Usage**
+
+```php
+add_filter('fluentform/input_data_input_number', function ($fieldData, $field, $formData, $form) {
+    // Do your stuff here
+    $formatter = ArrayHelper::get($field, 'raw.settings.numeric_formatter');
+    if (!$formatter) {
+        return $value;
+    }
+        
+    return Helper::getNumericValue($value, $formatter);
+}, 10, 4);
+
+```
+**Reference**
+
+`apply_filters('fluentform/input_data_' . $element, $formData[$fieldName], $field, $formData, $this->form);`
+
+This filter is located in FluentForm\App\Services\Form\FormValidationService -> validateSubmission(&$fields, &$formData)
+
+</explain-block>
+
+<explain-block title="fluentform/is_form_renderable">
+
+You can check if the form is renderable using this filter.
+
+**Parameters**
+
+- `$isAllowed` (array) Form Status
+- `$form` (object) Form Object
+
+**Usage**
+
+```php
+add_filter('fluentform/is_form_renderable', function ($isAllowed, $form){
+   // Do your stuff here
+   
+   return $isAllowed;
+}, 10, 2);
+```
+
+**Reference**
+
+`apply_filters('fluentform/is_form_renderable', $isAllowed, $this->form);`
+
+This filter is located in FluentForm\App\Services\Form\FormValidationService -> validateRestrictions(&$fields)
+
+</explain-block>
+
+<explain-block title="'fluentform/is_hide_submit_btn_' . $form->id">
+
+You can hide / show submit button using the filter.
+
+**Parameters**
+
+- `$status` (boolean) Whether show / hide Submit Button
+
+**Usage**
+
+```php
+add_filter('fluentform/is_hide_submit_btn_' . $form->id, function ($status) {
+    // Do your stuff here
+    
+    return $status;
+}, 10, 1);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/is_hide_submit_btn_' . $form->id, false);`
+
+This filter is located in FluentForm\App\Services\FormBuilder\Components\SubmitButton -> compile($data, $form)
 
 </explain-block>
 
@@ -334,194 +1176,188 @@ This filter is located in FluentForm\App\Modules\Component\Component -> maybeLoa
 
 </explain-block>
 
-<explain-block title="fluentform/global_form_vars">
+<explain-block title="fluentform/numeric_styles">
 
-This filter returns the variables for localizing with fluentform script.
+You can modify or add more numeric formatters to number inputs using this filter.
 
 **Parameters**
 
-- `$globalVars` (array) Localized Global Variable Array
+- `$numericFormatters` (array) all numeric formats
 
 **Usage**
 
 ```php
-add_filter('fluentform/global_form_vars', function ($globalVars) {
+add_filter('fluentform/numeric_styles', function($numericFormatters) {
    // Do your stuff here
 
-   return $globalVars;
+  return $staus;
 }, 10, 1);
 
 ```
 
 **Reference**
 
-`apply_filters('fluentform/global_form_vars', $data);`
+`apply_filters('fluentform/numeric_styles', $numericFormatters);`
 
-This filter is located in FluentForm\App\Modules\Component\Component -> renderForm($atts)
+This filter is located in FluentForm\App\Helpers\Helper -> getNumericFormatters()
 
 </explain-block>
 
-<explain-block title="fluentform/form_vars_for_JS">
+<explain-block title="fluentform/predefined_dropdown_forms">
 
-You can modify Form Default Variables Javascript using this filter.
+You can add or modify Predefined Post Forms in Form Templates using this filter.
 
 **Parameters**
 
-- `$form_vars` (array) Form Variables
+- `$forms` (array) Template Post Forms
+
+**Usage**
+
+```php
+add_filter('fluentform/predefined_dropdown_forms', function($forms) {
+   // Do your stuff here
+
+   return $forms;
+}, 10, 1);
+
+```
+**Reference**
+
+`apply_filters('fluentform/predefined_dropdown_forms', $dropDownForms),`
+
+This filter is located in FluentForm\App\Services\Form\FormService -> templates()
+
+</explain-block>
+
+<explain-block title="fluentform/predefined_forms">
+
+You can add or modify Predefined Forms in Form Templates using this filter.
+
+**Parameters**
+
+- `$forms` (array) Template Forms
+
+**Usage**
+
+```php
+add_filter('fluentform/predefined_forms', function ($forms) {
+   // Do your stuff here
+
+   return $forms;
+}, 10, 1);
+
+```
+**Reference**
+
+`apply_filters('fluentform/predefined_forms', $forms);`
+
+This filter is located in FluentForm\App\Models\Traits\PredefinedForms -> findPredefinedForm($attributes = [])
+
+</explain-block>
+
+<explain-block title="fluentform/prevent_malicious_attacks">
+
+You can toggle malicious attack prevention using this filter.
+
+**Parameters**
+
+- `$status` (boolean) Whether Malicious Attack Prevention Enabled
+- `$formId` (int) Form ID
+
+**Usage**
+
+```php
+add_filter('fluentform/prevent_malicious_attacks', function($status, $formId) {
+   // Do your stuff here
+
+   return $status;
+}, 10, 2);
+
+```
+**Reference**
+
+`apply_filters('fluentform/prevent_malicious_attacks', true, $this->form->id);`
+
+This filter is located in FluentForm\App\Services\Form\FormValidationService -> preventMaliciousAttacks()
+
+</explain-block>
+
+<explain-block title="fluentform/redirect_url_value">
+
+<Badge type="warning" vertical="top" text="Added in 6.2.x" />
+
+Filter the final redirect URL value computed after a successful submission, just before it's sent back to the browser as part of the confirmation response. Useful for appending query parameters, swapping domains, or rewriting the URL based on submission content.
+
+**Parameters**
+
+- `$url` (string) The fully built redirect URL
+- `$formData` (array) Submitted form data
+- `$form` (object) Form being processed
+
+**Usage**
+
+```php
+add_filter('fluentform/redirect_url_value', function ($url, $formData, $form) {
+    return add_query_arg('utm_source', 'fluentform', $url);
+}, 10, 3);
+```
+
+**Reference**
+
+`apply_filters('fluentform/redirect_url_value', $url, $formData, $form);`
+
+This filter is located in `FluentForm\App\Services\Form\SubmissionHandlerService`.
+
+</explain-block>
+
+<explain-block title="fluentform/render_field_as_html">
+
+**Parameters**
+
+- `$isHtml` — see source
+- `$values` — see source
+- `$form_id` — see source
+
+**Usage**
+
+```php
+add_filter('fluentform/render_field_as_html', function ($isHtml, $values, $form_id) {
+    return $isHtml;
+}, 10, 3);
+```
+
+**Reference**
+
+`$isHtml = apply_filters('fluentform/render_field_as_html', $isHtml, $values, $form_id);`
+
+This filter is located in `app/Modules/Form/FormDataParser.php` (line 141).
+
+</explain-block>
+
+<explain-block title="fluentform/rendering_form">
+
+This filter hook is fired before form render. You can use this to change rendered form.
+
+**Parameters**
+
 - `$form` (object) Form Object
 
 **Usage**
 
 ```php
-add_filter('fluentform/form_vars_for_JS', function($form_vars, $form) {
-   // Do your stuff here
-
-   return $form_vars;
-}, 10, 2);
-
-```
-**Reference**
-
-`apply_filters('fluentform/form_vars_for_JS', $form_vars, $form);`
-
-This filter is located in FluentForm\App\Modules\Component\Component -> renderForm($atts))
-
-</explain-block>
-
-<explain-block title="fluentform/disabled_analytics">
-
-Using this filter you can toggle the form analytics.
-
-**Parameters**
-
-- `$status` (boolean) whether form analytics is enabled
-
-**Usage**
-
-```php
-add_filter('fluentform/disabled_analytics', function($status) {
-   // Do your stuff here
-
-   return $status;
+add_filter('fluentform/rendering_form', function ($form) {
+    // Do your stuff here
+    
+    return $form;
 }, 10, 1);
 
 ```
 
 **Reference**
 
-`apply_filters('fluentform/disabled_analytics', $disableAnalytics);`
+`apply_filters('fluentform/rendering_form', $form);`
 
-This filter is located in FluentForm\App\Modules\Component\Component -> renderForm($atts)
-
-</explain-block>
-
-<explain-block title="fluentform/date_i18n">
-
-This filter returns date fields internationalized strings.
-
-**Parameters**
-
-- `$i18n` (array) Internationalized Strings
-
-**Usage**
-
-```php
-add_filter('fluentform/date_i18n', function ($i18n) {
-   // Do your stuff here
-
-   return $i18n;
-}, 10, 1);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/date_i18n', $i18n);`
-
-This filter is located in FluentForm\App\Modules\Component\Component -> getDatei18n()
-
-</explain-block>
-
-<explain-block title="'fluentform/settings_module_' . $module">
-
-This filter returns form extra settings component.
-
-**Parameters**
-
-- `$component` (array) Components
-- `$formId` (int) Form ID
-
-**Usage**
-
-```php
-add_filter('fluentform/settings_module_' . $module, function ($component, $formId) {
-   // Do your stuff here
-
-   return $result;
-}, 10, 2);
-
-```
-**Reference**
-
-`apply_filters('fluentform/settings_module_' . $module, $component, $formId);`
-
-This filter is located in FluentForm\App\Modules\Form\Settings\ExtraSettings -> getExtraSettingsComponent()
-
-</explain-block>
-
-<explain-block title="fluentform/form_settings_ajax">
-
-You can modify a form setting Ajax using this filter.
-
-**Parameters**
-
-- `$settings` (array) Form Settings
-- `$formId` (int) Form ID
-
-**Usage**
-
-```php
-add_filter('fluentform/form_settings_ajax', function ($settings, $formId) {
-   // Do your stuff here
-
-   return $settings;
-}, 10, 2);
-
-```
-
-**Reference**
-
-`applyFilters('fluentform/form_settings_ajax', $settings, $formId);`
-
-This filter is located in FluentForm\App\Settings\FormSettings -> getGeneralSettingsAjax()
-
-</explain-block>
-
-<explain-block title="fluentform/form_fields_update">
-
-This filter returns the updated field when updating a form field.
-
-**Parameters**
-
-- `$formFields` (array) Form Fields
-- `$formId` (int) Form ID
-
-**Usage**
-
-```php
-add_filter('fluentform/form_fields_update', function ($formFields, $formId) {
-   // Do your stuff here
-
-   return $defaultSettings;
-}, 10, 2);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/form_fields_update', $formFields, $formId);`
-
-This filter is located in FluentForm\App\Services\Form\Updater -> update($attributes = [])
+This filter is located in FluentForm\app\Modules\Component\Component -> renderForm($atts)
 
 </explain-block>
 
@@ -565,53 +1401,117 @@ This filter is located in FluentForm\App\Modules\Form\FormDataParser -> parseDat
 
 </explain-block>
 
-<explain-block title="fluentform/form_submission_confirmation">
-
-You can use this filter hook to alter form confirmation message after a successful form submission.
+<explain-block title="fluentform/select_group_component_ajax_options">
 
 **Parameters**
 
-- `$confirmation` (array) Confirmation Details
-```php
-$confirmation = [
-    'redirectTo'           => 'samePage'  // or customUrl or customPage
-    'messageToShow'        => 'Thank you for your message. We will get in touch with you shortly'
-    'customPage'           => '' 
-    'samePageFormBehavior' => 'hide_form' // or reset_form 
-    'customUrl'            => 'https://yourcustomurl.com'
-];
-```
-- `$formData` (array) Form Data
-- `$form` (object) Form Object
+- `$args` — see source
+- `$requestData` — see source
 
 **Usage**
 
 ```php
-add_filter('fluentform/form_submission_confirmation', function($confirmation, $formData, $form) {
+add_filter('fluentform/select_group_component_ajax_options', function ($args, $requestData) {
+    return $args;
+}, 10, 2);
+```
+
+**Reference**
+
+`$ajaxList = apply_filters('fluentform/select_group_component_ajax_options', [], $requestData);`
+
+This filter is located in `app/Hooks/Ajax.php` (line 257).
+
+</explain-block>
+
+<explain-block title="'fluentform/settings_module_' . $module">
+
+This filter returns form extra settings component.
+
+**Parameters**
+
+- `$component` (array) Components
+- `$formId` (int) Form ID
+
+**Usage**
+
+```php
+add_filter('fluentform/settings_module_' . $module, function ($component, $formId) {
    // Do your stuff here
 
-   return $confirmation;
-}, 10, 3);
-
-```
-The following would apply to a specific form with id 5:
-```php
-add_filter('fluentform/form_submission_confirmation', function($confirmation, $formData, $form)
-{
-   if ($form->id != 5) {
-      return $confirmation;
-   }
-
-   // Do your stuffs here 
-   return $confirmation;
-}, 10, 3);
+   return $result;
+}, 10, 2);
 
 ```
 **Reference**
 
-`apply_filters('fluentform/submission_confirmation', $returnData, $form, $confirmation);`
+`apply_filters('fluentform/settings_module_' . $module, $component, $formId);`
 
-This filter is located in FluentForm\App\Services\Form\SubmissionHandlerService -> getReturnData($insertId, $form, $formData)
+This filter is located in FluentForm\App\Modules\Form\Settings\ExtraSettings -> getExtraSettingsComponent()
+
+</explain-block>
+
+<explain-block title="fluentform/show_preview_promo">
+
+You can use this filter to toggle preview promo.
+
+**Parameters**
+
+- `$status` (boolean) Whether to show preview promo
+
+**Usage**
+
+```php
+add_filter('fluentform/show_preview_promo', function ($status) {
+    // Do your stuff here
+    
+    return $status;
+}, 10, 1);
+
+```
+
+**Reference**
+
+`apply_filters('fluentform/show_preview_promo', true);`
+
+This filter is located in FluentForm\app\views\frameless\template\show_preview.php
+
+</explain-block>
+
+<explain-block title="fluentform/submission_confirmation">
+
+This filter is available just before sending the success message to the user. You can use this filter hook to alter the form confirmation message and redirect settings dynamically.
+
+**Parameters**
+
+- `$returnData` (array) Submitted Data
+- `$form` (object) Form Object
+- `$confirmation` (array) Submission Confirmation Message
+- `$insertId` (int) Submission ID
+- `$formData` (array) Form Data
+
+**Usage**
+
+```php
+add_filter('fluentform/submission_confirmation', function ($returnData, $form, $confirmation, $insertId, $formData) {
+    // Do your stuff here
+    
+    return $returnData;
+}, 10, 5);
+
+```
+```php
+$returnData = [
+    'redirectUrl' => wp_sanitize_redirect(urldecode($redirectUrl)),
+    'message'     => $message,
+];
+```
+
+**Reference**
+
+`apply_filters('fluentform/submission_confirmation', $returnData, $form, $confirmation, $insertId, $formData);`
+
+This filter is located in FluentForm\app\Services\Form\SubmissionHandlerService -> getReturnData($insertId, $form, $formData)
 
 </explain-block>
 
@@ -644,32 +1544,32 @@ This filter is located in FluentForm\App\Services\Form\SubmissionHandlerServices
 
 </explain-block>
 
-<explain-block title="fluentform/validations">
+<explain-block title="fluentform/submit_button_force_no_style">
 
-This filter returns all validations before form submission.
+You can modify admin menu items using this filter.
 
 **Parameters**
 
-- `$originalValidations` (array) Default Validations
+- `$permission` (array) Admin Permission Set
+- `$form_id` (int) Form ID
 - `$form` (object) Form Object
-- `$formData` (array) Form Data
 
 **Usage**
 
 ```php
-add_filter('fluentform/validations', function ($originalValidations, $form, $formData) {
+add_filter('fluentform/form_admin_menu', function($formAdminMenus, $form_id, $form) {
    // Do your stuff here
 
-   return $originalValidations;
+   return $formAdminMenus;
 }, 10, 3);
 
 ```
 
 **Reference**
 
-` apply_filters('fluentform/validations', $originalValidations, $this->form, $formData);`
+`apply_filters('fluentform/form_admin_menu', $formAdminMenus, $form_id, $form);`
 
-This filter is located in FluentForm\App\Services\Form -> validateSubmission(&$fields, &$formData)
+This filter is located in FluentForm\App\Modules\Registerer\Menu -> renderFormInnerPages()
 
 </explain-block>
 
@@ -757,787 +1657,31 @@ This filter is located in FluentForm\App\Services\Form\FormValidationService -> 
 
 </explain-block>
 
-<explain-block title="fluentform/prevent_malicious_attacks">
+<explain-block title="fluentform/validations">
 
-You can toggle malicious attack prevention using this filter.
-
-**Parameters**
-
-- `$status` (boolean) Whether Malicious Attack Prevention Enabled
-- `$formId` (int) Form ID
-
-**Usage**
-
-```php
-add_filter('fluentform/prevent_malicious_attacks', function($status, $formId) {
-   // Do your stuff here
-
-   return $status;
-}, 10, 2);
-
-```
-**Reference**
-
-`apply_filters('fluentform/prevent_malicious_attacks', true, $this->form->id);`
-
-This filter is located in FluentForm\App\Services\Form\FormValidationService -> preventMaliciousAttacks()
-
-</explain-block>
-
-<explain-block title="fluentform/honeypot_status">
-
-You can toggle Honeypot status using this filter.
+This filter returns all validations before form submission.
 
 **Parameters**
 
-- `$status` (boolean) Whether Honeypot status is Enabled
-- `$formId` (int) Form ID
-
-**Usage**
-
-```php
-add_filter('fluentform/honeypot_status', function($status, $formId) {
-   // Do your stuff here
-
-   return $status;
-}, 10, 2);
-
-```
-**Reference**
-
-`apply_filters('fluentform/honeypot_status', $status, $formId);`
-
-This filter is located in FluentForm\App\Modules\Form\Honeypot -> isEnabled($formId = false)
-
-</explain-block>
-
-<explain-block title="fluentform/honeypot_name">
-
-You can change Honeypot name using this filter just before rendering the form.
-
-**Parameters**
-
-- `$name` (string) Honeypot Field Name
-- `$formId` (int) Form ID
-
-**Usage**
-
-```php
-add_filter('fluentform/honeypot_name', function($name, $formId) {
-   // Do your stuff here
-   $customStr = 'custom_name';
-   $name = 'item__' . $formId . '__fluent_checkme_' . $customStr;
-
-   return $name;
-}, 10, 2);
-
-```
-**Reference**
-
-`apply_filters('fluentform/honeypot_name', 'item__' . $formId . '__fluent_checkme_', $formId);`
-
-This filter is located in FluentForm\App\Modules\Form\HoneyPot -> getFieldName($formId)
-
-</explain-block>
-
-<explain-block title="fluentform/predefined_forms">
-
-You can add or modify Predefined Forms in Form Templates using this filter.
-
-**Parameters**
-
-- `$forms` (array) Template Forms
-
-**Usage**
-
-```php
-add_filter('fluentform/predefined_forms', function ($forms) {
-   // Do your stuff here
-
-   return $forms;
-}, 10, 1);
-
-```
-**Reference**
-
-`apply_filters('fluentform/predefined_forms', $forms);`
-
-This filter is located in FluentForm\App\Models\Traits\PredefinedForms -> findPredefinedForm($attributes = [])
-
-</explain-block>
-
-<explain-block title="fluentform/predefined_dropdown_forms">
-
-You can add or modify Predefined Post Forms in Form Templates using this filter.
-
-**Parameters**
-
-- `$forms` (array) Template Post Forms
-
-**Usage**
-
-```php
-add_filter('fluentform/predefined_dropdown_forms', function($forms) {
-   // Do your stuff here
-
-   return $forms;
-}, 10, 1);
-
-```
-**Reference**
-
-`apply_filters('fluentform/predefined_dropdown_forms', $dropDownForms),`
-
-This filter is located in FluentForm\App\Services\Form\FormService -> templates()
-
-</explain-block>
-
-<explain-block title="'fluentform/editor_init_element_' . $formField['element']">
-
-Rendered form fields can be modified using this filter.
-
-**Parameters**
-
-- `$formField` (array) Form Field
+- `$originalValidations` (array) Default Validations
 - `$form` (object) Form Object
-
-**Usage**
-
-```php
-add_filter('fluentform/editor_init_element_input_text', function ($element) {
-    if (!isset($element['attributes']['maxlength'])) {
-        $element['attributes']['maxlength'] = '';
-    }
-    
-    return $element;
-});
-```
-```php
-add_filter('fluentform/editor_init_element_input_number', function ($item) {
-    if (!isset($item['settings']['number_step'])) {
-        $item['settings']['number_step'] = '';
-    }
-    if (!isset($item['settings']['numeric_formatter'])) {
-        $item['settings']['numeric_formatter'] = '';
-    }
-    if (!isset($item['settings']['prefix_label'])) {
-        $item['settings']['prefix_label'] = '';
-    }
-    if (!isset($item['settings']['suffix_label'])) {
-        $item['settings']['suffix_label'] = '';
-    }
-
-    return $item;
-});
-```
-
-**Reference**
-
-`apply_filters('fluentform/editor_init_element_' . $formField['element'], $formField, $form);`
-
-This filter is located in FluentForm\App\Modules\Registerer\Menu -> enqueueEditorAssets()
-
-</explain-block>
-
-<explain-block title="fluentform/inner_route_has_permission">
-
-You can check admin menu route has proper permission using this filter.
-
-**Parameters**
-
-- `$hasPermission` (boolean) Whether the current route has permission
-- `$route` (string) Route Name
-- `$formId` (int) Form ID
-
-**Usage**
-
-```php
-add_filter('fluentform/inner_route_has_permission', function($hasPermission, $route, $formId) {
-   // Do your stuff here
-
-   return $hasPermission;
-}, 10, 3);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/form_inner_route_permission_set', Acl::hasPermission($toVerifyPermission), $route, $formId);`
-
-This filter is located in FluentForm\App\Modules\Registerer\Menu -> renderFormAdminRoute()
-
-</explain-block>
-
-<explain-block title="fluentform/form_admin_menu">
-
-You can modify admin menu items using this filter.
-
-**Parameters**
-
-- `$permission` (array) Admin Permission Set
-- `$form_id` (int) Form ID
-- `$form` (object) Form Object
-
-**Usage**
-
-```php
-add_filter('fluentform/form_admin_menu', function($formAdminMenus, $form_id, $form) {
-   // Do your stuff here
-
-   return $formAdminMenus;
-}, 10, 3);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/form_admin_menu', $formAdminMenus, $form_id, $form);`
-
-This filter is located in FluentForm\App\Modules\Registerer\Menu -> renderFormInnerPages()
-
-</explain-block>
-
-<explain-block title="fluentform/form_settings_menu">
-
-You can modify form settings menu items using this filter.
-
-**Parameters**
-
-- `$permission` (array) Admin Permission Set
-
-**Usage**
-
-```php
-add_filter('fluentform/form_settings_menu', function ($settingsMenus, $form_id) {
-   // Do your stuff here
-
-   return $settingsMenus;
-}, 10, 2);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/form_settings_menu', $settingsMenus, $form_id);`
-
-This filter is located in FluentForm\App\Modules\Registerer\Menu -> renderSettings($form_id)
-
-</explain-block>
-
-<explain-block title="fluentform/editor_element_search_tags">
-
-You can modify editor element search tags using this filter.
-
-**Parameters**
-
-- `$searchTags` (array) Editor Fields
-- `$form` (object) Form Object
-
-**Usage**
-
-```php
-add_filter('fluentform/editor_element_search_tags', function ($searchTags, $form) {
-   // Do your stuff here
-
-   return $searchTags;
-}, 10, 2);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/editor_element_search_tags', $searchTags, $form);`
-
-This filter is located in FluentForm\App\Modules\Registerer\Menu -> enqueueEditorAssets()
-
-</explain-block>
-
-<explain-block title="fluentform/editor_element_settings_placement">
-
-Using this filter you can insert more editor settings for input in the editor.
-
-**Parameters**
-
-- `$placements` (array) Editor Fields
-- `$form` (object) Form Object
-
-**Usage**
-
-```php
-add_filter('fluentform/editor_element_settings_placement', function ($placements, $form) {
-   // Do your stuff here
-
-   return $placements;
-}, 10, 2);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/editor_element_settings_placement', $elementPlacements, $form);`
-
-This filter is located in FluentForm\App\Modules\Registerer\Menu -> enqueueEditorAssets()
-
-</explain-block>
-
-<explain-block title="fluentform/conversational_editor_elements">
-
-You can modify conversational editor elements using this filter.
-
-**Parameters**
-
-- `$elements` (array) Conversational Editor Elements
-- `$formId` (int) Form ID
-
-**Usage**
-
-```php
-add_filter('fluentform/conversational_editor_elements', function ($elements, $formId) {
-    // Do your stuff here
-    
-    return $elements;
-}, 10, 1);
-
-```
-**Reference**
-
-`apply_filters('fluentform/conversational_editor_elements', $elements, $formId);`
-
-This filter is located in FluentForm\App\Modules\Widgets\EditorButtonModule -> pageSupportedMediaButtons()
-
-</explain-block>
-
-<explain-block title="'fluentform/input_data_' . $element">
-
-This filter returns the input labels for the Submission on the Submission page.
-
-**Parameters**
-
-- `$fieldData` (array) Form Data of the Field
-- `$field` (array) Field Data
-- `$formData` (array) Form Data
-- `$form` (object) Form Object
-
-**Usage**
-
-```php
-add_filter('fluentform/input_data_input_number', function ($fieldData, $field, $formData, $form) {
-    // Do your stuff here
-    $formatter = ArrayHelper::get($field, 'raw.settings.numeric_formatter');
-    if (!$formatter) {
-        return $value;
-    }
-        
-    return Helper::getNumericValue($value, $formatter);
-}, 10, 4);
-
-```
-**Reference**
-
-`apply_filters('fluentform/input_data_' . $element, $formData[$fieldName], $field, $formData, $this->form);`
-
-This filter is located in FluentForm\App\Services\Form\FormValidationService -> validateSubmission(&$fields, &$formData)
-
-</explain-block>
-
-<explain-block title="fluentform/before_render_item">
-
-You can use this filter to modify the form inputs before form render.
-
-**Parameters**
-
-- `$item` (array) Input Item
-- `$form` (object) Form Object
-
-**Usage**
-
-```php
-add_filter('fluentform/before_render_item', function ($item, $form) {
-    // Do your stuff here
-    
-    return $item;
-}, 10, 2);
-
-```
-**Reference**
-
-`apply_filters('fluentform/before_render_item',  $item, $form);`
-
-This filter is located in FluentForm\App\Services\FormBuilder -> buildFormBody($form)
-
-</explain-block>
-
-<explain-block title="fluentform/frontend_date_format">
-
-You can modify date formats to show in form frontend using the filter.
-
-**Parameters**
-
-- `$dateFormats` (array) Date formats Settings
-- `$settings` (array) Field Settings  
-- `$form` (object) Form Object  
-
-**Usage**
-
-```php
-add_filter('fluentform/frontend_date_format', function ($dateFormats, $settings, $form) {
-    // Do your stuff here
-    
-    return $dateFormats;
-}, 10, 3);
-
-```
-Date formats to filter:
-```php
-[
-    'dateFormat'    => $dateFormat,
-    'enableTime'    => $hasTime,
-    'noCalendar'    => ! $this->hasDate($dateFormat),
-    'disableMobile' => true,
-    'time_24hr'     => $time24,
-];
-```
-
-**Reference**
-
-`apply_filters('fluentform/frontend_date_format', $dateFormats, $settings, $form);`
-
-This filter is located in FluentForm\App\Services\FormBuilder\Components\DateTime -> getDateFormatConfigJSON($settings, $form)
-
-</explain-block>
-
-<explain-block title="'fluentform/is_hide_submit_btn_' . $form->id">
-
-You can hide / show submit button using the filter.
-
-**Parameters**
-
-- `$status` (boolean) Whether show / hide Submit Button
-
-**Usage**
-
-```php
-add_filter('fluentform/is_hide_submit_btn_' . $form->id, function ($status) {
-    // Do your stuff here
-    
-    return $status;
-}, 10, 1);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/is_hide_submit_btn_' . $form->id, false);`
-
-This filter is located in FluentForm\App\Services\FormBuilder\Components\SubmitButton -> compile($data, $form)
-
-</explain-block>
-
-<explain-block title="fluentform/submit_button_force_no_style">
-
-You can modify admin menu items using this filter.
-
-**Parameters**
-
-- `$permission` (array) Admin Permission Set
-- `$form_id` (int) Form ID
-- `$form` (object) Form Object
-
-**Usage**
-
-```php
-add_filter('fluentform/form_admin_menu', function($formAdminMenus, $form_id, $form) {
-   // Do your stuff here
-
-   return $formAdminMenus;
-}, 10, 3);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/form_admin_menu', $formAdminMenus, $form_id, $form);`
-
-This filter is located in FluentForm\App\Modules\Registerer\Menu -> renderFormInnerPages()
-
-</explain-block>
-
-<explain-block title="fluentform/submit_button_force_no_style">
-
-You can adjust submit button style to have no style using this filter.
-
-**Parameters**
-
-- `$status` (boolean) Whether the submit button style is active
-
-**Usage**
-
-```php
-add_filter('fluentform/submit_button_force_no_style', function($status) {
-   // Do your stuff here
-
-   return $status;
-}, 10, 1);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/submit_button_force_no_style', $status);`
-
-This filter is located in FluentForm\App\Services\FormBuilder\Components\SubmitButton -> compile($data, $form)
-
-</explain-block>
-
-<explain-block title="fluentform/disable_inputmode">
-
-You can disable text input field using the filter.
-
-**Parameters**
-
-- `$status` (boolean) Whether text input is disabled
-
-**Usage**
-
-```php
-add_filter('fluentform/disable_inputmode', function ($status) {
-   // Do your stuff here
-
-   return $status;
-}, 10, 1);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/disable_inputmode', $status);`
-
-This filter is located in FluentForm\App\Services\FormBuilder\Components\Text -> compile($data, $form)
-
-</explain-block>
-
-<explain-block title="fluentform/form_class">
-
-You can use this filter to modify a form CSS classes.
-
-**Parameters**
-
-- `$item` (array) Input Item
-- `$form` (object) Form Object
-
-**Usage**
-
-```php
-add_filter('fluentform/form_class', function ($css_class, $targetForm) use ($form) {
-    if ($targetForm->id == $form->id) {
-        $css_class .= ' ff_calc_form';
-    }
-    return $css_class;
-}, 10, 2);
-
-```
-**Reference**
-
-`apply_filters('fluentform/form_class', $formClass, $form);`
-
-This filter is located in FluentForm\App\Services\FormBuilder\FormBuilder -> build($form, $extraCssClass = '', $instanceCssClass = '', $atts = [])
-
-</explain-block>
-
-<explain-block title="fluentform/disable_accessibility_fieldset">
-
-You can use this filter to toggle form accessibility status and fieldset.
-
-**Parameters**
-
-- `$status` (boolean) Whether the accessibility status is enabled
-- `$form` (object) Form Object
-
-**Usage**
-
-```php
-add_filter('fluentform/disable_accessibility_fieldset', function ($status, $form) {
-    // Do your stuff here
-    
-    return $status;
-}, 10, 2);
-
-```
-**Reference**
-
-`apply_filters('fluentform/disable_accessibility_fieldset', true, $form);`
-
-This filter is located in FluentForm\App\Services\FormBuilder\FormBuilder -> build($form, $extraCssClass = '', $instanceCssClass = '', $atts = [])
-
-</explain-block>
-
-<explain-block title="fluentform/form_input_types">
-
-You can use this filter to add more form input types.
-
-**Parameters**
-
-- `$types` (array) Form Input Types
-
-**Usage**
-
-```php
-add_filter('fluentform/form_input_types', function ($types) {
-    // Do your stuff here
-    
-    return $types;
-}, 10, 1);
-
-```
-**Reference**
-
-`apply_filters('fluentform/form_input_types', $types);`
-
-This filter is located in FluentForm\App\Services\Parser\Form -> setInputTypes($types = [])
-
-</explain-block>
-
-<explain-block title="fluentform/form_payment_fields">
-
-You can use this filter to add more form payment input fields.
-
-**Parameters**
-
-- `$types` (array) Form Payment Input Types
-
-**Usage**
-
-```php
-add_filter('fluentform/form_payment_fields', function ($types) {
-    // Do your stuff here
-    
-    return $types;
-}, 10, 1);
-
-```
-**Reference**
-
-`apply_filters('fluentform/form_payment_fields', $types);`
-
-This filter is located in FluentForm\App\Services\Parser\Form -> hasPaymentFields()
-
-</explain-block>
-
-<explain-block title="fluentform/form_payment_inputs">
-
-You can use this filter to modify form payment input fields types
-
-**Parameters**
-
-- `$data` (array) Form Payment Input Types
-
-**Usage**
-
-```php
-add_filter('fluentform/form_payment_inputs', function ($data) {
-    // Do your stuff here
-    
-    return $data;
-}, 10, 1);
-
-```
-**Reference**
-
-`apply_filters('fluentform/form_payment_inputs', $data);`
-
-This filter is located in FluentForm\App\Services\Parser\Form -> getPaymentInputFields($with = ['element'])
-
-</explain-block>
-
-<explain-block title="fluentform/show_preview_promo">
-
-You can use this filter to toggle preview promo.
-
-**Parameters**
-
-- `$status` (boolean) Whether to show preview promo
-
-**Usage**
-
-```php
-add_filter('fluentform/show_preview_promo', function ($status) {
-    // Do your stuff here
-    
-    return $status;
-}, 10, 1);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/show_preview_promo', true);`
-
-This filter is located in FluentForm\app\views\frameless\template\show_preview.php
-
-</explain-block>
-
-<explain-block title="fluentform/rendering_form">
-
-This filter hook is fired before form render. You can use this to change rendered form.
-
-**Parameters**
-
-- `$form` (object) Form Object
-
-**Usage**
-
-```php
-add_filter('fluentform/rendering_form', function ($form) {
-    // Do your stuff here
-    
-    return $form;
-}, 10, 1);
-
-```
-
-**Reference**
-
-`apply_filters('fluentform/rendering_form', $form);`
-
-This filter is located in FluentForm\app\Modules\Component\Component -> renderForm($atts)
-
-</explain-block>
-
-<explain-block title="fluentform/submission_confirmation">
-
-This filter is available just before sending the success message to the user. You can use this filter hook to alter the form confirmation message and redirect settings dynamically.
-
-**Parameters**
-
-- `$returnData` (array) Submitted Data
-- `$form` (object) Form Object
-- `$confirmation` (array) Submission Confirmation Message
-- `$insertId` (int) Submission ID
 - `$formData` (array) Form Data
 
 **Usage**
 
 ```php
-add_filter('fluentform/submission_confirmation', function ($returnData, $form, $confirmation, $insertId, $formData) {
-    // Do your stuff here
-    
-    return $returnData;
-}, 10, 5);
+add_filter('fluentform/validations', function ($originalValidations, $form, $formData) {
+   // Do your stuff here
 
-```
-```php
-$returnData = [
-    'redirectUrl' => wp_sanitize_redirect(urldecode($redirectUrl)),
-    'message'     => $message,
-];
+   return $originalValidations;
+}, 10, 3);
+
 ```
 
 **Reference**
 
-`apply_filters('fluentform/submission_confirmation', $returnData, $form, $confirmation, $insertId, $formData);`
+` apply_filters('fluentform/validations', $originalValidations, $this->form, $formData);`
 
-This filter is located in FluentForm\app\Services\Form\SubmissionHandlerService -> getReturnData($insertId, $form, $formData)
+This filter is located in FluentForm\App\Services\Form -> validateSubmission(&$fields, &$formData)
 
 </explain-block>
-
-

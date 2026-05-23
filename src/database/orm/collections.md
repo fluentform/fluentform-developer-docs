@@ -2,7 +2,6 @@
 
 <Badge type="tip" vertical="top" text="Fluent Framework" /> <Badge type="warning" vertical="top" text="ORM" />
 
-
 ## Introduction
 All multi-result sets returned by Fluent ORM are instances of the `FluentForm\Framework\Database\Orm\Collection` object, including results retrieved via the `get` method or accessed via a relationship. The Fluent ORM collection naturally inherits dozens of methods used to fluently work with the underlying array of Fluent ORM models.
 
@@ -1159,7 +1158,6 @@ $groups->toArray();
  
 // [[1, 2], [3, 4], [5]]
 ```
-
 
 ### sum()
 The sum method returns the sum of all items in the collection:
