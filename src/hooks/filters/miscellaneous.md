@@ -1481,6 +1481,25 @@ add_filter('fluentform/nonce_verify', function ($status, $formId) {
 
 This filter is located in FluentForm\app\Services\Form\FormValidationService -> validateNonce()
 
+**Defaults differ by endpoint**
+
+| Endpoint group | Default | Applied in |
+| --- | --- | --- |
+| Form submission | `false` (off) | `FormValidationService::validateNonce()`, `FormHandler::validateNonce()` |
+| Save & Continue / partial entries | `true` (on) | `DraftSubmissionsManager::shouldVerifyNonce()` (Pro) |
+
+The draft endpoints default to **on** because they are `nopriv` and carry
+additional hardening (draft privacy, and an open-mail-relay throttle on the
+resume-link email). Returning `false` disables the nonce on all five of them at
+once — `fluentform_step_form_get_data`, `fluentform_step_form_save_data`,
+`fluentform_save_form_progress_with_link`, `fluentform_get_form_state` and
+`fluentform_email_progress_link` — so the per-IP rate limit becomes the only
+remaining control on the mail-sending one.
+
+This is the supported way to keep Save & Continue working behind a full-page
+cache, where the nonce is frozen in the cached HTML and goes stale once the
+WordPress nonce tick rolls (~12 hours), causing HTTP 422 responses.
+
 </explain-block>
 
 <explain-block title="fluentform/number_input_mode">
