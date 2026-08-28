@@ -345,6 +345,16 @@ add_filter('fluentform/entry_statuses_core', function ($statuses , $form_id) {
 
 This filter is located in FluentForm\App\Helpers\Helper -> getEntryStatuses($form_id = false)
 
+::: warning Registering a custom status is required
+Entry status writes are validated against this list. A status that is not registered here
+cannot be set — neither the bulk action nor the single-entry endpoint will apply it.
+
+The list is resolved per form, and add-ons that gate their statuses on a feature being
+active (Admin Approval, double opt-in) only contribute while that feature is enabled for
+the form. Existing rows keep a status after the feature is turned off, but it can no longer
+be re-applied; the base statuses stay available for triage.
+:::
+
 </explain-block>
 
 <explain-block title="fluentform/export_data">
