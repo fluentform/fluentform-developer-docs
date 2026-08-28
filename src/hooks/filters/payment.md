@@ -117,7 +117,16 @@ $paymentStatuses = [
 
 `apply_filters('fluentform/available_payment_statuses', $paymentStatuses);`
 
-This filter is located in FluentFormPro\src\Payments\PaymentHelper -> getPaymentStatuses()
+::: warning Registering a custom status is required
+Changing a transaction's status from the admin is validated against this list, so a status
+that is not registered here cannot be selected or applied.
+
+Validation only runs when the status actually changes. A row that already holds a status
+this build does not register keeps it, and its other fields (payer name, email, addresses)
+remain editable.
+:::
+
+Two classes define this list and both apply the filter: `FluentForm\App\Modules\Payments\PaymentHelper` (free) and `FluentFormPro\Payments\PaymentHelper` (Pro). The array above is Pro's — `requires_review` is Pro-only and is not present in the free list, so register any status you rely on through the filter rather than assuming a hardcoded default.
 
 </explain-block>
 
