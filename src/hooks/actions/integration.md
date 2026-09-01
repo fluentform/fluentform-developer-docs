@@ -4,6 +4,41 @@
 
 These hooks fire during third-party integration processing — scheduled jobs, feed processing, and notifications.
 
+<explain-block title="fluentform/cleverreach_groups_fetch_incomplete">
+
+<Badge type="tip" vertical="top" text="Pro" />
+
+This hook fires when the CleverReach feed could not fetch the account's full group (list) set, so the settings dropdown is showing fewer lists than the account actually has.
+
+A half-filled dropdown looks exactly like a small account, which is why this is surfaced rather than left silent. It fires only on a genuinely degraded fetch — an API error, a thrown exception, a page of unreadable rows, or the `max_pages` cap being reached while groups were still arriving. The ordinary endings (a short final page, or an API that ignores the paging parameters) do not fire it.
+
+**Parameters**
+
+- `$page` (int) The page index the fetch stopped on. `0` means the very first request failed
+- `$collected` (int) How many groups were successfully collected before stopping
+- `$reason` (string) Why it stopped — the API error message, the exception message, or a description such as `page 2 returned 50 unreadable rows`
+
+**Usage**
+
+```php
+add_action('fluentform/cleverreach_groups_fetch_incomplete', function ($page, $collected, $reason) {
+    error_log(sprintf(
+        'CleverReach group list incomplete: stopped on page %d with %d groups — %s',
+        $page,
+        $collected,
+        $reason
+    ));
+}, 10, 3);
+```
+
+**Reference**
+
+`do_action('fluentform/cleverreach_groups_fetch_incomplete', $page, $collected, $reason);`
+
+This hook is located in FluentFormPro\Integrations\CleverReach\Bootstrap
+
+</explain-block>
+
 <explain-block title="fluentform/created_user">
 
 **Description**
