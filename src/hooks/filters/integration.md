@@ -59,6 +59,49 @@ This filter is located in FluentForm\App\Hooks\actions.php
 
 </explain-block>
 
+<explain-block title="fluentform/cleverreach_groups_pagination">
+
+<Badge type="tip" vertical="top" text="Pro" />
+
+This filter tunes how the CleverReach feed fetches the account's group (list) options for the feed settings dropdown.
+
+CleverReach does not document paging on `/v3/groups`, so the fetch is deliberately additive: the first request carries no paging parameters, and further pages are only probed once a response comes back large enough to look capped. If the API ignores the parameters, the probe returns groups already held and the loop stops, so the result matches an unpaged fetch.
+
+**Parameters**
+
+- `$config` (array) Pagination settings
+  - `probe_from` (int) How many groups a response must contain before extra pages are probed. Default `50`. Any value below `1` disables probing entirely, restoring a single unpaged request.
+  - `max_pages` (int) Hard cap on requests per call. Default `20`. Values below `1` are clamped to `1`.
+
+**Usage**
+
+```php
+add_filter('fluentform/cleverreach_groups_pagination', function ($config) {
+    // Never probe for extra pages — one unpaged request only.
+    $config['probe_from'] = 0;
+
+    return $config;
+});
+```
+
+```php
+add_filter('fluentform/cleverreach_groups_pagination', function ($config) {
+    // Large agency account: probe sooner and allow more pages.
+    $config['probe_from'] = 25;
+    $config['max_pages']  = 60;
+
+    return $config;
+});
+```
+
+**Reference**
+
+`apply_filters('fluentform/cleverreach_groups_pagination', $config);`
+
+This filter is located in FluentFormPro\Integrations\CleverReach\Bootstrap
+
+</explain-block>
+
 <explain-block title="fluentform/failed_integration_email_body">
 
 <Badge type="tip" vertical="top" text="Pro" />
