@@ -298,11 +298,20 @@ add_filter('fluentform/global_addons', function ($addons) use ($isEnabled) {
 
 ```
 
+::: warning Registration also controls toggling
+What this filter returns is the list of modules that may be enabled or disabled.
+A module key absent from it is rejected when saving its status, so register the
+add-on unconditionally — as the example above does — rather than only on admin
+screens or only while some dependency is active. An add-on that registers itself
+conditionally becomes un-toggleable whenever it opts out.
+:::
+
 **Reference**
 
 `apply_filters('fluentform/global_addons', $addons);`
 
-This filter is located in FluentForm\app\Modules\AddOnModules -> showFluentAddOns()
+This filter is located in FluentForm\app\Modules\AddOnModule -> getRegisteredAddOns(),
+which the add-ons screen renders from and the module status writer validates against.
 
 </explain-block>
 
