@@ -19,6 +19,7 @@ Fluent Forms provides filter hooks that let you modify data and behavior. Filter
 | [User Registration](./user-registration/) | 10 | Modify user registration fields and roles |
 | [Webhook](./webhook/) | 5 | Modify webhook request arguments |
 | [Payment](./payment/) | 55 | Modify payment processing and gateway settings |
+| [PDF](./pdf/) | 7 | Control PDF add-on behaviour (public download links) |
 
 ## Quick Example
 
