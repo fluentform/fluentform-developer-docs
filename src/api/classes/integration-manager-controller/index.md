@@ -53,6 +53,18 @@ public function __construct(Application $application)
 }
 ```
 
+### Bootstrapping your integration
+Instantiate your integration class on the `fluentform/loaded` action. It fires on every request once Fluent Forms is loaded and passes the Application instance your constructor needs.
+
+```php
+/*
+ * Finally initialize the integration
+ */
+add_action('fluentform/loaded', function ($app) {
+    new MyAwesomeIntegration($app);
+});
+```
+
 ### `addActiveNotificationType($types)`
 
 **Source:** `fluentform/app/Http/Controllers/IntegrationManagerController.php` (line 137)
@@ -304,6 +316,8 @@ public function pushIntegration($integrations, $formId)
 ```
 
 ### `registerAdminHooks()`
+
+Registers the integration on the **Integrations** screen (`fluentform/global_addons`) and, once enabled, its settings, feed and notification hooks. Call it from your constructor and instantiate the class on `fluentform/loaded` — see [Bootstrapping your integration](/api/classes/integration-manager-controller/#bootstrapping-your-integration).
 
 **Source:** `fluentform/app/Http/Controllers/IntegrationManagerController.php` (line 54)
 

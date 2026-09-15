@@ -302,7 +302,9 @@ add_filter('fluentform/global_addons', function ($addons) use ($isEnabled) {
 
 `apply_filters('fluentform/global_addons', $addons);`
 
-This filter is located in FluentForm\app\Modules\AddOnModules -> showFluentAddOns()
+This filter is located in FluentForm\App\Modules\AddOnModule -> getRegisteredAddOns()
+
+If you extend `IntegrationManagerController`, `registerAdminHooks()` adds this filter for you — see [Bootstrapping your integration](/api/classes/integration-manager-controller/#bootstrapping-your-integration).
 
 </explain-block>
 
