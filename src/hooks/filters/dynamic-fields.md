@@ -1,6 +1,6 @@
 # Dynamic Fields Filters
 
-<Badge type="tip" vertical="top" text="Filter Hooks" /> <Badge type="warning" vertical="top" text="9 Filters" />
+<Badge type="tip" vertical="top" text="Filter Hooks" /> <Badge type="warning" vertical="top" text="10 Filters" />
 
 <explain-block title="fluentform/chat_field_before_render">
 
@@ -215,5 +215,47 @@ add_filter('fluentform/dynamic_field_sources', function ($sources) {
 `return apply_filters('fluentform/dynamic_field_sources', $sources);`
 
 This filter is located in `src/Components/DynamicField/DynamicField.php` (line 303).
+
+</explain-block>
+
+<explain-block title="fluentform/openai_model">
+
+<Badge type="tip" vertical="top" text="Pro" />
+
+Change the OpenAI model used by every ChatGPT feature: API verification, **Create Using AI** form building, and ChatGPT feeds. Available from Fluent Forms Pro 6.2.17.
+
+The default is `gpt-5.6-luna`. Return any model that supports OpenAI's **Chat Completions** endpoint and that your API key can access. An empty or non-string value keeps the default. A retired, non-chat or misspelled model fails when you verify the API key, and the settings page shows OpenAI's error message.
+
+ChatGPT feeds pass the form ID, so different forms can use different models. API verification and **Create Using AI** pass `null`, because no form exists yet.
+
+**Parameters**
+
+- `$model` (string) OpenAI model ID. Default `gpt-5.6-luna`
+- `$formId` (int|null) Form ID for ChatGPT feeds; `null` for API verification and Create Using AI
+
+**Usage**
+
+```php
+// Use a larger model for every ChatGPT feature.
+add_filter('fluentform/openai_model', function ($model, $formId) {
+    return 'gpt-5.6-terra';
+}, 10, 2);
+```
+
+```php
+// Use a larger model only for the ChatGPT feeds on form 12.
+add_filter('fluentform/openai_model', function ($model, $formId) {
+    if (12 === $formId) {
+        return 'gpt-5.6-terra';
+    }
+    return $model;
+}, 10, 2);
+```
+
+**Reference**
+
+`$model = apply_filters('fluentform/openai_model', self::DEFAULT_MODEL, $formId);`
+
+This filter is located in `src/classes/Chat/ChatApi.php` -> getModel()
 
 </explain-block>
